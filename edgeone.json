@@ -1,0 +1,7 @@
+{
+      "builder": { 
+	"installCommand": "npm ci", 
+	"buildCommand": "npm run build", 
+	"outDir": "public"
+  }
+}
