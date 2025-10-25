@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Golook Blog
-subtitle: ''
+title: Golook
+subtitle: '一个天翼云盘分享小站'
 description: ''
 keywords:
-author: John Doe
+author: golook
 language: zh-CN
 timezone: ''
 
