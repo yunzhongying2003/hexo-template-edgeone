@@ -33,14 +33,13 @@
     <%- css('https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css') %>
   <% } %>
   <%- css('css/style') %>
-  <% if (theme.custom_css){ %>
-    <%- css('css/custom') %>
-  <% } %>
-
   <% if (theme.fancybox){ %>
     <%- css('fancybox/jquery.fancybox.min.css') %>
   <% } %>
   <% if (theme.links) {%>
     <%- css('https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css') %>
+  <% } %>
+  <% if (theme.custom_css) { %>
+    <%- css('css/custom') %>
   <% } %>
 </head>
