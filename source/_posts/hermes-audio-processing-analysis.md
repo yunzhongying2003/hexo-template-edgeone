@@ -90,6 +90,8 @@ WebSocket 长连接
 
 ## 三、方案对比总结
 
+![三种语音聊天方案架构对比](/images/hermes-audio-architecture-comparison.png)
+
 | 维度 | 方案 A（当前） | 方案 B（GPT-4o REST） | 方案 C（Realtime API） |
 |------|---------------|---------------------|----------------------|
 | 架构 | 两步走（STT→LLM） | 一步走（端到端） | WebSocket 双向流 |
