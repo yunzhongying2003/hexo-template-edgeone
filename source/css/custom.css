@@ -80,6 +80,38 @@
   padding: 40px 0 !important;
 }
 
+/* Fix sidebar layout - restore float positioning */
+@media screen and (min-width: 768px) {
+  #main {
+    display: inline !important;
+    float: right !important;
+    width: 73.33333333333333% !important;
+    margin: 0 0.833333333333333% !important;
+  }
+  
+  #sidebar {
+    display: inline !important;
+    float: left !important;
+    width: 23.33333333333333% !important;
+    margin: 0 0.833333333333333% !important;
+    padding-left: 0 !important;
+  }
+  
+  .outer {
+    position: relative;
+  }
+  
+  .outer:before,
+  .outer:after {
+    content: "";
+    display: table;
+  }
+  
+  .outer:after {
+    clear: both;
+  }
+}
+
 /* --- Article Cards --- */
 .article {
   background: var(--color-card-bg) !important;
