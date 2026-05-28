@@ -1,0 +1,16 @@
+# Landscape Theme Configuration
+
+# Banner image
+banner: images/golook-header.png
+
+# Sidebar layout: left, right, bottom, or none
+sidebar: left
+
+# Enable custom CSS (source/css/custom.css)
+custom_css: true
+
+# Custom colors
+colors:
+  primary: "#667eea"
+  link: "#667eea"
+  background: "#f8fafc"
