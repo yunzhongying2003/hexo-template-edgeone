@@ -1,7 +1,1 @@
-{
-      "builder": { 
-	"installCommand": "npm ci", 
-	"buildCommand": "npm run build", 
-	"outDir": "public"
-  }
-}
+{"builder":{"installCommand":"","buildCommand":"","outDir":"public"}}

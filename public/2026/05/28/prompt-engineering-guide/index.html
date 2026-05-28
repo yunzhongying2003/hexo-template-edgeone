@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Prompt 工程实战：从入门到精通 | Golook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Prompt 工程实战：从入门到精通Prompt 工程不是”写提示词”，而是与模型有效沟通的艺术。好的 Prompt 能让模型输出质量提升 10 倍，差的 Prompt 让再强的模型也束手无策。 本文将通过大量实战案例，带你掌握 Prompt 工程的核心技巧。  一、Prompt 基础结构一个高质量的 Prompt 通常包含以下要素： 12345678910111213141516┌───────">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Prompt 工程实战：从入门到精通">
+<meta property="og:url" content="https://www.golook.cf/2026/05/28/prompt-engineering-guide/index.html">
+<meta property="og:site_name" content="Golook">
+<meta property="og:description" content="Prompt 工程实战：从入门到精通Prompt 工程不是”写提示词”，而是与模型有效沟通的艺术。好的 Prompt 能让模型输出质量提升 10 倍，差的 Prompt 让再强的模型也束手无策。 本文将通过大量实战案例，带你掌握 Prompt 工程的核心技巧。  一、Prompt 基础结构一个高质量的 Prompt 通常包含以下要素： 12345678910111213141516┌───────">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-28T15:10:00.000Z">
+<meta property="article:modified_time" content="2026-05-28T16:14:34.670Z">
+<meta property="article:author" content="golook">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Prompt">
+<meta property="article:tag" content="工程">
+<meta property="article:tag" content="技巧">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Golook" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Golook</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个天翼云盘分享小站</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.golook.cf"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-prompt-engineering-guide" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/prompt-engineering-guide/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T15:10:00.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Prompt 工程实战：从入门到精通
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Prompt-工程实战：从入门到精通"><a href="#Prompt-工程实战：从入门到精通" class="headerlink" title="Prompt 工程实战：从入门到精通"></a>Prompt 工程实战：从入门到精通</h1><p>Prompt 工程不是”写提示词”，而是<strong>与模型有效沟通的艺术</strong>。好的 Prompt 能让模型输出质量提升 10 倍，差的 Prompt 让再强的模型也束手无策。</p>
+<p>本文将通过大量实战案例，带你掌握 Prompt 工程的核心技巧。</p>
+<hr>
+<h2 id="一、Prompt-基础结构"><a href="#一、Prompt-基础结构" class="headerlink" title="一、Prompt 基础结构"></a>一、Prompt 基础结构</h2><p>一个高质量的 Prompt 通常包含以下要素：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│  1. 角色设定 (Role)                      │</span><br><span class="line">│     &quot;你是一位资深 Python 开发者...&quot;      │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  2. 任务描述 (Task)                      │</span><br><span class="line">│     &quot;请帮我优化这段代码...&quot;              │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  3. 上下文/输入 (Context/Input)          │</span><br><span class="line">│     &quot;以下是需要优化的代码：...&quot;          │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  4. 约束条件 (Constraints)               │</span><br><span class="line">│     &quot;保持原有功能，时间复杂度 O(n)...&quot;   │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  5. 输出格式 (Output Format)             │</span><br><span class="line">│     &quot;请用 Markdown 格式输出，包含...&quot;    │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、核心技巧"><a href="#二、核心技巧" class="headerlink" title="二、核心技巧"></a>二、核心技巧</h2><h3 id="2-1-角色设定（Role-Prompting）"><a href="#2-1-角色设定（Role-Prompting）" class="headerlink" title="2.1 角色设定（Role Prompting）"></a>2.1 角色设定（Role Prompting）</h3><p><strong>原理</strong>：给模型一个明确的角色，激活相关知识和表达方式。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>资深开发者</td>
+<td>代码审查、架构设计</td>
+</tr>
+<tr>
+<td>产品经理</td>
+<td>需求分析、用户故事</td>
+</tr>
+<tr>
+<td>数据分析师</td>
+<td>数据解读、可视化建议</td>
+</tr>
+<tr>
+<td>教师</td>
+<td>知识讲解、概念类比</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># ❌ 差的 Prompt</span></span><br><span class="line">帮我解释一下 Transformer 架构。</span><br><span class="line"></span><br><span class="line"><span class="section"># ✅ 好的 Prompt</span></span><br><span class="line">你是一位 AI 领域的资深教师，擅长用通俗易懂的类比解释复杂概念。</span><br><span class="line">请向一名有编程基础但没学过深度学习的学生解释 Transformer 架构。</span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 用生活中的类比说明核心概念</span><br><span class="line"><span class="bullet">2.</span> 避免过多数学公式</span><br><span class="line"><span class="bullet">3.</span> 重点说明为什么 Transformer 比 RNN 更适合处理长文本</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-2-思维链（Chain-of-Thought）"><a href="#2-2-思维链（Chain-of-Thought）" class="headerlink" title="2.2 思维链（Chain of Thought）"></a>2.2 思维链（Chain of Thought）</h3><p><strong>原理</strong>：让模型展示推理过程，而不是直接给答案。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># ❌ 差的 Prompt</span></span><br><span class="line">计算：(15 + 27) × 3 - 89 ÷ 7 = ?</span><br><span class="line"></span><br><span class="line"><span class="section"># ✅ 好的 Prompt</span></span><br><span class="line">请逐步计算以下表达式，展示每一步的中间结果：</span><br><span class="line">(15 + 27) × 3 - 89 ÷ 7</span><br><span class="line"></span><br><span class="line">思考步骤：</span><br><span class="line"><span class="bullet">1.</span> 先计算括号内的加法</span><br><span class="line"><span class="bullet">2.</span> 再计算乘法</span><br><span class="line"><span class="bullet">3.</span> 然后计算除法</span><br><span class="line"><span class="bullet">4.</span> 最后计算减法</span><br><span class="line"><span class="bullet">5.</span> 给出最终答案</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果</strong>：复杂推理任务准确率提升 30-50%。</p>
+<hr>
+<h3 id="2-3-少样本提示（Few-Shot-Prompting）"><a href="#2-3-少样本提示（Few-Shot-Prompting）" class="headerlink" title="2.3 少样本提示（Few-Shot Prompting）"></a>2.3 少样本提示（Few-Shot Prompting）</h3><p><strong>原理</strong>：提供几个示例，让模型学习输出格式和风格。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">将以下中文句子翻译成英文，保持专业语气：</span><br><span class="line"></span><br><span class="line">示例 1：</span><br><span class="line">输入：这个系统的延迟太高了，需要优化。</span><br><span class="line">输出：The system&#x27;s latency is too high and needs optimization.</span><br><span class="line"></span><br><span class="line">示例 2：</span><br><span class="line">输入：数据库查询超时，请检查索引配置。</span><br><span class="line">输出：Database query timed out, please check the index configuration.</span><br><span class="line"></span><br><span class="line">现在请翻译：</span><br><span class="line">输入：API 响应时间超过 2 秒，影响用户体验。</span><br><span class="line">输出：</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-4-约束条件（Constraints）"><a href="#2-4-约束条件（Constraints）" class="headerlink" title="2.4 约束条件（Constraints）"></a>2.4 约束条件（Constraints）</h3><p><strong>原理</strong>：明确限制输出范围，避免无关内容。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">请总结以下文章的核心观点（不超过 200 字）：</span><br><span class="line"></span><br><span class="line">[文章内容...]</span><br><span class="line"></span><br><span class="line">约束条件：</span><br><span class="line"><span class="bullet">-</span> 只总结核心观点，不要添加个人观点</span><br><span class="line"><span class="bullet">-</span> 使用中文输出</span><br><span class="line"><span class="bullet">-</span> 不超过 200 字</span><br><span class="line"><span class="bullet">-</span> 使用项目符号列出要点</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-5-输出格式控制"><a href="#2-5-输出格式控制" class="headerlink" title="2.5 输出格式控制"></a>2.5 输出格式控制</h3><p><strong>原理</strong>：明确指定输出格式，便于后续处理。</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JSON</td>
+<td>程序化处理、API 集成</td>
+</tr>
+<tr>
+<td>Markdown 表格</td>
+<td>对比分析、数据展示</td>
+</tr>
+<tr>
+<td>项目符号列表</td>
+<td>要点总结、清单</td>
+</tr>
+<tr>
+<td>代码块</td>
+<td>代码生成、配置示例</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">请分析以下用户评论的情感倾向，以 JSON 格式输出：</span><br><span class="line"></span><br><span class="line">用户评论：这个产品真的很好用，推荐给大家！</span><br><span class="line"></span><br><span class="line">输出格式：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;sentiment&quot;: &quot;positive|negative|neutral&quot;,</span><br><span class="line">  &quot;confidence&quot;: 0.0-1.0,</span><br><span class="line">  &quot;key<span class="emphasis">_phrases&quot;: [&quot;短语 1&quot;, &quot;短语 2&quot;],</span></span><br><span class="line"><span class="emphasis">  &quot;reasoning&quot;: &quot;简短分析&quot;</span></span><br><span class="line"><span class="emphasis">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、实战案例"><a href="#三、实战案例" class="headerlink" title="三、实战案例"></a>三、实战案例</h2><h3 id="3-1-代码生成"><a href="#3-1-代码生成" class="headerlink" title="3.1 代码生成"></a>3.1 代码生成</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">你是一位资深 Python 开发者，擅长编写简洁、高效、可维护的代码。</span><br><span class="line"></span><br><span class="line">任务：实现一个带缓存的 API 客户端</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 使用 functools.lru<span class="emphasis">_cache 实现缓存</span></span><br><span class="line"><span class="emphasis">2. 支持超时和重试机制</span></span><br><span class="line"><span class="emphasis">3. 添加类型注解</span></span><br><span class="line"><span class="emphasis">4. 包含单元测试示例</span></span><br><span class="line"><span class="emphasis">5. 代码风格遵循 PEP 8</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">输出格式：</span></span><br><span class="line"><span class="emphasis">- 主代码放在代码块中</span></span><br><span class="line"><span class="emphasis">- 单元测试单独放在另一个代码块中</span></span><br><span class="line"><span class="emphasis">- 在代码前简要说明设计思路</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-2-数据分析"><a href="#3-2-数据分析" class="headerlink" title="3.2 数据分析"></a>3.2 数据分析</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">你是一位数据分析师，擅长从数据中提取洞察。</span><br><span class="line"></span><br><span class="line">任务：分析以下销售数据，找出关键趋势</span><br><span class="line"></span><br><span class="line">数据：</span><br><span class="line">| 月份 | 销售额 | 新客户 | 复购率 |</span><br><span class="line">|------|--------|--------|--------|</span><br><span class="line">| 1 月  | 120 万 | 500    | 35%    |</span><br><span class="line">| 2 月  | 135 万 | 480    | 38%    |</span><br><span class="line">| 3 月  | 142 万 | 520    | 40%    |</span><br><span class="line"></span><br><span class="line">分析要求：</span><br><span class="line"><span class="bullet">1.</span> 计算环比增长率</span><br><span class="line"><span class="bullet">2.</span> 识别关键趋势</span><br><span class="line"><span class="bullet">3.</span> 给出 3 条可执行建议</span><br><span class="line"><span class="bullet">4.</span> 用 Markdown 表格展示计算结果</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-3-内容创作"><a href="#3-3-内容创作" class="headerlink" title="3.3 内容创作"></a>3.3 内容创作</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">你是一位科技博主，擅长写深度但不晦涩的技术文章。</span><br><span class="line"></span><br><span class="line">任务：写一篇关于&quot;为什么大模型需要更多上下文&quot;的短文</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 目标读者：有编程基础的非 AI 专家</span><br><span class="line"><span class="bullet">2.</span> 字数：800-1000 字</span><br><span class="line"><span class="bullet">3.</span> 结构：</span><br><span class="line"><span class="bullet">   -</span> 引言：用一个日常类比引入主题</span><br><span class="line"><span class="bullet">   -</span> 正文：解释上下文的重要性（2-3 个要点）</span><br><span class="line"><span class="bullet">   -</span> 结尾：总结 + 展望</span><br><span class="line"><span class="bullet">4.</span> 风格：亲切、专业、不堆砌术语</span><br><span class="line"><span class="bullet">5.</span> 包含 1-2 个具体例子</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、常见陷阱"><a href="#四、常见陷阱" class="headerlink" title="四、常见陷阱"></a>四、常见陷阱</h2><table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>表现</th>
+<th>修复方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>太模糊</strong></td>
+<td>“帮我写点什么”</td>
+<td>明确任务、格式、约束</td>
+</tr>
+<tr>
+<td><strong>太冗长</strong></td>
+<td>无关信息太多</td>
+<td>精简上下文，突出关键信息</td>
+</tr>
+<tr>
+<td><strong>矛盾指令</strong></td>
+<td>“简洁但详细”</td>
+<td>明确优先级，分层次说明</td>
+</tr>
+<tr>
+<td><strong>假设模型知道</strong></td>
+<td>不提背景信息</td>
+<td>补充必要上下文</td>
+</tr>
+<tr>
+<td><strong>格式混乱</strong></td>
+<td>没有指定输出格式</td>
+<td>明确指定格式要求</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、Prompt-优化工作流"><a href="#五、Prompt-优化工作流" class="headerlink" title="五、Prompt 优化工作流"></a>五、Prompt 优化工作流</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 初稿 → 写出基础 Prompt</span><br><span class="line">2. 测试 → 用模型跑一遍</span><br><span class="line">3. 诊断 → 分析输出问题（太短？太泛？格式不对？）</span><br><span class="line">4. 迭代 → 针对性优化（加约束？改格式？加示例？）</span><br><span class="line">5. 固化 → 保存为模板，复用</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><table>
+<thead>
+<tr>
+<th>技巧</th>
+<th>核心</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>角色设定</td>
+<td>激活相关知识和风格</td>
+<td>所有场景</td>
+</tr>
+<tr>
+<td>思维链</td>
+<td>展示推理过程</td>
+<td>复杂推理、数学</td>
+</tr>
+<tr>
+<td>少样本</td>
+<td>学习输出格式</td>
+<td>格式化输出、翻译</td>
+</tr>
+<tr>
+<td>约束条件</td>
+<td>限制输出范围</td>
+<td>摘要、总结</td>
+</tr>
+<tr>
+<td>格式控制</td>
+<td>便于后续处理</td>
+<td>程序化任务</td>
+</tr>
+</tbody></table>
+<p><strong>核心原则</strong>：Prompt 工程是迭代过程，没有一蹴而就的完美 Prompt。先写出能用的，再逐步优化。</p>
+<hr>
+<p><em>本文基于实际使用经验整理，Prompt 效果因模型而异，建议根据具体模型调整。</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/prompt-engineering-guide/" data-id="cmppp1ujg0006huwe7xmqdree" data-title="Prompt 工程实战：从入门到精通" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prompt/" rel="tag">Prompt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B/" rel="tag">工程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2026/05/28/ai-model-selection-guide/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">AI 模型选择指南：2026 年主流大模型对比</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prompt/" rel="tag">Prompt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/about/" rel="tag">about</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/audio/" rel="tag">audio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes/" rel="tag">hermes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes-agent/" rel="tag">hermes-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/realtime-api/" rel="tag">realtime-api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stt/" rel="tag">stt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tts/" rel="tag">tts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%AF%94/" rel="tag">对比</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B/" rel="tag">工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" rel="tag">技术笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E5%9E%8B/" rel="tag">模型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%89%E5%9E%8B/" rel="tag">选型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Prompt/" style="font-size: 10px;">Prompt</a> <a href="/tags/about/" style="font-size: 10px;">about</a> <a href="/tags/audio/" style="font-size: 10px;">audio</a> <a href="/tags/hermes/" style="font-size: 10px;">hermes</a> <a href="/tags/hermes-agent/" style="font-size: 10px;">hermes-agent</a> <a href="/tags/realtime-api/" style="font-size: 10px;">realtime-api</a> <a href="/tags/stt/" style="font-size: 10px;">stt</a> <a href="/tags/tts/" style="font-size: 10px;">tts</a> <a href="/tags/%E5%AF%B9%E6%AF%94/" style="font-size: 10px;">对比</a> <a href="/tags/%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">工程</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">技术笔记</a> <a href="/tags/%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">模型</a> <a href="/tags/%E9%80%89%E5%9E%8B/" style="font-size: 10px;">选型</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/05/">五月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/05/28/prompt-engineering-guide/">Prompt 工程实战：从入门到精通</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/ai-model-selection-guide/">AI 模型选择指南：2026 年主流大模型对比</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/about/">关于 Golook</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/hermes-audio-processing-analysis/">Hermes 音频处理逻辑与语音聊天方案分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 golook<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

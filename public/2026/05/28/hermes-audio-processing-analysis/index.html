@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hermes 音频处理逻辑与语音聊天方案分析 | Golook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="分析日期：2026-05-28涉及项目：Hermes Agent   一、Hermes 当前音频处理架构1.1 音频摄入流程1用户音频 → gateway 捕获 → Whisper STT → 文字 → LLM  关键发现：  ❌ 没有音频 native 路径：代码中不存在类似图片的 pending_native_audio_paths ❌ 音频文件被丢弃：STT 完成后，原始音频文件不被传递给">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hermes 音频处理逻辑与语音聊天方案分析">
+<meta property="og:url" content="https://www.golook.cf/2026/05/28/hermes-audio-processing-analysis/index.html">
+<meta property="og:site_name" content="Golook">
+<meta property="og:description" content="分析日期：2026-05-28涉及项目：Hermes Agent   一、Hermes 当前音频处理架构1.1 音频摄入流程1用户音频 → gateway 捕获 → Whisper STT → 文字 → LLM  关键发现：  ❌ 没有音频 native 路径：代码中不存在类似图片的 pending_native_audio_paths ❌ 音频文件被丢弃：STT 完成后，原始音频文件不被传递给">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.golook.cf/images/hermes-audio-architecture-comparison.png">
+<meta property="article:published_time" content="2026-05-28T14:13:34.000Z">
+<meta property="article:modified_time" content="2026-05-28T16:14:34.670Z">
+<meta property="article:author" content="golook">
+<meta property="article:tag" content="hermes">
+<meta property="article:tag" content="audio">
+<meta property="article:tag" content="hermes-agent">
+<meta property="article:tag" content="stt">
+<meta property="article:tag" content="tts">
+<meta property="article:tag" content="realtime-api">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.golook.cf/images/hermes-audio-architecture-comparison.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Golook" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Golook</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个天翼云盘分享小站</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.golook.cf"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-hermes-audio-processing-analysis" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/hermes-audio-processing-analysis/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T14:13:34.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Hermes 音频处理逻辑与语音聊天方案分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>分析日期</strong>：2026-05-28<br><strong>涉及项目</strong>：<a target="_blank" rel="noopener" href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a></p>
+</blockquote>
+<hr>
+<h2 id="一、Hermes-当前音频处理架构"><a href="#一、Hermes-当前音频处理架构" class="headerlink" title="一、Hermes 当前音频处理架构"></a>一、Hermes 当前音频处理架构</h2><h3 id="1-1-音频摄入流程"><a href="#1-1-音频摄入流程" class="headerlink" title="1.1 音频摄入流程"></a>1.1 音频摄入流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户音频 → gateway 捕获 → Whisper STT → 文字 → LLM</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键发现</strong>：</p>
+<ul>
+<li>❌ <strong>没有音频 native 路径</strong>：代码中不存在类似图片的 <code>pending_native_audio_paths</code></li>
+<li>❌ <strong>音频文件被丢弃</strong>：STT 完成后，原始音频文件不被传递给 LLM</li>
+<li>✅ <strong>图片有 native 路径</strong>：图片通过 base64 编码为 <code>image_url</code> content part 直接传给模型</li>
+</ul>
+<h3 id="1-2-音频输出流程"><a href="#1-2-音频输出流程" class="headerlink" title="1.2 音频输出流程"></a>1.2 音频输出流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LLM 文字回复 → TTS 引擎 → 音频文件 → 平台发送</span><br></pre></td></tr></table></figure>
+
+<p><strong>TTS 配置</strong>：</p>
+<ul>
+<li>引擎：Edge TTS</li>
+<li>语音：<code>zh-CN-XiaoxiaoNeural</code>（微软晓晓，中文女声）</li>
+</ul>
+<h3 id="1-3-图片-vs-音频架构对比"><a href="#1-3-图片-vs-音频架构对比" class="headerlink" title="1.3 图片 vs 音频架构对比"></a>1.3 图片 vs 音频架构对比</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>图片</th>
+<th>音频</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Native 路径</td>
+<td>✅ 存在</td>
+<td>❌ 不存在</td>
+</tr>
+<tr>
+<td>模型收到</td>
+<td>文字 + 图片像素</td>
+<td>仅文字</td>
+</tr>
+<tr>
+<td>中间层</td>
+<td>无</td>
+<td>Whisper STT</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、三种语音聊天方案对比"><a href="#二、三种语音聊天方案对比" class="headerlink" title="二、三种语音聊天方案对比"></a>二、三种语音聊天方案对比</h2><h3 id="方案-A：当前架构（Whisper-LLM-TTS）"><a href="#方案-A：当前架构（Whisper-LLM-TTS）" class="headerlink" title="方案 A：当前架构（Whisper + LLM + TTS）"></a>方案 A：当前架构（Whisper + LLM + TTS）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">音频 → Whisper(STT) → 文字 → LLM → 文字 → TTS → 音频</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~3-5 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>❌ 只收到文字，无法感知语调&#x2F;情绪</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>无（已实现）</td>
+</tr>
+</tbody></table>
+<h3 id="方案-B：端到端音频输入（GPT-4o-audio-input-via-REST）"><a href="#方案-B：端到端音频输入（GPT-4o-audio-input-via-REST）" class="headerlink" title="方案 B：端到端音频输入（GPT-4o audio input via REST）"></a>方案 B：端到端音频输入（GPT-4o audio input via REST）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">音频 → GPT-4o(端到端) → 文字 → TTS → 音频</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~1-2 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>✅ 能感知语调&#x2F;情绪</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>中等</td>
+</tr>
+</tbody></table>
+<h3 id="方案-C：Realtime-API（双向音频流）"><a href="#方案-C：Realtime-API（双向音频流）" class="headerlink" title="方案 C：Realtime API（双向音频流）"></a>方案 C：Realtime API（双向音频流）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebSocket 长连接</span><br><span class="line">音频流 ←→ 模型 ←→ 音频流</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~0.3-0.8 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>✅ 端到端音频理解</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>大</td>
+</tr>
+</tbody></table>
+<p><strong>参考项目</strong>：<a target="_blank" rel="noopener" href="https://github.com/bridge-mind/BridgeSpeak">BridgeSpeak</a> — 跨 agent skill，基于 OpenAI <code>gpt-realtime-2</code>，约 280 行 Python WebSocket 客户端。</p>
+<hr>
+<h2 id="三、方案对比总结"><a href="#三、方案对比总结" class="headerlink" title="三、方案对比总结"></a>三、方案对比总结</h2><p><img src="/images/hermes-audio-architecture-comparison.png" alt="三种语音聊天方案架构对比"></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>方案 A（当前）</th>
+<th>方案 B（GPT-4o REST）</th>
+<th>方案 C（Realtime API）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>架构</td>
+<td>两步走（STT→LLM）</td>
+<td>一步走（端到端）</td>
+<td>WebSocket 双向流</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>~3-5s</td>
+<td>~1-2s</td>
+<td>~0.3-0.8s</td>
+</tr>
+<tr>
+<td>模型感知音频</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>无</td>
+<td>中等</td>
+<td>大</td>
+</tr>
+<tr>
+<td>流式</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>自然对话感</td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、SenseNova-U1-Fast-与-Realtime-API-的关系"><a href="#四、SenseNova-U1-Fast-与-Realtime-API-的关系" class="headerlink" title="四、SenseNova-U1-Fast 与 Realtime API 的关系"></a>四、SenseNova-U1-Fast 与 Realtime API 的关系</h2><p><strong>澄清</strong>：SenseNova-U1-Fast 和 Realtime API <strong>没有直接关系</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SenseNova-U1-Fast</strong></td>
+<td>商汤的一个<strong>模型</strong>（推理速度快）</td>
+</tr>
+<tr>
+<td><strong>Realtime API</strong></td>
+<td>OpenAI 的一个<strong>WebSocket 端点</strong>（<code>/v1/realtime</code>）</td>
+</tr>
+<tr>
+<td><strong>关系</strong></td>
+<td>两者是不同厂商的不同技术</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、推荐路径"><a href="#五、推荐路径" class="headerlink" title="五、推荐路径"></a>五、推荐路径</h2><table>
+<thead>
+<tr>
+<th>目标</th>
+<th>推荐方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>快速验证模型能否感知音频</td>
+<td>方案 B（GPT-4o audio input）</td>
+</tr>
+<tr>
+<td>最佳体验（低延迟、自然对话）</td>
+<td>方案 C（Realtime API）</td>
+</tr>
+<tr>
+<td>保持当前架构、仅优化 STT</td>
+<td>设置 Whisper <code>language: &quot;zh&quot;</code> 提升中文识别率</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、代码参考位置"><a href="#六、代码参考位置" class="headerlink" title="六、代码参考位置"></a>六、代码参考位置</h2><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>~/.hermes/config.yaml</code></td>
+<td>STT&#x2F;TTS 配置</td>
+</tr>
+<tr>
+<td><code>run.py</code> L13402-13480</td>
+<td><code>_enrich_message_with_transcription()</code> — STT 转录</td>
+</tr>
+<tr>
+<td><code>run.py</code> L6870-6960</td>
+<td><code>_prepare_inbound_event_text()</code> — 音频捕获</td>
+</tr>
+<tr>
+<td><code>agent/image_routing.py</code></td>
+<td><code>build_native_content_parts()</code> — 图片 base64 编码参考</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、扩展方向"><a href="#七、扩展方向" class="headerlink" title="七、扩展方向"></a>七、扩展方向</h2><ol>
+<li><strong>实现音频 native 路径</strong>：参考图片的 <code>pending_native_image_paths</code>，添加 <code>pending_native_audio_paths</code></li>
+<li><strong>切换模型提供商</strong>：在 <code>config.yaml</code> 修改 <code>agent.provider</code> 和 <code>agent.model</code></li>
+<li><strong>集成 BridgeSpeak</strong>：将 BridgeSpeak skill 复制到 <code>~/.hermes/skills/voice/bridgespeak/</code></li>
+<li><strong>优化 Whisper 中文识别</strong>：在 <code>config.yaml</code> 设置 <code>stt.language: &quot;zh&quot;</code></li>
+</ol>
+<hr>
+<p><em>本文基于 Hermes Agent 代码分析生成，2026-05-28</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/hermes-audio-processing-analysis/" data-id="cmppp1ujd0005huwe0fuefr4t" data-title="Hermes 音频处理逻辑与语音聊天方案分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/audio/" rel="tag">audio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hermes/" rel="tag">hermes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hermes-agent/" rel="tag">hermes-agent</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/realtime-api/" rel="tag">realtime-api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stt/" rel="tag">stt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tts/" rel="tag">tts</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/05/28/about/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          关于 Golook
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prompt/" rel="tag">Prompt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/about/" rel="tag">about</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/audio/" rel="tag">audio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes/" rel="tag">hermes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes-agent/" rel="tag">hermes-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/realtime-api/" rel="tag">realtime-api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stt/" rel="tag">stt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tts/" rel="tag">tts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%AF%94/" rel="tag">对比</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B/" rel="tag">工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" rel="tag">技术笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E5%9E%8B/" rel="tag">模型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%89%E5%9E%8B/" rel="tag">选型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Prompt/" style="font-size: 10px;">Prompt</a> <a href="/tags/about/" style="font-size: 10px;">about</a> <a href="/tags/audio/" style="font-size: 10px;">audio</a> <a href="/tags/hermes/" style="font-size: 10px;">hermes</a> <a href="/tags/hermes-agent/" style="font-size: 10px;">hermes-agent</a> <a href="/tags/realtime-api/" style="font-size: 10px;">realtime-api</a> <a href="/tags/stt/" style="font-size: 10px;">stt</a> <a href="/tags/tts/" style="font-size: 10px;">tts</a> <a href="/tags/%E5%AF%B9%E6%AF%94/" style="font-size: 10px;">对比</a> <a href="/tags/%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">工程</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">技术笔记</a> <a href="/tags/%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">模型</a> <a href="/tags/%E9%80%89%E5%9E%8B/" style="font-size: 10px;">选型</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/05/">五月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/05/28/prompt-engineering-guide/">Prompt 工程实战：从入门到精通</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/ai-model-selection-guide/">AI 模型选择指南：2026 年主流大模型对比</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/about/">关于 Golook</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/hermes-audio-processing-analysis/">Hermes 音频处理逻辑与语音聊天方案分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 golook<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

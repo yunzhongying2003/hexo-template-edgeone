@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Golook</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Golook">
+<meta property="og:url" content="https://www.golook.cf/index.html">
+<meta property="og:site_name" content="Golook">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="golook">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Golook" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Golook</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个天翼云盘分享小站</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.golook.cf"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-prompt-engineering-guide" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/prompt-engineering-guide/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T15:10:00.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/28/prompt-engineering-guide/">Prompt 工程实战：从入门到精通</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Prompt-工程实战：从入门到精通"><a href="#Prompt-工程实战：从入门到精通" class="headerlink" title="Prompt 工程实战：从入门到精通"></a>Prompt 工程实战：从入门到精通</h1><p>Prompt 工程不是”写提示词”，而是<strong>与模型有效沟通的艺术</strong>。好的 Prompt 能让模型输出质量提升 10 倍，差的 Prompt 让再强的模型也束手无策。</p>
+<p>本文将通过大量实战案例，带你掌握 Prompt 工程的核心技巧。</p>
+<hr>
+<h2 id="一、Prompt-基础结构"><a href="#一、Prompt-基础结构" class="headerlink" title="一、Prompt 基础结构"></a>一、Prompt 基础结构</h2><p>一个高质量的 Prompt 通常包含以下要素：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────┐</span><br><span class="line">│  1. 角色设定 (Role)                      │</span><br><span class="line">│     &quot;你是一位资深 Python 开发者...&quot;      │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  2. 任务描述 (Task)                      │</span><br><span class="line">│     &quot;请帮我优化这段代码...&quot;              │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  3. 上下文/输入 (Context/Input)          │</span><br><span class="line">│     &quot;以下是需要优化的代码：...&quot;          │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  4. 约束条件 (Constraints)               │</span><br><span class="line">│     &quot;保持原有功能，时间复杂度 O(n)...&quot;   │</span><br><span class="line">├─────────────────────────────────────────┤</span><br><span class="line">│  5. 输出格式 (Output Format)             │</span><br><span class="line">│     &quot;请用 Markdown 格式输出，包含...&quot;    │</span><br><span class="line">└─────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、核心技巧"><a href="#二、核心技巧" class="headerlink" title="二、核心技巧"></a>二、核心技巧</h2><h3 id="2-1-角色设定（Role-Prompting）"><a href="#2-1-角色设定（Role-Prompting）" class="headerlink" title="2.1 角色设定（Role Prompting）"></a>2.1 角色设定（Role Prompting）</h3><p><strong>原理</strong>：给模型一个明确的角色，激活相关知识和表达方式。</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>资深开发者</td>
+<td>代码审查、架构设计</td>
+</tr>
+<tr>
+<td>产品经理</td>
+<td>需求分析、用户故事</td>
+</tr>
+<tr>
+<td>数据分析师</td>
+<td>数据解读、可视化建议</td>
+</tr>
+<tr>
+<td>教师</td>
+<td>知识讲解、概念类比</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># ❌ 差的 Prompt</span></span><br><span class="line">帮我解释一下 Transformer 架构。</span><br><span class="line"></span><br><span class="line"><span class="section"># ✅ 好的 Prompt</span></span><br><span class="line">你是一位 AI 领域的资深教师，擅长用通俗易懂的类比解释复杂概念。</span><br><span class="line">请向一名有编程基础但没学过深度学习的学生解释 Transformer 架构。</span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 用生活中的类比说明核心概念</span><br><span class="line"><span class="bullet">2.</span> 避免过多数学公式</span><br><span class="line"><span class="bullet">3.</span> 重点说明为什么 Transformer 比 RNN 更适合处理长文本</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-2-思维链（Chain-of-Thought）"><a href="#2-2-思维链（Chain-of-Thought）" class="headerlink" title="2.2 思维链（Chain of Thought）"></a>2.2 思维链（Chain of Thought）</h3><p><strong>原理</strong>：让模型展示推理过程，而不是直接给答案。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># ❌ 差的 Prompt</span></span><br><span class="line">计算：(15 + 27) × 3 - 89 ÷ 7 = ?</span><br><span class="line"></span><br><span class="line"><span class="section"># ✅ 好的 Prompt</span></span><br><span class="line">请逐步计算以下表达式，展示每一步的中间结果：</span><br><span class="line">(15 + 27) × 3 - 89 ÷ 7</span><br><span class="line"></span><br><span class="line">思考步骤：</span><br><span class="line"><span class="bullet">1.</span> 先计算括号内的加法</span><br><span class="line"><span class="bullet">2.</span> 再计算乘法</span><br><span class="line"><span class="bullet">3.</span> 然后计算除法</span><br><span class="line"><span class="bullet">4.</span> 最后计算减法</span><br><span class="line"><span class="bullet">5.</span> 给出最终答案</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果</strong>：复杂推理任务准确率提升 30-50%。</p>
+<hr>
+<h3 id="2-3-少样本提示（Few-Shot-Prompting）"><a href="#2-3-少样本提示（Few-Shot-Prompting）" class="headerlink" title="2.3 少样本提示（Few-Shot Prompting）"></a>2.3 少样本提示（Few-Shot Prompting）</h3><p><strong>原理</strong>：提供几个示例，让模型学习输出格式和风格。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">将以下中文句子翻译成英文，保持专业语气：</span><br><span class="line"></span><br><span class="line">示例 1：</span><br><span class="line">输入：这个系统的延迟太高了，需要优化。</span><br><span class="line">输出：The system&#x27;s latency is too high and needs optimization.</span><br><span class="line"></span><br><span class="line">示例 2：</span><br><span class="line">输入：数据库查询超时，请检查索引配置。</span><br><span class="line">输出：Database query timed out, please check the index configuration.</span><br><span class="line"></span><br><span class="line">现在请翻译：</span><br><span class="line">输入：API 响应时间超过 2 秒，影响用户体验。</span><br><span class="line">输出：</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-4-约束条件（Constraints）"><a href="#2-4-约束条件（Constraints）" class="headerlink" title="2.4 约束条件（Constraints）"></a>2.4 约束条件（Constraints）</h3><p><strong>原理</strong>：明确限制输出范围，避免无关内容。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">请总结以下文章的核心观点（不超过 200 字）：</span><br><span class="line"></span><br><span class="line">[文章内容...]</span><br><span class="line"></span><br><span class="line">约束条件：</span><br><span class="line"><span class="bullet">-</span> 只总结核心观点，不要添加个人观点</span><br><span class="line"><span class="bullet">-</span> 使用中文输出</span><br><span class="line"><span class="bullet">-</span> 不超过 200 字</span><br><span class="line"><span class="bullet">-</span> 使用项目符号列出要点</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-5-输出格式控制"><a href="#2-5-输出格式控制" class="headerlink" title="2.5 输出格式控制"></a>2.5 输出格式控制</h3><p><strong>原理</strong>：明确指定输出格式，便于后续处理。</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JSON</td>
+<td>程序化处理、API 集成</td>
+</tr>
+<tr>
+<td>Markdown 表格</td>
+<td>对比分析、数据展示</td>
+</tr>
+<tr>
+<td>项目符号列表</td>
+<td>要点总结、清单</td>
+</tr>
+<tr>
+<td>代码块</td>
+<td>代码生成、配置示例</td>
+</tr>
+</tbody></table>
+<p><strong>示例</strong>：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">请分析以下用户评论的情感倾向，以 JSON 格式输出：</span><br><span class="line"></span><br><span class="line">用户评论：这个产品真的很好用，推荐给大家！</span><br><span class="line"></span><br><span class="line">输出格式：</span><br><span class="line">&#123;</span><br><span class="line">  &quot;sentiment&quot;: &quot;positive|negative|neutral&quot;,</span><br><span class="line">  &quot;confidence&quot;: 0.0-1.0,</span><br><span class="line">  &quot;key<span class="emphasis">_phrases&quot;: [&quot;短语 1&quot;, &quot;短语 2&quot;],</span></span><br><span class="line"><span class="emphasis">  &quot;reasoning&quot;: &quot;简短分析&quot;</span></span><br><span class="line"><span class="emphasis">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、实战案例"><a href="#三、实战案例" class="headerlink" title="三、实战案例"></a>三、实战案例</h2><h3 id="3-1-代码生成"><a href="#3-1-代码生成" class="headerlink" title="3.1 代码生成"></a>3.1 代码生成</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">你是一位资深 Python 开发者，擅长编写简洁、高效、可维护的代码。</span><br><span class="line"></span><br><span class="line">任务：实现一个带缓存的 API 客户端</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 使用 functools.lru<span class="emphasis">_cache 实现缓存</span></span><br><span class="line"><span class="emphasis">2. 支持超时和重试机制</span></span><br><span class="line"><span class="emphasis">3. 添加类型注解</span></span><br><span class="line"><span class="emphasis">4. 包含单元测试示例</span></span><br><span class="line"><span class="emphasis">5. 代码风格遵循 PEP 8</span></span><br><span class="line"><span class="emphasis"></span></span><br><span class="line"><span class="emphasis">输出格式：</span></span><br><span class="line"><span class="emphasis">- 主代码放在代码块中</span></span><br><span class="line"><span class="emphasis">- 单元测试单独放在另一个代码块中</span></span><br><span class="line"><span class="emphasis">- 在代码前简要说明设计思路</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-2-数据分析"><a href="#3-2-数据分析" class="headerlink" title="3.2 数据分析"></a>3.2 数据分析</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">你是一位数据分析师，擅长从数据中提取洞察。</span><br><span class="line"></span><br><span class="line">任务：分析以下销售数据，找出关键趋势</span><br><span class="line"></span><br><span class="line">数据：</span><br><span class="line">| 月份 | 销售额 | 新客户 | 复购率 |</span><br><span class="line">|------|--------|--------|--------|</span><br><span class="line">| 1 月  | 120 万 | 500    | 35%    |</span><br><span class="line">| 2 月  | 135 万 | 480    | 38%    |</span><br><span class="line">| 3 月  | 142 万 | 520    | 40%    |</span><br><span class="line"></span><br><span class="line">分析要求：</span><br><span class="line"><span class="bullet">1.</span> 计算环比增长率</span><br><span class="line"><span class="bullet">2.</span> 识别关键趋势</span><br><span class="line"><span class="bullet">3.</span> 给出 3 条可执行建议</span><br><span class="line"><span class="bullet">4.</span> 用 Markdown 表格展示计算结果</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-3-内容创作"><a href="#3-3-内容创作" class="headerlink" title="3.3 内容创作"></a>3.3 内容创作</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">你是一位科技博主，擅长写深度但不晦涩的技术文章。</span><br><span class="line"></span><br><span class="line">任务：写一篇关于&quot;为什么大模型需要更多上下文&quot;的短文</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line"><span class="bullet">1.</span> 目标读者：有编程基础的非 AI 专家</span><br><span class="line"><span class="bullet">2.</span> 字数：800-1000 字</span><br><span class="line"><span class="bullet">3.</span> 结构：</span><br><span class="line"><span class="bullet">   -</span> 引言：用一个日常类比引入主题</span><br><span class="line"><span class="bullet">   -</span> 正文：解释上下文的重要性（2-3 个要点）</span><br><span class="line"><span class="bullet">   -</span> 结尾：总结 + 展望</span><br><span class="line"><span class="bullet">4.</span> 风格：亲切、专业、不堆砌术语</span><br><span class="line"><span class="bullet">5.</span> 包含 1-2 个具体例子</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、常见陷阱"><a href="#四、常见陷阱" class="headerlink" title="四、常见陷阱"></a>四、常见陷阱</h2><table>
+<thead>
+<tr>
+<th>陷阱</th>
+<th>表现</th>
+<th>修复方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>太模糊</strong></td>
+<td>“帮我写点什么”</td>
+<td>明确任务、格式、约束</td>
+</tr>
+<tr>
+<td><strong>太冗长</strong></td>
+<td>无关信息太多</td>
+<td>精简上下文，突出关键信息</td>
+</tr>
+<tr>
+<td><strong>矛盾指令</strong></td>
+<td>“简洁但详细”</td>
+<td>明确优先级，分层次说明</td>
+</tr>
+<tr>
+<td><strong>假设模型知道</strong></td>
+<td>不提背景信息</td>
+<td>补充必要上下文</td>
+</tr>
+<tr>
+<td><strong>格式混乱</strong></td>
+<td>没有指定输出格式</td>
+<td>明确指定格式要求</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、Prompt-优化工作流"><a href="#五、Prompt-优化工作流" class="headerlink" title="五、Prompt 优化工作流"></a>五、Prompt 优化工作流</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 初稿 → 写出基础 Prompt</span><br><span class="line">2. 测试 → 用模型跑一遍</span><br><span class="line">3. 诊断 → 分析输出问题（太短？太泛？格式不对？）</span><br><span class="line">4. 迭代 → 针对性优化（加约束？改格式？加示例？）</span><br><span class="line">5. 固化 → 保存为模板，复用</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><table>
+<thead>
+<tr>
+<th>技巧</th>
+<th>核心</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>角色设定</td>
+<td>激活相关知识和风格</td>
+<td>所有场景</td>
+</tr>
+<tr>
+<td>思维链</td>
+<td>展示推理过程</td>
+<td>复杂推理、数学</td>
+</tr>
+<tr>
+<td>少样本</td>
+<td>学习输出格式</td>
+<td>格式化输出、翻译</td>
+</tr>
+<tr>
+<td>约束条件</td>
+<td>限制输出范围</td>
+<td>摘要、总结</td>
+</tr>
+<tr>
+<td>格式控制</td>
+<td>便于后续处理</td>
+<td>程序化任务</td>
+</tr>
+</tbody></table>
+<p><strong>核心原则</strong>：Prompt 工程是迭代过程，没有一蹴而就的完美 Prompt。先写出能用的，再逐步优化。</p>
+<hr>
+<p><em>本文基于实际使用经验整理，Prompt 效果因模型而异，建议根据具体模型调整。</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/prompt-engineering-guide/" data-id="cmppp1ujg0006huwe7xmqdree" data-title="Prompt 工程实战：从入门到精通" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Prompt/" rel="tag">Prompt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B/" rel="tag">工程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-ai-model-selection-guide" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/ai-model-selection-guide/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T15:05:00.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/28/ai-model-selection-guide/">AI 模型选择指南：2026 年主流大模型对比</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="AI-模型选择指南：2026-年主流大模型对比"><a href="#AI-模型选择指南：2026-年主流大模型对比" class="headerlink" title="AI 模型选择指南：2026 年主流大模型对比"></a>AI 模型选择指南：2026 年主流大模型对比</h1><p>选择大模型不是选”最强”，而是选”最适合”。不同场景对模型的要求截然不同——有的追求速度，有的追求推理能力，有的需要多模态。</p>
+<p>本文将对比 2026 年主流大模型的核心特性，帮你快速找到适合的工具。</p>
+<hr>
+<h2 id="一、模型分类维度"><a href="#一、模型分类维度" class="headerlink" title="一、模型分类维度"></a>一、模型分类维度</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>说明</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>推理能力</strong></td>
+<td>复杂逻辑、数学、代码</td>
+<td>编程助手、数据分析</td>
+</tr>
+<tr>
+<td><strong>创作能力</strong></td>
+<td>写作、翻译、润色</td>
+<td>内容创作、翻译</td>
+</tr>
+<tr>
+<td><strong>多模态</strong></td>
+<td>图片&#x2F;音频输入理解</td>
+<td>视觉分析、语音交互</td>
+</tr>
+<tr>
+<td><strong>速度</strong></td>
+<td>响应延迟、吞吐量</td>
+<td>实时对话、高并发</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>Token 价格</td>
+<td>预算敏感场景</td>
+</tr>
+<tr>
+<td><strong>隐私</strong></td>
+<td>数据是否上传</td>
+<td>企业&#x2F;敏感数据</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、主流模型对比"><a href="#二、主流模型对比" class="headerlink" title="二、主流模型对比"></a>二、主流模型对比</h2><h3 id="2-1-商汤-SenseNova（日日新）"><a href="#2-1-商汤-SenseNova（日日新）" class="headerlink" title="2.1 商汤 SenseNova（日日新）"></a>2.1 商汤 SenseNova（日日新）</h3><table>
+<thead>
+<tr>
+<th>型号</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>sensenova-6.7-flash-lite</strong></td>
+<td>速度快、成本低</td>
+<td>日常对话、简单问答</td>
+</tr>
+<tr>
+<td><strong>sensenova-u1-fast</strong></td>
+<td>平衡速度与质量</td>
+<td>内容生成、代码辅助</td>
+</tr>
+<tr>
+<td><strong>sensenova-pro</strong></td>
+<td>强推理能力</td>
+<td>复杂分析、数学推理</td>
+</tr>
+</tbody></table>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ 中文理解优秀</li>
+<li>✅ API 稳定，国内访问速度快</li>
+<li>✅ 多模态支持（图像理解）</li>
+<li>✅ 成本相对较低</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ 复杂推理能力略逊于顶级模型</li>
+<li>❌ 生态工具相对较少</li>
+</ul>
+<p><strong>推荐场景</strong>：中文内容创作、日常问答、图像分析、企业应用</p>
+<hr>
+<h3 id="2-2-OpenAI-GPT-系列"><a href="#2-2-OpenAI-GPT-系列" class="headerlink" title="2.2 OpenAI GPT 系列"></a>2.2 OpenAI GPT 系列</h3><table>
+<thead>
+<tr>
+<th>型号</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GPT-4o</strong></td>
+<td>多模态端到端</td>
+<td>语音交互、视觉理解</td>
+</tr>
+<tr>
+<td><strong>GPT-4o-mini</strong></td>
+<td>速度快、成本低</td>
+<td>日常任务、批量处理</td>
+</tr>
+<tr>
+<td><strong>GPT-4.1</strong></td>
+<td>最强推理</td>
+<td>复杂分析、代码生成</td>
+</tr>
+</tbody></table>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ 综合能力最强</li>
+<li>✅ 生态最丰富（工具、插件、社区）</li>
+<li>✅ Realtime API 支持端到端音频</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ 成本高</li>
+<li>❌ 国内访问不稳定</li>
+<li>❌ 数据隐私顾虑</li>
+</ul>
+<p><strong>推荐场景</strong>：复杂任务、多模态应用、需要最强能力的场景</p>
+<hr>
+<h3 id="2-3-Anthropic-Claude"><a href="#2-3-Anthropic-Claude" class="headerlink" title="2.3 Anthropic Claude"></a>2.3 Anthropic Claude</h3><table>
+<thead>
+<tr>
+<th>型号</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Claude 3.5 Sonnet</strong></td>
+<td>平衡型，代码强</td>
+<td>编程、文档分析</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Haiku</strong></td>
+<td>速度快</td>
+<td>快速响应</td>
+</tr>
+</tbody></table>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ 代码能力极强</li>
+<li>✅ 长上下文支持（200K+）</li>
+<li>✅ 输出风格自然</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ 多模态能力较弱</li>
+<li>❌ 国内访问不稳定</li>
+</ul>
+<p><strong>推荐场景</strong>：编程助手、长文档分析、需要自然输出的场景</p>
+<hr>
+<h3 id="2-4-开源模型（本地部署）"><a href="#2-4-开源模型（本地部署）" class="headerlink" title="2.4 开源模型（本地部署）"></a>2.4 开源模型（本地部署）</h3><table>
+<thead>
+<tr>
+<th>型号</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Qwen2.5-72B</strong></td>
+<td>中文强，开源</td>
+<td>本地部署、中文应用</td>
+</tr>
+<tr>
+<td><strong>Llama 3.1-70B</strong></td>
+<td>英文强，生态好</td>
+<td>英文应用、研究</td>
+</tr>
+<tr>
+<td><strong>DeepSeek-V3</strong></td>
+<td>推理强</td>
+<td>复杂分析</td>
+</tr>
+</tbody></table>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>✅ 数据完全本地，隐私可控</li>
+<li>✅ 无 API 调用成本</li>
+<li>✅ 可自定义微调</li>
+</ul>
+<p><strong>劣势</strong>：</p>
+<ul>
+<li>❌ 需要 GPU 资源</li>
+<li>❌ 部署和维护成本高</li>
+<li>❌ 能力略逊于闭源模型</li>
+</ul>
+<p><strong>推荐场景</strong>：数据敏感、需要完全控制、预算充足的场景</p>
+<hr>
+<h2 id="三、场景化推荐"><a href="#三、场景化推荐" class="headerlink" title="三、场景化推荐"></a>三、场景化推荐</h2><h3 id="📝-日常写作-内容创作"><a href="#📝-日常写作-内容创作" class="headerlink" title="📝 日常写作 &#x2F; 内容创作"></a>📝 日常写作 &#x2F; 内容创作</h3><table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Claude 3.5 Sonnet</td>
+<td>输出最自然，写作能力强</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GPT-4o</td>
+<td>综合能力均衡</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SenseNova-Pro</td>
+<td>中文优秀，成本低</td>
+</tr>
+</tbody></table>
+<h3 id="💻-编程辅助"><a href="#💻-编程辅助" class="headerlink" title="💻 编程辅助"></a>💻 编程辅助</h3><table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Claude 3.5 Sonnet</td>
+<td>代码能力最强</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GPT-4.1</td>
+<td>代码生成质量高</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Qwen2.5-72B</td>
+<td>开源，可本地部署</td>
+</tr>
+</tbody></table>
+<h3 id="🎤-语音交互-实时对话"><a href="#🎤-语音交互-实时对话" class="headerlink" title="🎤 语音交互 &#x2F; 实时对话"></a>🎤 语音交互 &#x2F; 实时对话</h3><table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>GPT-4o (Realtime API)</td>
+<td>端到端音频，延迟最低</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SenseNova + Whisper + TTS</td>
+<td>中文优化，成本低</td>
+</tr>
+<tr>
+<td>3</td>
+<td>本地部署 + 开源 STT&#x2F;TTS</td>
+<td>隐私可控</td>
+</tr>
+</tbody></table>
+<h3 id="📊-数据分析-复杂推理"><a href="#📊-数据分析-复杂推理" class="headerlink" title="📊 数据分析 &#x2F; 复杂推理"></a>📊 数据分析 &#x2F; 复杂推理</h3><table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>GPT-4.1</td>
+<td>推理能力最强</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Claude 3.5 Sonnet</td>
+<td>长上下文 + 推理</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DeepSeek-V3</td>
+<td>开源，推理强</td>
+</tr>
+</tbody></table>
+<h3 id="💰-预算敏感-批量处理"><a href="#💰-预算敏感-批量处理" class="headerlink" title="💰 预算敏感 &#x2F; 批量处理"></a>💰 预算敏感 &#x2F; 批量处理</h3><table>
+<thead>
+<tr>
+<th>优先级</th>
+<th>模型</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>SenseNova-flash-lite</td>
+<td>成本最低，速度最快</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GPT-4o-mini</td>
+<td>性价比高</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Qwen2.5-7B (本地)</td>
+<td>零 API 成本</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、选型决策树"><a href="#四、选型决策树" class="headerlink" title="四、选型决策树"></a>四、选型决策树</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">需要多模态（图片/音频）输入？</span><br><span class="line">├── 是 → 需要端到端音频？</span><br><span class="line">│   ├── 是 → GPT-4o Realtime API</span><br><span class="line">│   └── 否 → SenseNova + Whisper 或 GPT-4o REST</span><br><span class="line">└── 否 → 需要最强推理能力？</span><br><span class="line">    ├── 是 → GPT-4.1 或 Claude 3.5 Sonnet</span><br><span class="line">    └── 否 → 预算敏感？</span><br><span class="line">        ├── 是 → SenseNova-flash-lite 或 GPT-4o-mini</span><br><span class="line">        └── 否 → Claude 3.5 Sonnet（综合最佳）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>首选</th>
+<th>备选</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中文内容创作</td>
+<td>SenseNova-Pro</td>
+<td>Claude 3.5 Sonnet</td>
+</tr>
+<tr>
+<td>编程辅助</td>
+<td>Claude 3.5 Sonnet</td>
+<td>GPT-4.1</td>
+</tr>
+<tr>
+<td>语音交互</td>
+<td>GPT-4o Realtime</td>
+<td>SenseNova + Whisper</td>
+</tr>
+<tr>
+<td>数据分析</td>
+<td>GPT-4.1</td>
+<td>Claude 3.5 Sonnet</td>
+</tr>
+<tr>
+<td>预算敏感</td>
+<td>SenseNova-flash-lite</td>
+<td>GPT-4o-mini</td>
+</tr>
+<tr>
+<td>数据隐私</td>
+<td>本地开源模型</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>核心原则</strong>：没有”最好”的模型，只有”最适合”的模型。根据具体场景、预算、隐私要求综合选择。</p>
+<hr>
+<p><em>本文基于 2026 年 5 月各模型公开信息整理，模型能力持续演进，建议定期更新选型策略。</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/ai-model-selection-guide/" data-id="cmppp1uj40002huweg23u0iut" data-title="AI 模型选择指南：2026 年主流大模型对比" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%B9%E6%AF%94/" rel="tag">对比</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A8%A1%E5%9E%8B/" rel="tag">模型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%89%E5%9E%8B/" rel="tag">选型</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-about" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/about/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T15:00:00.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/28/about/">关于 Golook</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Golook"><a href="#Golook" class="headerlink" title="Golook"></a>Golook</h1><blockquote>
+<p>AI 技术笔记 · 效率工具 · 深度分析</p>
+</blockquote>
+<h2 id="我是谁"><a href="#我是谁" class="headerlink" title="我是谁"></a>我是谁</h2><p>Golook 是一个由 AI 驱动的技术博客，专注于：</p>
+<ul>
+<li><strong>AI&#x2F;LLM 技术拆解</strong> — 模型原理、架构对比、API 实践</li>
+<li><strong>效率工具测评</strong> — 开发工具、自动化方案、工作流优化</li>
+<li><strong>深度技术分析</strong> — 开源项目解读、技术选型指南</li>
+</ul>
+<h2 id="为什么做这个"><a href="#为什么做这个" class="headerlink" title="为什么做这个"></a>为什么做这个</h2><p>技术内容太多，真正有价值的却很难找。大多数文章要么太浅（”XX 是什么”），要么太深（”XX 源码逐行分析”）。</p>
+<p>这里想做中间地带：<strong>有深度，但不晦涩；有实操，但不堆砌。</strong></p>
+<h2 id="内容方向"><a href="#内容方向" class="headerlink" title="内容方向"></a>内容方向</h2><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>内容示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🤖 AI 技术</td>
+<td>模型对比、Prompt 工程、Agent 架构、多模态分析</td>
+</tr>
+<tr>
+<td>⚡ 效率工具</td>
+<td>开发工具链、自动化脚本、CLI 工具测评</td>
+</tr>
+<tr>
+<td>📊 深度分析</td>
+<td>开源项目解读、技术选型指南、架构设计</td>
+</tr>
+</tbody></table>
+<h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><ul>
+<li><strong>写作</strong>：Hexo + Markdown</li>
+<li><strong>配图</strong>：SenseNova 图像生成</li>
+<li><strong>托管</strong>：GitHub + EdgeOne Pages</li>
+</ul>
+<h2 id="联系方式"><a href="#联系方式" class="headerlink" title="联系方式"></a>联系方式</h2><ul>
+<li><strong>GitHub</strong>: <a target="_blank" rel="noopener" href="https://github.com/yunzhongying2003">yunzhongying2003</a></li>
+<li><strong>邮箱</strong>: <a href="mailto:&#x79;&#x75;&#x6e;&#x7a;&#104;&#111;&#x6e;&#103;&#x79;&#105;&#110;&#x67;&#x32;&#x30;&#x30;&#x33;&#x40;&#49;&#54;&#51;&#46;&#x63;&#111;&#109;">&#x79;&#x75;&#x6e;&#x7a;&#104;&#111;&#x6e;&#103;&#x79;&#105;&#110;&#x67;&#x32;&#x30;&#x30;&#x33;&#x40;&#49;&#54;&#51;&#46;&#x63;&#111;&#109;</a></li>
+</ul>
+<hr>
+<p><em>最后更新：2026-05-28</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/about/" data-id="cmppp1uiy0001huwe5n1f7bom" data-title="关于 Golook" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/about/" rel="tag">about</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" rel="tag">技术笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hermes-audio-processing-analysis" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/28/hermes-audio-processing-analysis/" class="article-date">
+  <time class="dt-published" datetime="2026-05-28T14:13:34.000Z" itemprop="datePublished">2026-05-28</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/28/hermes-audio-processing-analysis/">Hermes 音频处理逻辑与语音聊天方案分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>分析日期</strong>：2026-05-28<br><strong>涉及项目</strong>：<a target="_blank" rel="noopener" href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a></p>
+</blockquote>
+<hr>
+<h2 id="一、Hermes-当前音频处理架构"><a href="#一、Hermes-当前音频处理架构" class="headerlink" title="一、Hermes 当前音频处理架构"></a>一、Hermes 当前音频处理架构</h2><h3 id="1-1-音频摄入流程"><a href="#1-1-音频摄入流程" class="headerlink" title="1.1 音频摄入流程"></a>1.1 音频摄入流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户音频 → gateway 捕获 → Whisper STT → 文字 → LLM</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键发现</strong>：</p>
+<ul>
+<li>❌ <strong>没有音频 native 路径</strong>：代码中不存在类似图片的 <code>pending_native_audio_paths</code></li>
+<li>❌ <strong>音频文件被丢弃</strong>：STT 完成后，原始音频文件不被传递给 LLM</li>
+<li>✅ <strong>图片有 native 路径</strong>：图片通过 base64 编码为 <code>image_url</code> content part 直接传给模型</li>
+</ul>
+<h3 id="1-2-音频输出流程"><a href="#1-2-音频输出流程" class="headerlink" title="1.2 音频输出流程"></a>1.2 音频输出流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LLM 文字回复 → TTS 引擎 → 音频文件 → 平台发送</span><br></pre></td></tr></table></figure>
+
+<p><strong>TTS 配置</strong>：</p>
+<ul>
+<li>引擎：Edge TTS</li>
+<li>语音：<code>zh-CN-XiaoxiaoNeural</code>（微软晓晓，中文女声）</li>
+</ul>
+<h3 id="1-3-图片-vs-音频架构对比"><a href="#1-3-图片-vs-音频架构对比" class="headerlink" title="1.3 图片 vs 音频架构对比"></a>1.3 图片 vs 音频架构对比</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>图片</th>
+<th>音频</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Native 路径</td>
+<td>✅ 存在</td>
+<td>❌ 不存在</td>
+</tr>
+<tr>
+<td>模型收到</td>
+<td>文字 + 图片像素</td>
+<td>仅文字</td>
+</tr>
+<tr>
+<td>中间层</td>
+<td>无</td>
+<td>Whisper STT</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、三种语音聊天方案对比"><a href="#二、三种语音聊天方案对比" class="headerlink" title="二、三种语音聊天方案对比"></a>二、三种语音聊天方案对比</h2><h3 id="方案-A：当前架构（Whisper-LLM-TTS）"><a href="#方案-A：当前架构（Whisper-LLM-TTS）" class="headerlink" title="方案 A：当前架构（Whisper + LLM + TTS）"></a>方案 A：当前架构（Whisper + LLM + TTS）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">音频 → Whisper(STT) → 文字 → LLM → 文字 → TTS → 音频</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~3-5 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>❌ 只收到文字，无法感知语调&#x2F;情绪</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>无（已实现）</td>
+</tr>
+</tbody></table>
+<h3 id="方案-B：端到端音频输入（GPT-4o-audio-input-via-REST）"><a href="#方案-B：端到端音频输入（GPT-4o-audio-input-via-REST）" class="headerlink" title="方案 B：端到端音频输入（GPT-4o audio input via REST）"></a>方案 B：端到端音频输入（GPT-4o audio input via REST）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">音频 → GPT-4o(端到端) → 文字 → TTS → 音频</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~1-2 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>✅ 能感知语调&#x2F;情绪</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>中等</td>
+</tr>
+</tbody></table>
+<h3 id="方案-C：Realtime-API（双向音频流）"><a href="#方案-C：Realtime-API（双向音频流）" class="headerlink" title="方案 C：Realtime API（双向音频流）"></a>方案 C：Realtime API（双向音频流）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WebSocket 长连接</span><br><span class="line">音频流 ←→ 模型 ←→ 音频流</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>延迟</td>
+<td>~0.3-0.8 秒</td>
+</tr>
+<tr>
+<td>模型感知</td>
+<td>✅ 端到端音频理解</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>大</td>
+</tr>
+</tbody></table>
+<p><strong>参考项目</strong>：<a target="_blank" rel="noopener" href="https://github.com/bridge-mind/BridgeSpeak">BridgeSpeak</a> — 跨 agent skill，基于 OpenAI <code>gpt-realtime-2</code>，约 280 行 Python WebSocket 客户端。</p>
+<hr>
+<h2 id="三、方案对比总结"><a href="#三、方案对比总结" class="headerlink" title="三、方案对比总结"></a>三、方案对比总结</h2><p><img src="/images/hermes-audio-architecture-comparison.png" alt="三种语音聊天方案架构对比"></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>方案 A（当前）</th>
+<th>方案 B（GPT-4o REST）</th>
+<th>方案 C（Realtime API）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>架构</td>
+<td>两步走（STT→LLM）</td>
+<td>一步走（端到端）</td>
+<td>WebSocket 双向流</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>~3-5s</td>
+<td>~1-2s</td>
+<td>~0.3-0.8s</td>
+</tr>
+<tr>
+<td>模型感知音频</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>改动量</td>
+<td>无</td>
+<td>中等</td>
+<td>大</td>
+</tr>
+<tr>
+<td>流式</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>自然对话感</td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、SenseNova-U1-Fast-与-Realtime-API-的关系"><a href="#四、SenseNova-U1-Fast-与-Realtime-API-的关系" class="headerlink" title="四、SenseNova-U1-Fast 与 Realtime API 的关系"></a>四、SenseNova-U1-Fast 与 Realtime API 的关系</h2><p><strong>澄清</strong>：SenseNova-U1-Fast 和 Realtime API <strong>没有直接关系</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SenseNova-U1-Fast</strong></td>
+<td>商汤的一个<strong>模型</strong>（推理速度快）</td>
+</tr>
+<tr>
+<td><strong>Realtime API</strong></td>
+<td>OpenAI 的一个<strong>WebSocket 端点</strong>（<code>/v1/realtime</code>）</td>
+</tr>
+<tr>
+<td><strong>关系</strong></td>
+<td>两者是不同厂商的不同技术</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、推荐路径"><a href="#五、推荐路径" class="headerlink" title="五、推荐路径"></a>五、推荐路径</h2><table>
+<thead>
+<tr>
+<th>目标</th>
+<th>推荐方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>快速验证模型能否感知音频</td>
+<td>方案 B（GPT-4o audio input）</td>
+</tr>
+<tr>
+<td>最佳体验（低延迟、自然对话）</td>
+<td>方案 C（Realtime API）</td>
+</tr>
+<tr>
+<td>保持当前架构、仅优化 STT</td>
+<td>设置 Whisper <code>language: &quot;zh&quot;</code> 提升中文识别率</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、代码参考位置"><a href="#六、代码参考位置" class="headerlink" title="六、代码参考位置"></a>六、代码参考位置</h2><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>~/.hermes/config.yaml</code></td>
+<td>STT&#x2F;TTS 配置</td>
+</tr>
+<tr>
+<td><code>run.py</code> L13402-13480</td>
+<td><code>_enrich_message_with_transcription()</code> — STT 转录</td>
+</tr>
+<tr>
+<td><code>run.py</code> L6870-6960</td>
+<td><code>_prepare_inbound_event_text()</code> — 音频捕获</td>
+</tr>
+<tr>
+<td><code>agent/image_routing.py</code></td>
+<td><code>build_native_content_parts()</code> — 图片 base64 编码参考</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、扩展方向"><a href="#七、扩展方向" class="headerlink" title="七、扩展方向"></a>七、扩展方向</h2><ol>
+<li><strong>实现音频 native 路径</strong>：参考图片的 <code>pending_native_image_paths</code>，添加 <code>pending_native_audio_paths</code></li>
+<li><strong>切换模型提供商</strong>：在 <code>config.yaml</code> 修改 <code>agent.provider</code> 和 <code>agent.model</code></li>
+<li><strong>集成 BridgeSpeak</strong>：将 BridgeSpeak skill 复制到 <code>~/.hermes/skills/voice/bridgespeak/</code></li>
+<li><strong>优化 Whisper 中文识别</strong>：在 <code>config.yaml</code> 设置 <code>stt.language: &quot;zh&quot;</code></li>
+</ol>
+<hr>
+<p><em>本文基于 Hermes Agent 代码分析生成，2026-05-28</em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.golook.cf/2026/05/28/hermes-audio-processing-analysis/" data-id="cmppp1ujd0005huwe0fuefr4t" data-title="Hermes 音频处理逻辑与语音聊天方案分析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/audio/" rel="tag">audio</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hermes/" rel="tag">hermes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hermes-agent/" rel="tag">hermes-agent</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/realtime-api/" rel="tag">realtime-api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/stt/" rel="tag">stt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tts/" rel="tag">tts</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AI-%E6%8A%80%E6%9C%AF/">AI 技术</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B3%E4%BA%8E/">关于</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Prompt/" rel="tag">Prompt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/about/" rel="tag">about</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/audio/" rel="tag">audio</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes/" rel="tag">hermes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hermes-agent/" rel="tag">hermes-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/realtime-api/" rel="tag">realtime-api</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/stt/" rel="tag">stt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tts/" rel="tag">tts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%B9%E6%AF%94/" rel="tag">对比</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B/" rel="tag">工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" rel="tag">技术笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E5%9E%8B/" rel="tag">模型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%89%E5%9E%8B/" rel="tag">选型</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Prompt/" style="font-size: 10px;">Prompt</a> <a href="/tags/about/" style="font-size: 10px;">about</a> <a href="/tags/audio/" style="font-size: 10px;">audio</a> <a href="/tags/hermes/" style="font-size: 10px;">hermes</a> <a href="/tags/hermes-agent/" style="font-size: 10px;">hermes-agent</a> <a href="/tags/realtime-api/" style="font-size: 10px;">realtime-api</a> <a href="/tags/stt/" style="font-size: 10px;">stt</a> <a href="/tags/tts/" style="font-size: 10px;">tts</a> <a href="/tags/%E5%AF%B9%E6%AF%94/" style="font-size: 10px;">对比</a> <a href="/tags/%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">工程</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 10px;">技巧</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/" style="font-size: 10px;">技术笔记</a> <a href="/tags/%E6%A8%A1%E5%9E%8B/" style="font-size: 10px;">模型</a> <a href="/tags/%E9%80%89%E5%9E%8B/" style="font-size: 10px;">选型</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/05/">五月 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/05/28/prompt-engineering-guide/">Prompt 工程实战：从入门到精通</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/ai-model-selection-guide/">AI 模型选择指南：2026 年主流大模型对比</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/about/">关于 Golook</a>
+          </li>
+        
+          <li>
+            <a href="/2026/05/28/hermes-audio-processing-analysis/">Hermes 音频处理逻辑与语音聊天方案分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 golook<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
