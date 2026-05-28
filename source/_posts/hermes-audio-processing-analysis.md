@@ -5,7 +5,6 @@ tags: [hermes, audio, hermes-agent, stt, tts, realtime-api]
 categories: 技术
 ---
 
-# Hermes 音频处理逻辑与语音聊天方案分析
 
 > **分析日期**：2026-05-28
 > **涉及项目**：[Hermes Agent](https://github.com/NousResearch/hermes-agent)
