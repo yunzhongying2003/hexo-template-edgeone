@@ -5,13 +5,13 @@ tags: [AI, Prompt, 工程, 技巧]
 categories: AI 技术
 ---
 
-# Prompt 工程实战：从入门到精通
-
 Prompt 工程不是"写提示词"，而是**与模型有效沟通的艺术**。好的 Prompt 能让模型输出质量提升 10 倍，差的 Prompt 让再强的模型也束手无策。
 
 本文将通过大量实战案例，带你掌握 Prompt 工程的核心技巧。
 
 ---
+
+![Prompt 结构层次图](/images/prompt-structure-overview.png)
 
 ## 一、Prompt 基础结构
 
