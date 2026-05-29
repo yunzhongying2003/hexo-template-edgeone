@@ -1,7 +1,5 @@
 {
-      "builder": { 
-	"installCommand": "npm ci", 
-	"buildCommand": "npm run build", 
-	"outDir": "public"
-  }
+  "installCommand": "npm install",
+  "buildCommand": "npx hexo generate",
+  "outputDirectory": "public"
 }

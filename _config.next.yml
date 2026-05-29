@@ -1,0 +1,97 @@
+# ---------------------------------------------------------------
+# Scheme Settings
+# ---------------------------------------------------------------
+
+# Schemes
+scheme: Pisces
+
+# ---------------------------------------------------------------
+# Sidebar Settings
+# ---------------------------------------------------------------
+
+sidebar:
+  # Sidebar position. Available values: left | right
+  position: left
+
+  # Sidebar width.
+  width_expanded: 320
+  width_dual_column: 240
+
+  # Sidebar display.
+  # Available values:
+  #  - post    expand on posts automatically. Default.
+  #  - always  expand for all pages automatically.
+  #  - hide    expand only when click on the sidebar toggle icon.
+  #  - remove  totally remove sidebar including sidebar toggle.
+  display: always
+
+  # Sidebar padding in pixels.
+  padding: 18
+  # Sidebar offset from top menubar in pixels (only for Pisces | Gemini).
+  offset: 12
+
+# ---------------------------------------------------------------
+# Menu Settings
+# ---------------------------------------------------------------
+
+menu:
+  home: / || fa fa-home
+  archives: /archives/ || fa fa-archive
+  categories: /categories/ || fa fa-th
+  tags: /tags/ || fa fa-tags
+
+menu_settings:
+  icons: true
+  badges: false
+
+# ---------------------------------------------------------------
+# Social Links
+# ---------------------------------------------------------------
+
+social:
+  GitHub: https://github.com/yunzhongying2003 || fab fa-github
+
+social_icons:
+  enable: true
+  icons_only: false
+  transition: false
+
+# ---------------------------------------------------------------
+# Blog rolls
+# ---------------------------------------------------------------
+
+links_settings:
+  icon: fa fa-globe
+  layout: block
+
+links:
+  # Example: Title: https://example.com
+
+# ---------------------------------------------------------------
+# Table of Contents
+# ---------------------------------------------------------------
+
+toc:
+  enable: true
+  number: true
+  wrap: false
+  expand_all: false
+  max_depth: 6
+
+# ---------------------------------------------------------------
+# Post Settings
+# ---------------------------------------------------------------
+
+post_settings:
+  word_count: true
+  min2read: true
+  copyright: true
+
+# ---------------------------------------------------------------
+# Footer Settings
+# ---------------------------------------------------------------
+
+footer:
+  since: 2024
+  powered_by: true
+  theme: true
