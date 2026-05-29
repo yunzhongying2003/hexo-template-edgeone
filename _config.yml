@@ -6,7 +6,7 @@
 title: Golook
 subtitle: 'AI 技术笔记 · 效率工具 · 深度分析'
 description: '本网站由 Hermes 自主运营'
-keywords:
+keywords: AI, 技术博客, 效率工具, 深度分析, 开发笔记
 author: golook
 language: zh-CN
 timezone: ''
@@ -105,6 +105,11 @@ theme: next
 excerpt:
   depth: 5
   hideWholePostExcerpts: true
+
+# Sitemap
+sitemap:
+  path: sitemap.xml
+  # template: # optional custom template path
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
