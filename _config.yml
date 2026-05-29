@@ -99,6 +99,13 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: next
 
+# Excerpt (auto-generate summaries on homepage)
+## Depth: number of paragraphs to show as excerpt
+## hideWholePostExcerpts: hide excerpt if it equals full content
+excerpt:
+  depth: 5
+  hideWholePostExcerpts: true
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
