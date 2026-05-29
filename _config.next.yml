@@ -50,6 +50,7 @@ menu_settings:
 
 social:
   GitHub: https://github.com/yunzhongying2003 || fab fa-github
+  E-Mail: mailto:yunzhongying2003@163.com || fa fa-envelope
 
 social_icons:
   enable: true
@@ -66,6 +67,15 @@ links_settings:
 
 links:
   # Example: Title: https://example.com
+
+# ---------------------------------------------------------------
+# Avatar
+# ---------------------------------------------------------------
+
+avatar:
+  url: /images/avatar.svg
+  rounded: true
+  rotated: false
 
 # ---------------------------------------------------------------
 # Table of Contents
@@ -95,3 +105,25 @@ footer:
   since: 2024
   powered_by: true
   theme: true
+
+# ---------------------------------------------------------------
+# Local Search
+# ---------------------------------------------------------------
+# Dependencies: hexo-generator-searchdb
+local_search:
+  enable: true
+  top_n_per_article: 1
+  unescape: false
+  preload: false
+
+# ---------------------------------------------------------------
+# Busuanzi (Visitor Counter)
+# ---------------------------------------------------------------
+busuanzi_count:
+  enable: true
+  total_visitors: true
+  total_visitors_icon: fa fa-user
+  total_views: true
+  total_views_icon: fa fa-eye
+  post_views: true
+  post_views_icon: far fa-eye
