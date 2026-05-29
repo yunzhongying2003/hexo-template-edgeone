@@ -73,7 +73,7 @@ links:
 # ---------------------------------------------------------------
 
 avatar:
-  url: /images/avatar.svg
+  url: https://avatars.githubusercontent.com/yunzhongying2003
   rounded: true
   rotated: false
 
