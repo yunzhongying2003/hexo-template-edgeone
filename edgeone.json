@@ -1,1 +1,1 @@
-{"builder":{"installCommand":"","buildCommand":"","outDir":"public"}}
+{"builder":{"installCommand":"npm install","buildCommand":"npx hexo generate","outDir":"public"}}
