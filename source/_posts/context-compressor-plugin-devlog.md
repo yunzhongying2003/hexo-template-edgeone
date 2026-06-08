@@ -140,26 +140,11 @@ CCR（Content Compression with Retrieval）是本方案的关键创新：
 
 ## 六、安装与配置
 
-> ⚠️ **注意**：此插件为自定义开发，未发布到任何插件仓库。以下安装方法供参考，实际部署需手动创建文件。
-
 ```bash
-# 1. 创建插件目录结构
-mkdir -p ~/.hermes/plugins/context-compressor/
+# 一行安装 + 启用
+hermes plugins install yunzhongying2003/hermes-plugin-context-compressor --enable
 
-# 2. 写入插件文件（__init__.py、plugin.yaml）
-# 如需获取文件，联系作者索取
-
-# 3. 启用插件
-hermes plugins enable context-compressor
-
-# 4. 创建压缩脚本
-mkdir -p ~/.hermes/scripts/
-# 把 compress_output.py、ccr-retrieve.py 放到 ~/.hermes/scripts/
-
-# 5. 创建 CCR 缓存目录
-mkdir -p ~/.hermes/ccr/
-
-# 6. 重启网关
+# 重启网关
 hermes gateway restart
 ```
 
