@@ -177,5 +177,3 @@ hermes gateway restart
 - 插件基于 Hermes 的 `transform_tool_result` hook，零侵入、热插拔
 - 日常收益不大，**数据密集型场景才是真正战场**
 - 纯 Python 标准库实现，零外部依赖
-
-> 完整的安装和使用文档已收录到 Wiki 知识库。
