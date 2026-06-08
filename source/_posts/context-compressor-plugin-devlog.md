@@ -147,7 +147,7 @@ CCR（Content Compression with Retrieval）是本方案的关键创新：
 mkdir -p ~/.hermes/plugins/context-compressor/
 
 # 2. 写入插件文件（__init__.py、plugin.yaml）
-# 见 https://github.com/yunzhongying2003/hermes-webui 或 Wiki 知识库获取文件内容
+# 如需获取文件，联系作者索取
 
 # 3. 启用插件
 hermes plugins enable context-compressor
