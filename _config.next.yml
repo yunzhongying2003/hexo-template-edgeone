@@ -42,7 +42,7 @@ menu:
 
 menu_settings:
   icons: true
-  badges: false
+  badges: true
 
 # ---------------------------------------------------------------
 # Social Links
@@ -133,3 +133,10 @@ busuanzi_count:
 # ---------------------------------------------------------------
 fancybox: false
 mediumzoom: true
+
+# ---------------------------------------------------------------
+# GitHub banner (top-right corner)
+# ---------------------------------------------------------------
+github_banner:
+  enable: true
+  permalink: https://github.com/yunzhongying2003
