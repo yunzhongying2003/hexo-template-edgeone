@@ -97,19 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: golook
-
-theme_config:
-  menu:
-    首页: /
-    归档: /archives
-    分类: /categories
-    标签: /tags
-    关于: /about
-  social:
-    GitHub: https://github.com/yunzhongying2003
-    RSS: /atom.xml
-  dark_mode: true
+theme: next
 
 # Excerpt (auto-generate summaries on homepage)
 ## Depth: number of paragraphs to show as excerpt
