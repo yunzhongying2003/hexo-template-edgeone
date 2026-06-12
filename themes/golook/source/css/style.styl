@@ -1,0 +1,862 @@
+// ============================================
+// Golook Theme — Clean & Technical CSS
+// ============================================
+
+// Color variables (light mode)
+$bg = #ffffff
+$primary = #2563eb
+$text = #1a1a2e
+$text-secondary = #64748b
+$border = #e2e8f0
+$code-bg = #f1f5f9
+
+// Dark mode colors
+$bg-dark = #0f172a
+$primary-dark = #60a5fa
+$text-dark = #e2e8f0
+$text-secondary-dark = #94a3b8
+$border-dark = #334155
+$code-bg-dark = #1e293b
+
+// === Global ===
+
+*
+*::before
+*::after
+  box-sizing border-box
+
+html
+  transition background 0.3s, color 0.3s
+
+body
+  margin 0
+  padding 0
+  font-family -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'
+  font-size 16px
+  line-height 1.8
+  color $text
+  background $bg
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  transition background 0.3s, color 0.3s
+
+// === Dark mode ===
+
+[data-theme="dark"]
+  body
+    color $text-dark
+    background $bg-dark
+
+  .site-header
+    background $bg-dark
+    border-bottom 1px solid $border-dark
+
+  .site-logo
+    color $text-dark
+
+  .nav-menu a
+    color $text-secondary-dark
+    &:hover,
+    &.active
+      color $primary-dark
+
+  .theme-toggle
+    color $text-secondary-dark
+    &:hover
+      color $primary-dark
+
+  .menu-toggle
+    color $text-secondary-dark
+
+  .post-item
+    border-bottom-color $border-dark
+
+  .post-title a
+    color $text-dark
+    &:hover
+      color $primary-dark
+
+  .post-meta
+    color $text-secondary-dark
+
+  .post-date
+    color $text-secondary-dark
+
+  .tag-link
+    color $primary-dark
+    background rgba($primary-dark, 0.08)
+    &:hover
+      background rgba($primary-dark, 0.18)
+
+  .post-excerpt
+    color $text-secondary-dark
+
+  .pagination
+    a
+      color $text-secondary-dark
+      border-color $border-dark
+      &:hover
+        color $primary-dark
+        border-color $primary-dark
+    span.current
+      color $primary-dark
+      border-color $primary-dark
+
+  .post-detail .post-title
+    color $text-dark
+
+  .post-content
+    color $text-dark
+    h1, h2, h3, h4, h5, h6
+      color $text-dark
+    a
+      color $primary-dark
+      &:hover
+        color lighten($primary-dark, 15%)
+    strong
+      color $text-dark
+    blockquote
+      border-left-color $primary-dark
+      color $text-secondary-dark
+    pre
+      background $code-bg-dark
+    code
+      background $code-bg-dark
+      color $primary-dark
+    table
+      border-color $border-dark
+      th, td
+        border-color $border-dark
+      th
+        background darken($bg-dark, 3%)
+
+  .post-footer .tag-link
+    color $primary-dark
+    background rgba($primary-dark, 0.08)
+    &:hover
+      background rgba($primary-dark, 0.18)
+
+  .post-nav a
+    color $text-secondary-dark
+    &:hover
+      color $primary-dark
+
+  .page-title
+    color $text-dark
+
+  .archive-year
+    color $primary-dark
+
+  .archive-item
+    .archive-date
+      color $text-secondary-dark
+    .archive-title
+      color $text-dark
+      &:hover
+        color $primary-dark
+
+  .category-link
+    color $text-dark
+    &:hover
+      color $primary-dark
+  .category-count
+    color $text-secondary-dark
+
+  .tag-cloud-item
+    color $text-secondary-dark
+    background rgba($primary-dark, 0.06)
+    &:hover
+      color $primary-dark
+      background rgba($primary-dark, 0.15)
+
+  .tag-count
+    color $text-secondary-dark
+
+  .site-footer
+    color $text-secondary-dark
+    border-top-color $border-dark
+
+  .page-content
+    color $text-dark
+
+  .empty-state
+    color $text-secondary-dark
+
+  .no-posts,
+  .archive-empty,
+  .no-category,
+  .tag-cloud-empty
+    color $text-secondary-dark
+
+  // Hide/show theme icons based on mode
+  .icon-sun
+    display none
+  .icon-moon
+    display block
+
+// === Light mode: show sun, hide moon ===
+
+.icon-sun
+  display block
+.icon-moon
+  display none
+
+// === Navigation: .site-header ===
+
+.site-header
+  position fixed
+  top 0
+  left 0
+  right 0
+  z-index 1000
+  background $bg
+  border-bottom 1px solid $border
+  transition background 0.3s, border-color 0.3s
+
+.site-nav
+  display flex
+  align-items center
+  justify-content space-between
+  max-width 800px
+  margin 0 auto
+  padding 0 24px
+  height 60px
+
+.site-brand
+  flex 0 0 auto
+
+.site-logo
+  font-size 1.25em
+  font-weight 700
+  color $text
+  text-decoration none
+  letter-spacing -0.02em
+  transition color 0.3s
+  &:hover
+    color $primary
+
+// Desktop navigation menu
+.nav-menu
+  display flex
+  align-items center
+  gap 8px
+  a
+    display inline-block
+    padding 6px 14px
+    font-size 0.9em
+    font-weight 500
+    color $text-secondary
+    text-decoration none
+    border-radius 6px
+    transition color 0.2s, background 0.2s
+    &:hover
+      color $primary
+      background rgba($primary, 0.06)
+    &.active
+      color $primary
+      background rgba($primary, 0.1)
+
+.nav-actions
+  display flex
+  align-items center
+  gap 8px
+
+.theme-toggle
+  display flex
+  align-items center
+  justify-content center
+  width 36px
+  height 36px
+  padding 0
+  border none
+  border-radius 8px
+  background transparent
+  color $text-secondary
+  cursor pointer
+  transition color 0.2s, background 0.2s
+  &:hover
+    color $primary
+    background rgba($primary, 0.06)
+  svg
+    display block
+
+.menu-toggle
+  display none
+  align-items center
+  justify-content center
+  width 36px
+  height 36px
+  padding 0
+  border none
+  border-radius 8px
+  background transparent
+  color $text-secondary
+  cursor pointer
+  transition color 0.2s, background 0.2s
+  &:hover
+    color $primary
+    background rgba($primary, 0.06)
+  svg
+    display block
+
+// === Main content area ===
+
+.site-main
+  max-width 800px
+  margin 0 auto
+  padding 80px 24px 40px
+
+// === Home: Post list ===
+
+.home-posts
+  // container for listing
+
+.post-item
+  margin-bottom 2em
+  padding-bottom 2em
+  border-bottom 1px solid $border
+  transition border-color 0.3s
+  &:last-child
+    border-bottom none
+
+.post-content-wrapper
+  display flex
+  gap 24px
+  align-items flex-start
+
+.post-cover
+  flex 0 0 120px
+  width 120px
+  border-radius 8px
+  overflow hidden
+  img
+    display block
+    width 100%
+    height auto
+    object-fit cover
+    border-radius 8px
+
+.post-details
+  flex 1
+  min-width 0
+
+.post-title
+  margin 0 0 0.5em
+  font-size 1.5em
+  font-weight 700
+  line-height 1.4
+  a
+    color $text
+    text-decoration none
+    transition color 0.2s
+    &:hover
+      color $primary
+
+.post-meta
+  display flex
+  align-items center
+  flex-wrap wrap
+  gap 8px
+  margin-bottom 0.75em
+  font-size 0.875em
+  color $text-secondary
+
+.post-date
+  color $text-secondary
+
+.post-tags
+  display flex
+  flex-wrap wrap
+  gap 6px
+
+.tag-link
+  display inline-block
+  padding 2px 10px
+  font-size 0.8em
+  font-weight 500
+  color $primary
+  background rgba($primary, 0.08)
+  border-radius 4px
+  text-decoration none
+  transition background 0.2s, color 0.2s
+  &:hover
+    background rgba($primary, 0.18)
+
+.post-excerpt
+  font-size 0.95em
+  line-height 1.7
+  color $text-secondary
+  p
+    margin 0
+
+.post-divider
+  display none // hidden, handled by border-bottom on .post-item
+
+// === Pagination ===
+
+.pagination
+  display flex
+  justify-content center
+  align-items center
+  gap 6px
+  margin-top 2em
+  padding-top 1em
+  a
+    display inline-flex
+    align-items center
+    justify-content center
+    min-width 36px
+    height 36px
+    padding 0 12px
+    font-size 0.9em
+    color $text-secondary
+    text-decoration none
+    border 1px solid $border
+    border-radius 6px
+    transition color 0.2s, border-color 0.2s, background 0.2s
+    &:hover
+      color $primary
+      border-color $primary
+      background rgba($primary, 0.04)
+  span.current
+    display inline-flex
+    align-items center
+    justify-content center
+    min-width 36px
+    height 36px
+    padding 0 12px
+    font-size 0.9em
+    font-weight 600
+    color $primary
+    border 1px solid $primary
+    border-radius 6px
+  .space
+    color $text-secondary
+    padding 0 4px
+
+// === Post Detail ===
+
+.post-detail
+  // wrapper for single article
+
+.post-detail .post-title
+  font-size 2em
+  font-weight 800
+  margin 0 0 0.4em
+  line-height 1.3
+  color $text
+
+.post-detail .post-meta
+  margin-bottom 1.5em
+
+.post-detail .post-cover
+  width 100%
+  margin 0 0 2em
+  border-radius 8px
+  overflow hidden
+  img
+    width 100%
+    height auto
+    display block
+    border-radius 8px
+
+// === Post Content ===
+
+.post-content
+  font-size 1em
+  line-height 1.8
+  color $text
+
+  // Headings
+  h1, h2, h3, h4, h5, h6
+    margin 1.5em 0 0.6em
+    font-weight 700
+    line-height 1.4
+    color $text
+  h1 { font-size 1.75em }
+  h2 { font-size 1.5em }
+  h3 { font-size 1.3em }
+  h4 { font-size 1.15em }
+  h5 { font-size 1.05em }
+  h6 { font-size 1em }
+
+  // Paragraphs
+  p
+    margin 0 0 1.2em
+
+  // Bold
+  strong
+    font-weight 700
+    color $text
+
+  // Links
+  a
+    color $primary
+    text-decoration none
+    transition color 0.2s
+    &:hover
+      color darken($primary, 10%)
+      text-decoration underline
+
+  // Blockquote
+  blockquote
+    margin 1.5em 0
+    padding 0.8em 1.2em
+    border-left 4px solid $primary
+    background rgba($primary, 0.04)
+    border-radius 0 6px 6px 0
+    color $text-secondary
+    p
+      margin 0
+      &:not(:last-child)
+        margin-bottom 0.8em
+
+  // Code blocks: pre > code
+  pre
+    margin 1.5em 0
+    padding 1em
+    background $code-bg
+    border-radius 8px
+    overflow-x auto
+    font-size 0.9em
+    line-height 1.6
+    code
+      background transparent
+      padding 0
+      color inherit
+      border-radius 0
+      font-size 1em
+      line-height inherit
+
+  // Inline code
+  code
+    padding 2px 6px
+    font-size 0.9em
+    font-family 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', Menlo, Courier, monospace
+    background $code-bg
+    color $primary
+    border-radius 4px
+
+  // Tables
+  table
+    width 100%
+    margin 1.5em 0
+    border-collapse collapse
+    border 1px solid $border
+    border-radius 6px
+    overflow hidden
+    th, td
+      padding 10px 14px
+      border 1px solid $border
+      text-align left
+    th
+      font-weight 600
+      background darken($bg, 2%)
+
+  // Images
+  img
+    max-width 100%
+    height auto
+    display block
+    margin 1.5em auto
+    border-radius 8px
+
+  // Lists
+  ul, ol
+    margin 0 0 1.2em
+    padding-left 1.8em
+    li
+      margin-bottom 0.4em
+
+  // Horizontal rule
+  hr
+    margin 2em 0
+    border none
+    height 1px
+    background $border
+
+  // Inline highlights / kbd
+  kbd
+    padding 2px 6px
+    font-size 0.85em
+    font-family 'SF Mono', 'Fira Code', monospace
+    background $code-bg
+    border 1px solid $border
+    border-radius 4px
+
+// === Post Footer Nav ===
+
+.post-footer
+  margin-top 3em
+
+.post-nav
+  display flex
+  justify-content space-between
+  gap 16px
+  margin-bottom 2em
+
+.post-nav-prev,
+.post-nav-next
+  flex 1
+  max-width 50%
+  a
+    display block
+    padding 12px 16px
+    font-size 0.9em
+    color $text-secondary
+    text-decoration none
+    border 1px solid $border
+    border-radius 8px
+    transition color 0.2s, border-color 0.2s, background 0.2s
+    &:hover
+      color $primary
+      border-color $primary
+      background rgba($primary, 0.04)
+
+.post-nav-next
+  text-align right
+
+.post-tags-bottom
+  margin-top 1em
+  padding-top 1em
+  border-top 1px solid $border
+  font-size 0.9em
+  color $text-secondary
+  span
+    margin-right 8px
+  .tag-link
+    margin-right 6px
+
+// === Archive Page ===
+
+.archive-page
+  padding-top 1em
+
+.page-title
+  font-size 2em
+  font-weight 800
+  margin-bottom 1em
+  color $text
+
+.archive-content
+  // container
+
+.archive-year
+  font-size 1.5em
+  font-weight 700
+  margin 1.5em 0 0.5em
+  color $primary
+
+.archive-list
+  list-style none
+  padding 0
+  margin 0
+
+.archive-item
+  display flex
+  align-items baseline
+  gap 12px
+  padding 6px 0
+  .archive-date
+    flex 0 0 auto
+    font-size 0.85em
+    color $text-secondary
+    font-family 'SF Mono', 'Fira Code', 'Roboto Mono', monospace
+  .archive-title
+    font-size 0.95em
+    color $text
+    text-decoration none
+    transition color 0.2s
+    &:hover
+      color $primary
+
+// === Category Page ===
+
+.category-page
+  padding-top 1em
+
+.category-list
+  // wrapper
+
+.category-list-ul
+  list-style none
+  padding 0
+  margin 0
+
+.category-item
+  padding 6px 0
+
+.category-link
+  display flex
+  align-items center
+  justify-content space-between
+  padding 8px 14px
+  color $text
+  text-decoration none
+  border-radius 6px
+  transition background 0.2s, color 0.2s
+  &:hover
+    color $primary
+    background rgba($primary, 0.06)
+
+.category-name
+  font-size 1em
+  font-weight 500
+
+.category-count
+  font-size 0.8em
+  color $text-secondary
+  background $code-bg
+  padding 2px 8px
+  border-radius 10px
+
+// === Tag Cloud Page ===
+
+.tag-cloud
+  padding-top 1em
+
+.tag-cloud-list
+  display flex
+  flex-wrap wrap
+  gap 10px
+
+.tag-cloud-item
+  display inline-block
+  padding 6px 14px
+  color $text-secondary
+  background rgba($primary, 0.05)
+  border-radius 6px
+  text-decoration none
+  transition color 0.2s, background 0.2s
+  &:hover
+    color $primary
+    background rgba($primary, 0.12)
+
+.tag-name
+  vertical-align middle
+
+.tag-count
+  font-size 0.8em
+  color $text-secondary
+  margin-left 4px
+
+// === Page (About etc.) ===
+
+.page-content
+  padding-top 1em
+  line-height 1.8
+  color $text
+  // Reuse post-content styling for rich text
+  @extends .post-content
+
+// === Footer ===
+
+.site-footer
+  max-width 800px
+  margin 3em auto 0
+  padding 1.5em 24px
+  text-align center
+  font-size 0.85em
+  color $text-secondary
+  border-top 1px solid $border
+  transition color 0.3s, border-color 0.3s
+
+.footer-content
+  display flex
+  flex-direction column
+  align-items center
+  gap 6px
+
+.footer-copyright
+  // text
+
+.footer-social
+  a
+    color $text-secondary
+    text-decoration none
+    transition color 0.2s
+    &:hover
+      color $primary
+
+// === Empty / No-content states ===
+
+.empty-state
+  text-align center
+  padding 4em 2em
+  color $text-secondary
+  font-size 1.1em
+
+.no-posts,
+.archive-empty,
+.no-category,
+.tag-cloud-empty
+  text-align center
+  padding 3em 2em
+  color $text-secondary
+  font-size 1.1em
+
+// === Responsive: < 768px ===
+
+@media (max-width: 768px)
+  .site-nav
+    padding 0 16px
+
+  .nav-menu
+    display none
+    position absolute
+    top 60px
+    left 0
+    right 0
+    flex-direction column
+    padding 12px 16px
+    background $bg
+    border-bottom 1px solid $border
+    box-shadow 0 4px 12px rgba(0, 0, 0, 0.08)
+    gap 2px
+    a
+      display block
+      padding 10px 14px
+      font-size 1em
+      border-radius 6px
+
+    &.nav-menu--open
+      display flex
+
+  [data-theme="dark"]
+    .nav-menu
+      background $bg-dark
+      border-bottom-color $border-dark
+
+  .menu-toggle
+    display flex
+
+  .site-main
+    padding 80px 16px 32px
+
+  .post-content-wrapper
+    flex-direction column
+
+  .post-cover
+    flex 0 0 auto
+    width 100%
+    max-width 120px
+
+  .post-detail .post-title
+    font-size 1.6em
+
+  .post-nav
+    flex-direction column
+    .post-nav-prev,
+    .post-nav-next
+      max-width 100%
+      text-align left
+
+  .archive-item
+    flex-direction column
+    gap 4px
+
+  .page-title
+    font-size 1.6em
+
+  .site-footer
+    padding 1.2em 16px
