@@ -1,0 +1,37 @@
+<div class="category-page">
+  <h1 class="page-title">分类</h1>
+
+  <% if (site.categories && site.categories.length > 0) { %>
+    <div class="category-list">
+      <% 
+        // 获取所有分类并统计文章数
+        const categories = site.categories;
+        const categoryData = categories.map(cat => {
+          return {
+            name: cat.name,
+            path: cat.path,
+            count: cat.length // cat.length 是该分类下的文章数
+          };
+        });
+
+        // 按文章数降序排列
+        categoryData.sort((a, b) => b.count - a.count);
+      %>
+
+      <ul class="category-list-ul">
+        <% categoryData.forEach(item => { %>
+          <li class="category-item">
+            <a href="<%- url_for(item.path) %>" class="category-link">
+              <span class="category-name"><%- item.name %></span>
+              <span class="category-count"><%- item.count %></span>
+            </a>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } else { %>
+    <div class="no-category">
+      <p>暂无分类</p>
+    </div>
+  <% } %>
+</div>
