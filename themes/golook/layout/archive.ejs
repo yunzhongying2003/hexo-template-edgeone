@@ -3,10 +3,17 @@
 
   <% if (page.posts.length > 0) { %>
     <div class="archive-content">
-      <% page.posts.group('-year').forEach(function(group) { %>
-        <h2 class="archive-year"><%= group[0] %></h2>
+      <% var years = {}; %>
+      <% page.posts.each(function(post) { %>
+        <% var year = post.date.format('YYYY'); %>
+        <% if (!years[year]) years[year] = []; %>
+        <% years[year].push(post); %>
+      <% }); %>
+      <% var sortedYears = Object.keys(years).sort(function(a, b) { return b - a; }); %>
+      <% sortedYears.forEach(function(year) { %>
+        <h2 class="archive-year"><%= year %></h2>
         <ul class="archive-list">
-          <% group[1].forEach(function(post) { %>
+          <% years[year].forEach(function(post) { %>
             <li class="archive-item">
               <span class="archive-date"><%= post.date.format('YYYY-MM-DD') %></span>
               <a href="<%= post.path %>" class="archive-title"><%= post.title %></a>
