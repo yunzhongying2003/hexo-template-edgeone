@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-copyright">
+      &copy; Golook since 2026
+    </div>
+    <div class="footer-social">
+      <%- Object.entries(theme.social || {}).filter(([k]) => k !== 'RSS').map(([name, url]) => '<a href="' + url + '" target="_blank">' + name + '</a>').join(' · ') %>
+    </div>
+  </div>
+</footer>
