@@ -1,0 +1,83 @@
+<%- partial('_partial/layout', {
+  title: page.tag,
+  layout: 'tag'
+}) %>
+
+<div class="tag-cloud">
+  <% if (page.tags.length) { %>
+    <% 
+      // 获取所有标签及其文章数
+      const tags = page.tags.map(tag => {
+        return {
+          name: tag.name,
+          slug: tag.slug,
+          count: tag.length
+        };
+      });
+
+      // 找出最大和最小文章数以计算字体缩放
+      const maxCount = Math.max(...tags.map(t => t.count));
+      const minCount = Math.min(...tags.map(t => t.count));
+      
+      // 字体大小范围
+      const minFontSize = 14;
+      const maxFontSize = 36;
+
+      // 计算字体大小的函数
+      function getFontSize(count) {
+        if (maxCount === minCount) {
+          return minFontSize;
+        }
+        // 线性插值计算字体大小
+        const ratio = (count - minCount) / (maxCount - minCount);
+        return minFontSize + ratio * (maxFontSize - minFontSize);
+      }
+    %>
+
+    <div class="tag-cloud-list">
+      <% tags.forEach(tag => { %>
+        <a href="<%- url_for(tag.slug) %>" class="tag-cloud-item" style="font-size: <%= getFontSize(tag.count) %>px;">
+          <span class="tag-name"><%- tag.name %></span>
+          <span class="tag-count">(<%- tag.count %>)</span>
+        </a>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="tag-cloud-empty">
+      <p>暂无标签</p>
+    </div>
+  <% } %>
+</div>
+
+<style>
+  .tag-cloud {
+    padding: 20px;
+  }
+  .tag-cloud-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag-cloud-item {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+  }
+  .tag-cloud-item:hover {
+    background-color: #e0e0e0;
+  }
+  .tag-count {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 5px;
+  }
+  .tag-cloud-empty {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+  }
+</style>
