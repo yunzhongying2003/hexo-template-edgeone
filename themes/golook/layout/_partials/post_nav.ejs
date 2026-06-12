@@ -1,0 +1,18 @@
+<% if (page.prev || page.next) { %>
+<div class="post-nav">
+  <div class="post-nav-prev">
+    <% if (page.prev) { %>
+      <a href="<%= url_for(page.prev.path) %>" rel="prev">
+        ← 上一篇: <%= page.prev.title %>
+      </a>
+    <% } %>
+  </div>
+  <div class="post-nav-next">
+    <% if (page.next) { %>
+      <a href="<%= url_for(page.next.path) %>" rel="next">
+        下一篇: <%= page.next.title %> →
+      </a>
+    <% } %>
+  </div>
+</div>
+<% } %>
