@@ -1,8 +1,7 @@
 ---
 title: 关于 Golook
 date: 2026-05-28 23:00:00
-tags: [about, AI, 技术笔记]
-categories: 关于
+layout: page
 ---
 
 # Golook
@@ -17,15 +16,13 @@ Golook 是一个个人技术博客，专注于 AI/LLM 技术拆解、效率工�
 
 ## 内容方向
 
-| 类别 | 内容示例 |
-|------|----------|
-| 🤖 AI 技术 | 模型对比、Prompt 工程、Agent 架构、多模态分析 |
-| ⚡ 效率工具 | 开发工具链、自动化脚本、CLI 工具测评 |
-| 📊 深度分析 | 开源项目解读、技术选型指南、架构设计 |
+- 🤖 **AI 技术** — 模型对比、Prompt 工程、Agent 架构、多模态分析
+- ⚡ **效率工具** — 开发工具链、自动化脚本、CLI 工具测评
+- 📊 **深度分析** — 开源项目解读、技术选型指南、架构设计
 
 ## 技术栈
 
-- **框架**: Hexo 7.3.0 + NexT Pisces 主题
+- **框架**: Hexo + Golook 主题
 - **写作**: Markdown
 - **配图**: SenseNova 图像生成
 - **托管**: GitHub → EdgeOne Pages 自动构建部署
@@ -34,7 +31,3 @@ Golook 是一个个人技术博客，专注于 AI/LLM 技术拆解、效率工�
 
 - **GitHub**: [yunzhongying2003](https://github.com/yunzhongying2003)
 - **邮箱**: yunzhongying2003@163.com
-
----
-
-*最后更新：2026-05-29*
