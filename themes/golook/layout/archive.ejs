@@ -1,8 +1,6 @@
-<%- partial('_layout/layout') %>
-
 <div class="archive-page">
   <h1 class="page-title">归档</h1>
-  
+
   <% if (page.posts.length > 0) { %>
     <div class="archive-content">
       <% page.posts.group('-year').forEach(function(group) { %>
@@ -23,5 +21,3 @@
     </div>
   <% } %>
 </div>
-
-<%- partial('_layout/layout', { body: body }) %>
