@@ -1,16 +1,13 @@
-<%- partial('_partial/layout', {
-  title: page.tag,
-  layout: 'tag'
-}) %>
-
 <div class="tag-cloud">
-  <% if (page.tags.length) { %>
+  <h1 class="page-title">标签</h1>
+
+  <% if (site.tags && site.tags.length > 0) { %>
     <% 
       // 获取所有标签及其文章数
-      const tags = page.tags.map(tag => {
+      const tags = site.tags.map(tag => {
         return {
           name: tag.name,
-          slug: tag.slug,
+          path: tag.path,
           count: tag.length
         };
       });
@@ -36,7 +33,7 @@
 
     <div class="tag-cloud-list">
       <% tags.forEach(tag => { %>
-        <a href="<%- url_for(tag.slug) %>" class="tag-cloud-item" style="font-size: <%= getFontSize(tag.count) %>px;">
+        <a href="<%- url_for(tag.path) %>" class="tag-cloud-item" style="font-size: <%= getFontSize(tag.count) %>px;">
           <span class="tag-name"><%- tag.name %></span>
           <span class="tag-count">(<%- tag.count %>)</span>
         </a>
