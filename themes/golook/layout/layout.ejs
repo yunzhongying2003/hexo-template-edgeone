@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html data-theme="<%= theme.dark_mode ? 'dark' : 'light' %>">
+<head>
+  <%- include('./_partials/head') %>
+</head>
+<body>
+  <%- include('./_partials/header') %>
+  
+  <main class="site-main">
+    <%- body %>
+  </main>
+  
+  <%- include('./_partials/footer') %>
+  
+  <script>
+    // 暗色模式切换
+    const toggleTheme = () => {
+      const html = document.documentElement
+      const currentTheme = html.getAttribute('data-theme')
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+      html.setAttribute('data-theme', newTheme)
+      localStorage.setItem('theme', newTheme)
+    }
+    
+    // 初始化主题
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme)
+    }
+  </script>
+</body>
+</html>
