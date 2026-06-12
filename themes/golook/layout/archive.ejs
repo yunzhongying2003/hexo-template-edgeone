@@ -1,0 +1,27 @@
+<%- partial('_layout/layout') %>
+
+<div class="archive-page">
+  <h1 class="page-title">归档</h1>
+  
+  <% if (page.posts.length > 0) { %>
+    <div class="archive-content">
+      <% page.posts.group('-year').forEach(function(group) { %>
+        <h2 class="archive-year"><%= group[0] %></h2>
+        <ul class="archive-list">
+          <% group[1].forEach(function(post) { %>
+            <li class="archive-item">
+              <span class="archive-date"><%= post.date.format('YYYY-MM-DD') %></span>
+              <a href="<%= post.path %>" class="archive-title"><%= post.title %></a>
+            </li>
+          <% }); %>
+        </ul>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div class="archive-empty">
+      <p>暂无归档</p>
+    </div>
+  <% } %>
+</div>
+
+<%- partial('_layout/layout', { body: body }) %>
