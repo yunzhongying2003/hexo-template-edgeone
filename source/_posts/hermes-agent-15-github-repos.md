@@ -82,11 +82,11 @@ Skills 是 Hermes Agent 最核心的能力沉淀机制，这些仓库收集了�
 
 项目地址：https://github.com/jnMetaCode/agency-agents-zh
 
-### 9. reventadirecta/hermes-multi-agent
+### 9. （原 reventadirecta/hermes-multi-agent — 已下线）
 
-这个仓库专注于构建多 Agent 协作网络。提供了将多个 Hermes Agent 实例连接成专家网络的方法论，每个 Agent 负责一个特定领域的任务，Agent 之间通过消息队列通信。
+> ⚠️ 该仓库已被作者删除/设为私有，链接已失效。
 
-项目地址：https://github.com/reventadirecta/hermes-multi-agent
+替代推荐：**[linke-ai/hermes-agent-team](https://github.com/linke-ai/hermes-agent-team)** — 专注于构建 Hermes Agent 团队协作的方案，支持多 Agent 任务编排与分工。
 
 ### 10. mattpocock/skills ⭐183
 
@@ -120,11 +120,11 @@ OttoMator 是编排式 Agent 系统的实战项目，Hermes Agent 作为核心�
 
 ## 六、部署与优化
 
-### 14. OnlyTerp/hermes-self-host
+### 14. OnlyTerp/hermes-optimization-guide（原 hermes-self-host 已迁移至此）
 
-**自托管部署的完整指南。** 如果你不想用公共云服务，这个仓库提供了在自有服务器上部署 Hermes 的每个步骤。包括 Docker 化、反向代理配置、HTTPS 证书、数据备份等。
+**从部署到优化的全方位指南。** 原 hermes-self-host 已合并进这个更大的项目。涵盖 Docker 化部署、逆向代理配置、HTTPS 证书、数据备份、多平台运维、成本优化等。当前版本覆盖 Hermes v0.16.0，包含 26 个章节、13 个可直接安装的 guide skills、5 套配置模板、一键 VPS 部署脚本。
 
-项目地址：https://github.com/OnlyTerp/hermes-self-host
+项目地址：https://github.com/OnlyTerp/hermes-optimization-guide
 
 ### 15. fly-apps/hermes-flyio ⭐19
 
@@ -143,6 +143,6 @@ OttoMator 是编排式 Agent 系统的实战项目，Hermes Agent 作为核心�
 3. **选用 Skills** → ChuckSRQ/awesome-hermes-skills、ZeroPointRepo/awesome-hermes-skills
 4. **构建工作流** → jnMetaCode/agency-agents-zh（多 Agent）
 5. **实战落地** → ksimback/hermes-ecosystem（案例库）
-6. **上线部署** → OnlyTerp/hermes-self-host（自托管）
+6. **上线部署** → OnlyTerp/hermes-optimization-guide（部署与优化）
 
 建议收藏并按照这个路径逐步深入。
