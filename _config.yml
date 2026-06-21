@@ -111,6 +111,17 @@ sitemap:
   path: sitemap.xml
   # template: # optional custom template path
 
+# RSS Feed（为 AI 搜索引擎和 RSS 读者提供）
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: ''
+  order_by: -date
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
