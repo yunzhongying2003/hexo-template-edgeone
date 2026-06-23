@@ -1,7 +1,7 @@
 // EdgeOne Pages Function — 列出待审 FAQ
 // KV binding: blog_count
 // GET /api/faq-pending?limit=20
-// Header: X-FAQ-Key: <FAQ_API_KEY>
+// 鉴权方式：Header X-FAQ-Key 或 URL 参数 ?key=<FAQ_API_KEY>
 
 export async function onRequest(context) {
   try {
@@ -13,17 +13,18 @@ export async function onRequest(context) {
     }
 
     const FAQ_KEY = (context.env && context.env.FAQ_API_KEY) || (typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '');
-    const apiKey = request.headers.get('X-FAQ-Key');
+
+    const url = new URL(request.url);
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '20', 10) || 20, 50);
+    // 支持 Header 和 URL 参数两种鉴权
+    const apiKey = request.headers.get('X-FAQ-Key') || url.searchParams.get('key') || '';
+
     if (!apiKey || apiKey !== FAQ_KEY) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401, headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    const url = new URL(request.url);
-    const limit = Math.min(parseInt(url.searchParams.get('limit') || '20', 10) || 20, 50);
-
-    // 用索引列表替代 KV list()
     const indexRaw = await blog_count.get('faq_pending_index');
     const ids = indexRaw ? JSON.parse(indexRaw) : [];
     const items = [];
