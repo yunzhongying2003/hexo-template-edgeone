@@ -39,7 +39,7 @@ export async function onRequest(context) {
     items.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return new Response(JSON.stringify({ total: items.length, items: items.slice(0, limit) }), {
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0' }
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || String(e) }), {
