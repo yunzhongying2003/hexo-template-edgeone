@@ -43,8 +43,9 @@ export async function onRequest(context) {
     try { data = JSON.parse(raw); } catch { data = { id }; }
     data.reviewed_at = new Date().toISOString();
 
-    const toKey = action === 'approve' ? `faq_approved_${id}` : `faq_rejected_${id}`;
-    await blog_count.put(toKey, JSON.stringify(data));
+    if (action === 'approve') {
+      await blog_count.put(`faq_approved_${id}`, JSON.stringify(data));
+    }
     await blog_count.delete(fromKey);
 
     // 从 pending 索引中移除
