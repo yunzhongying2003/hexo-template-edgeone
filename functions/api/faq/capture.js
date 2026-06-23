@@ -36,7 +36,7 @@ export async function onRequest({ request }) {
 
     // 生成唯一 ID（边缘函数环境没有 crypto.randomUUID，用时间戳 + 随机数替代）
     const id = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
-    const key = `faq_pending:${id}`;
+    const key = `faq_pending_${id}`;
     const data = {
       id,
       question: question.slice(0, 2000),

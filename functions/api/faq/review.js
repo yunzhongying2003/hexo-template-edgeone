@@ -35,7 +35,7 @@ export async function onRequest({ request }) {
       });
     }
 
-    const fromKey = `faq_pending:${id}`;
+    const fromKey = `faq_pending_${id}`;
     const raw = await blog_count.get(fromKey);
 
     if (!raw) {
@@ -50,7 +50,7 @@ export async function onRequest({ request }) {
     try { data = JSON.parse(raw); } catch { data = { id }; }
     data.reviewed_at = new Date().toISOString();
 
-    const toKey = action === 'approve' ? `faq_approved:${id}` : `faq_rejected:${id}`;
+    const toKey = action === 'approve' ? `faq_approved_${id}` : `faq_rejected_${id}`;
     await blog_count.put(toKey, JSON.stringify(data));
     await blog_count.delete(fromKey);
 

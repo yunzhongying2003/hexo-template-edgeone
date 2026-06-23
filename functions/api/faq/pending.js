@@ -25,7 +25,7 @@ export async function onRequest({ request }) {
     const url = new URL(request.url);
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '20', 10) || 20, 50);
 
-    const result = await blog_count.list({ prefix: 'faq_pending:' });
+    const result = await blog_count.list({ prefix: 'faq_pending_' });
 
     const items = [];
     for (const key of result.keys) {
