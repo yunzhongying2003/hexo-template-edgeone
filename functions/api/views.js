@@ -27,6 +27,10 @@ export async function onRequest({ request }) {
     if (!readonly) {
       count += 1;
       await blog_count.put(key, String(count));
+      // 同时累计全站总阅读量
+      const totalRaw = await blog_count.get('total_views');
+      const totalCount = parseInt(totalRaw || '0', 10) + 1;
+      await blog_count.put('total_views', String(totalCount));
     }
 
     return new Response(JSON.stringify({ slug, count }), {

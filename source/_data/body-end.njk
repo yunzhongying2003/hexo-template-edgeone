@@ -1,1 +1,18 @@
+<!-- Blog interactions: per-post views + reactions -->
 <script src="/js/blog-interactions.js" defer></script>
+
+<!-- Site-wide stats: total views from KV -->
+<script>
+  (function() {
+    fetch('/api/views?readonly=true&slug=__site_total__')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var el = document.getElementById('site-total-views');
+        if (el) el.textContent = data.count;
+      })
+      .catch(function() {
+        var el = document.getElementById('site-total-views');
+        if (el) el.textContent = '0';
+      });
+  })();
+</script>
