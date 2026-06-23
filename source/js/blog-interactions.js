@@ -8,7 +8,7 @@
   const isPost = /^\/(\d{4}\/\d{2}\/\d{2}\/)/.test(path);
   if (!isPost) return;
 
-  const slug = path.replace(/^\//, '').replace(/\/$/, '');
+  const slug = path.replace(/^\//, '').replace(/\/$/, '').replace(/\//g, '_');
 
   // ========== 阅读计数 ==========
   async function loadViews() {
