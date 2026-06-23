@@ -8,8 +8,7 @@ export async function onRequest(context) {
     const request = context.request;
     if (request.method !== 'GET') {
       return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { 'Content-Type': 'application/json' }
+        status: 405, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -17,19 +16,20 @@ export async function onRequest(context) {
     const apiKey = request.headers.get('X-FAQ-Key');
     if (!apiKey || apiKey !== FAQ_KEY) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
+        status: 401, headers: { 'Content-Type': 'application/json' }
       });
     }
 
     const url = new URL(request.url);
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '20', 10) || 20, 50);
 
-    const result = await blog_count.list('faq_pending_');
+    // 用索引列表替代 KV list()
+    const indexRaw = await blog_count.get('faq_pending_index');
+    const ids = indexRaw ? JSON.parse(indexRaw) : [];
     const items = [];
 
-    for (const key of result.keys) {
-      const raw = await blog_count.get(key.name);
+    for (const id of ids) {
+      const raw = await blog_count.get(`faq_pending_${id}`);
       if (raw) {
         try { items.push(JSON.parse(raw)); } catch {}
       }
@@ -42,8 +42,7 @@ export async function onRequest(context) {
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || String(e) }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      status: 500, headers: { 'Content-Type': 'application/json' }
     });
   }
 }

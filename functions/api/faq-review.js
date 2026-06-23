@@ -9,8 +9,7 @@ export async function onRequest(context) {
     const request = context.request;
     if (request.method !== 'POST') {
       return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { 'Content-Type': 'application/json' }
+        status: 405, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -18,8 +17,7 @@ export async function onRequest(context) {
     const apiKey = request.headers.get('X-FAQ-Key');
     if (!apiKey || apiKey !== FAQ_KEY) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
+        status: 401, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -29,10 +27,7 @@ export async function onRequest(context) {
     if (!id || !action || !['approve', 'reject'].includes(action)) {
       return new Response(JSON.stringify({
         error: 'Missing or invalid fields. Required: id, action (approve|reject)'
-      }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
 
     const fromKey = `faq_pending_${id}`;
@@ -40,8 +35,7 @@ export async function onRequest(context) {
 
     if (!raw) {
       return new Response(JSON.stringify({ error: 'FAQ not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
+        status: 404, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -53,13 +47,23 @@ export async function onRequest(context) {
     await blog_count.put(toKey, JSON.stringify(data));
     await blog_count.delete(fromKey);
 
+    // 从索引中移除
+    const indexRaw = await blog_count.get('faq_pending_index');
+    if (indexRaw) {
+      const index = JSON.parse(indexRaw);
+      const idx = index.indexOf(id);
+      if (idx !== -1) {
+        index.splice(idx, 1);
+        await blog_count.put('faq_pending_index', JSON.stringify(index));
+      }
+    }
+
     return new Response(JSON.stringify({ ok: true, action, id }), {
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || String(e) }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      status: 500, headers: { 'Content-Type': 'application/json' }
     });
   }
 }

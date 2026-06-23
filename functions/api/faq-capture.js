@@ -9,25 +9,15 @@ export async function onRequest(context) {
     const request = context.request;
     if (request.method !== 'POST') {
       return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-        status: 405,
-        headers: { 'Content-Type': 'application/json' }
+        status: 405, headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // 环境变量：优先 context.env，降级全局
     const FAQ_KEY = (context.env && context.env.FAQ_API_KEY) || (typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '');
-    if (!FAQ_KEY) {
-      return new Response(JSON.stringify({ error: 'FAQ_API_KEY not configured' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
     const apiKey = request.headers.get('X-FAQ-Key');
     if (!apiKey || apiKey !== FAQ_KEY) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
+        status: 401, headers: { 'Content-Type': 'application/json' }
       });
     }
 
@@ -44,13 +34,18 @@ export async function onRequest(context) {
 
     await blog_count.put(`faq_pending_${id}`, data);
 
+    // 维护索引列表
+    const indexRaw = await blog_count.get('faq_pending_index');
+    const index = indexRaw ? JSON.parse(indexRaw) : [];
+    index.push(id);
+    await blog_count.put('faq_pending_index', JSON.stringify(index));
+
     return new Response(JSON.stringify({ captured: true, id }), {
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || String(e) }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      status: 500, headers: { 'Content-Type': 'application/json' }
     });
   }
 }
