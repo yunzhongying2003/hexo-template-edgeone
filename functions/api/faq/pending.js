@@ -3,7 +3,9 @@
 // GET /api/faq/pending?limit=20
 // Header: X-FAQ-Key: <FAQ_API_KEY>
 
-export async function onRequest({ request }) {
+export async function onRequest(context) {
+  const { request, env } = context;
+
   if (request.method !== 'GET') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
@@ -13,7 +15,7 @@ export async function onRequest({ request }) {
 
   // 验证 API Key
   const apiKey = request.headers.get('X-FAQ-Key');
-  const envKey = typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '';
+  const envKey = (env?.FAQ_API_KEY || typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '') || '';
   if (!apiKey || apiKey !== envKey) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,

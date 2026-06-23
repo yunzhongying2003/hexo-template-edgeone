@@ -4,7 +4,9 @@
 // Body: { question, answer, article_url?, article_title? }
 // Header: X-FAQ-Key: <FAQ_API_KEY>
 
-export async function onRequest({ request }) {
+export async function onRequest(context) {
+  const { request, env } = context;
+
   // 只接受 POST
   if (request.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
@@ -13,9 +15,9 @@ export async function onRequest({ request }) {
     });
   }
 
-  // 验证 API Key
+  // 验证 API Key（支持 env 对象和全局变量两种方式）
   const apiKey = request.headers.get('X-FAQ-Key');
-  const envKey = typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '';
+  const envKey = (env?.FAQ_API_KEY || typeof FAQ_API_KEY !== 'undefined' ? FAQ_API_KEY : '') || '';
   if (!apiKey || apiKey !== envKey) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
