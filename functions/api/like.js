@@ -7,7 +7,7 @@
 
 const VALID_REACTIONS = ['heart', 'star', 'fire', 'clap', 'like'];
 
-export async function onRequest({ request, env }) {
+export async function onRequest({ request }) {
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');
 
@@ -31,10 +31,10 @@ export async function onRequest({ request, env }) {
 
       // KV key 仅支持数字、字母及下划线
       const key = `like_${slug}_${reaction}`;
-      const raw = await env.blog_count.get(key);
+      const raw = await blog_count.get(key);
       let count = parseInt(raw || '0', 10);
       count += 1;
-      await env.blog_count.put(key, String(count));
+      await blog_count.put(key, String(count));
 
       return new Response(JSON.stringify({ slug, reaction, count }), {
         headers: {
@@ -48,7 +48,7 @@ export async function onRequest({ request, env }) {
     const reactions = {};
     for (const r of VALID_REACTIONS) {
       const key = `like_${slug}_${r}`;
-      const val = await env.blog_count.get(key);
+      const val = await blog_count.get(key);
       reactions[r] = val ? parseInt(val, 10) : 0;
     }
 

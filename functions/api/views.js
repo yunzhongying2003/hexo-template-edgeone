@@ -5,7 +5,7 @@
 // GET /api/views?slug=2026_05_28_post-title  → 记录+1并返回
 // GET /api/views?slug=xxx&readonly=true       → 只读不计数
 
-export async function onRequest({ request, env }) {
+export async function onRequest({ request }) {
   const url = new URL(request.url);
   const slug = url.searchParams.get('slug');
   const readonly = url.searchParams.get('readonly') === 'true';
@@ -21,12 +21,12 @@ export async function onRequest({ request, env }) {
   const key = `views_${slug}`;
 
   try {
-    const raw = await env.blog_count.get(key);
+    const raw = await blog_count.get(key);
     let count = parseInt(raw || '0', 10);
 
     if (!readonly) {
       count += 1;
-      await env.blog_count.put(key, String(count));
+      await blog_count.put(key, String(count));
     }
 
     return new Response(JSON.stringify({ slug, count }), {
