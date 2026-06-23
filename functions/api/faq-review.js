@@ -47,7 +47,7 @@ export async function onRequest(context) {
     await blog_count.put(toKey, JSON.stringify(data));
     await blog_count.delete(fromKey);
 
-    // 从索引中移除
+    // 从 pending 索引中移除
     const indexRaw = await blog_count.get('faq_pending_index');
     if (indexRaw) {
       const index = JSON.parse(indexRaw);
@@ -55,6 +55,16 @@ export async function onRequest(context) {
       if (idx !== -1) {
         index.splice(idx, 1);
         await blog_count.put('faq_pending_index', JSON.stringify(index));
+      }
+    }
+
+    // 批准时加入已发布索引
+    if (action === 'approve') {
+      const approvedRaw = await blog_count.get('faq_approved_index');
+      const approved = approvedRaw ? JSON.parse(approvedRaw) : [];
+      if (!approved.includes(id)) {
+        approved.push(id);
+        await blog_count.put('faq_approved_index', JSON.stringify(approved));
       }
     }
 

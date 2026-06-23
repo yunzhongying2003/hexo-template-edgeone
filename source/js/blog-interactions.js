@@ -93,6 +93,51 @@
     });
   }
 
+  // ========== FAQ 展示 ==========
+  async function loadFAQs() {
+    try {
+      const path = window.location.pathname.replace(/\/$/, '');
+      const res = await fetch(`/api/faq-by-article?path=${encodeURIComponent(path)}`);
+      const data = await res.json();
+      if (!data.items || data.items.length === 0) return;
+
+      const footer = document.querySelector('.post-footer');
+      if (!footer) return;
+
+      let html = '<div class="faq-section" style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border-color,#eee);">';
+      html += '<h3 style="font-size:16px;font-weight:600;margin:0 0 12px 0;color:var(--text-color,#333);">\u2753 \u5E38\u89C1\u95EE\u7B54</h3>';
+
+      data.items.forEach((faq, i) => {
+        html += '<div class="faq-item" style="margin-bottom:8px;border:1px solid var(--border-color,#eee);border-radius:8px;overflow:hidden;">';
+        html += '<button class="faq-question" data-index="' + i + '" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:none;background:var(--bg-color,#f9f9f9);cursor:pointer;font-size:14px;color:var(--text-color,#333);text-align:left;transition:background 0.15s;">';
+        html += '<span>' + faq.question + '</span>';
+        html += '<span class="faq-toggle" style="font-size:12px;transition:transform 0.2s;">\u25BC</span>';
+        html += '</button>';
+        html += '<div class="faq-answer" style="display:none;padding:10px 14px;font-size:13px;line-height:1.6;color:var(--text-color,#555);background:#fff;border-top:1px solid var(--border-color,#eee);">';
+        html += faq.answer;
+        html += '</div></div>';
+      });
+
+      html += '</div>';
+      footer.insertAdjacentHTML('beforebegin', html);
+
+      // 绑定点击展开/收起
+      document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const answer = this.nextElementSibling;
+          const toggle = this.querySelector('.faq-toggle');
+          if (answer.style.display === 'none' || answer.style.display === '') {
+            answer.style.display = 'block';
+            toggle.style.transform = 'rotate(180deg)';
+          } else {
+            answer.style.display = 'none';
+            toggle.style.transform = 'rotate(0deg)';
+          }
+        });
+      });
+    } catch (e) { /* FAQ API unavailable */ }
+  }
+
   // ========== 初始化 ==========
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -108,5 +153,6 @@
       const r = el.dataset.reaction;
       el.textContent = reactions[r] || 0;
     });
+    loadFAQs();
   }
 })();
