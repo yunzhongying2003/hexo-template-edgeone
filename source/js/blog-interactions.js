@@ -97,6 +97,18 @@
   function renderMarkdown(text) {
     if (!text) return '';
     let h = text
+      // 表格块：连续 | 开头的行，跳过分隔行 (---|---)
+      .replace(/(^\|.+\n?)+/gm, function(block) {
+        var rows = block.trim().split('\n').filter(function(r) {
+          return r.trim() && !/^\|[\s:-]+\|/.test(r.trim());
+        });
+        if (rows.length === 0) return block;
+        var tableRows = rows.map(function(r) {
+          var cells = r.slice(1,-1).split('|').map(function(c){return c.trim()});
+          return '<tr><td style="padding:4px 8px;border:1px solid #ddd;font-size:12px">' + cells.join('</td><td style="padding:4px 8px;border:1px solid #ddd;font-size:12px">') + '</td></tr>';
+        });
+        return '<table style="border-collapse:collapse;margin:8px 0;width:100%">' + tableRows.join('') + '</table>';
+      })
       // 代码块 ``` ``` → <pre><code>
       .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
       // 行内代码
