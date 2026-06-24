@@ -93,6 +93,34 @@
     });
   }
 
+  // ========== Markdown 渲染 ==========
+  function renderMarkdown(text) {
+    if (!text) return '';
+    let h = text
+      // 代码块 ``` ``` → <pre><code>
+      .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+      // 行内代码
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      // 图片 ![alt](url)
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%">')
+      // 链接 [text](url)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      // 加粗 **text**
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      // 斜体 *text*
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      // 标题 ### text → h4
+      .replace(/^### (.+)$/gm, '<h4 style="margin:8px 0 4px;font-size:14px">$1</h4>')
+      .replace(/^## (.+)$/gm, '<h3 style="margin:10px 0 4px;font-size:15px">$1</h3>')
+      // 无序列表 - item
+      .replace(/^- (.+)$/gm, '<li style="margin:2px 0">$1</li>')
+      .replace(/(<li[^>]*>.*<\/li>\n?)+/g, '<ul style="padding-left:16px;margin:4px 0">$&</ul>')
+      // 换行
+      .replace(/\n\n/g, '</p><p style="margin:6px 0">')
+      .replace(/\n/g, '<br>');
+    return '<p style="margin:6px 0">' + h + '</p>';
+  }
+
   // ========== FAQ 展示 ==========
   async function loadFAQs() {
     try {
@@ -114,7 +142,7 @@
         html += '<span class="faq-toggle" style="font-size:12px;transition:transform 0.2s;">\u25BC</span>';
         html += '</button>';
         html += '<div class="faq-answer" style="display:none;padding:10px 14px;font-size:13px;line-height:1.6;color:var(--text-color,#555);background:#fff;border-top:1px solid var(--border-color,#eee);">';
-        html += faq.answer;
+        html += renderMarkdown(faq.answer);
         html += '</div></div>';
       });
 
