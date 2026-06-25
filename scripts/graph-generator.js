@@ -73,13 +73,21 @@ hexo.extend.generator.register('graph', function(locals) {
             const sharedTags = p1.tags.filter(t => p2.tags.includes(t));
             const sharedCats = p1.categories.filter(c => p2.categories.includes(c));
             
-            // Keyword overlap: count shared keywords
+            // Keyword overlap
             const sharedKeywords = p1.keywords.filter(k => p2.keywords.includes(k));
+            
+            // Keyword contribution rules:
+            // - If already have tag/category match: always count keywords
+            // - If only keyword match (no tag/cat): require ≥ 2 keywords to avoid noise
+            const hasTagCat = sharedTags.length > 0 || sharedCats.length > 0;
+            const kwContrib = (hasTagCat || sharedKeywords.length >= 2)
+                ? sharedKeywords.length * KEYWORD_WEIGHT
+                : 0;
             
             const weight = 
                 sharedTags.length * TAG_WEIGHT + 
                 sharedCats.length * CATEGORY_WEIGHT + 
-                sharedKeywords.length * KEYWORD_WEIGHT;
+                kwContrib;
             
             if (weight > 0) {
                 edges.push({
