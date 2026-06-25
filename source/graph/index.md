@@ -124,13 +124,12 @@ permalink: /graph/
 .graph-loading.hidden { display: none; }
 
 /* ============================================
-   Controls (bottom center)
+   Controls (top-left, after sidebar)
    ============================================ */
 .graph-controls {
     position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 84px;
+    left: 262px;
     display: flex;
     gap: 6px;
     z-index: 100;
@@ -279,7 +278,7 @@ permalink: /graph/
 .graph-legend {
     position: fixed;
     bottom: 80px;
-    right: 24px;
+    left: 262px;
     background: var(--card-bg);
     padding: 12px 16px;
     border-radius: 10px;
