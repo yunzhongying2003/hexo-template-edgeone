@@ -5,372 +5,642 @@ permalink: /graph/
 ---
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文章关系图谱 - Golook</title>
-    <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.css"></script>
+    <link rel="preconnect" href="https://unpkg.com">
     <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
     <style>
+        /* ============================================
+           Theme variables — matches Golook theme exactly
+           ============================================ */
+        :root {
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --primary: #2563eb;
+            --primary-light: rgba(37, 99, 235, 0.08);
+            --primary-mid: rgba(37, 99, 235, 0.5);
+            --text: #1a1a2e;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: #e2e8f0;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --header-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --node-hermes: #2563eb;
+            --node-ai: #16a34a;
+            --node-dev: #d97706;
+            --node-other: #64748b;
+            --edge-color: rgba(100, 116, 139, 0.35);
+            --edge-color-hover: rgba(37, 99, 235, 0.6);
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --bg-alt: #1e293b;
+            --primary: #60a5fa;
+            --primary-light: rgba(96, 165, 250, 0.1);
+            --primary-mid: rgba(96, 165, 250, 0.4);
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --card-bg: rgba(15, 23, 42, 0.95);
+            --card-border: #334155;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            --header-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            --node-hermes: #60a5fa;
+            --node-ai: #4ade80;
+            --node-dev: #fbbf24;
+            --node-other: #94a3b8;
+            --edge-color: rgba(148, 163, 184, 0.25);
+            --edge-color-hover: rgba(96, 165, 250, 0.5);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: #0d1117;
-            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            background: var(--bg);
+            color: var(--text);
             overflow: hidden;
+            transition: background 0.3s, color 0.3s;
         }
         #network { width: 100vw; height: 100vh; }
-        
-        /* Header */
-        .header {
+
+        /* ========== Header (matches site header visually) ========== */
+        .graph-header {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 16px 24px;
-            background: linear-gradient(180deg, rgba(13,17,23,0.95) 0%, rgba(13,17,23,0) 100%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            padding: 0 24px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            pointer-events: none;
+            transition: background 0.3s, border-color 0.3s;
+            box-shadow: var(--header-shadow);
         }
-        .header > * { pointer-events: auto; }
-        .header h1 {
-            font-size: 18px;
+        .graph-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .graph-header .brand .site-logo {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .graph-header .brand .divider {
+            color: var(--border);
+            font-weight: 300;
+        }
+        .graph-header .brand .page-title {
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .graph-header .stats {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .graph-header .stats strong {
+            color: var(--primary);
             font-weight: 600;
-            color: #58a6ff;
-            letter-spacing: 0.5px;
         }
-        .header .stats {
-            font-size: 13px;
-            color: #8b949e;
+        .graph-header .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .header .stats span { color: #58a6ff; font-weight: 600; }
-        
-        /* Controls */
+        .graph-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .graph-header .back-link:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* ========== Controls (matches site pagination/button style) ========== */
         .controls {
             position: fixed;
             bottom: 24px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 6px;
             z-index: 100;
-            background: rgba(22,27,34,0.9);
-            padding: 8px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
         }
         .controls button {
             background: transparent;
-            border: 1px solid #30363d;
-            color: #8b949e;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
             padding: 6px 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 0.85em;
+            font-weight: 500;
             transition: all 0.2s;
+            font-family: inherit;
         }
-        .controls button:hover { background: #21262d; color: #e6edf3; }
-        .controls button.active { background: #1f6feb; color: #fff; border-color: #1f6feb; }
-        
-        /* Info panel */
+        .controls button:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .controls button.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* ========== Info Panel ========== */
         .info-panel {
             position: fixed;
             top: 80px;
             right: 24px;
             width: 320px;
-            background: rgba(22,27,34,0.95);
-            border: 1px solid #30363d;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             z-index: 100;
             display: none;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
         }
         .info-panel.show { display: block; }
         .info-panel h3 {
-            font-size: 15px;
-            color: #e6edf3;
-            margin-bottom: 12px;
-            line-height: 1.4;
+            font-size: 1em;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.5;
+            padding-right: 20px;
         }
         .info-panel .meta {
-            font-size: 12px;
-            color: #8b949e;
-            margin-bottom: 8px;
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
         }
         .info-panel .tags {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
-            margin-top: 12px;
+            margin-top: 10px;
         }
         .info-panel .tag {
-            background: #1f6feb22;
-            color: #58a6ff;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            border: 1px solid #1f6feb44;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 9px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
         }
         .info-panel .cat {
-            background: #23863622;
-            color: #3fb950;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            border: 1px solid #23863644;
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--node-ai);
+            padding: 2px 9px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 500;
         }
         .info-panel .close {
             position: absolute;
-            top: 12px; right: 12px;
+            top: 12px;
+            right: 14px;
             background: none;
             border: none;
-            color: #8b949e;
+            color: var(--text-secondary);
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.1em;
+            padding: 4px;
+            border-radius: 4px;
+            line-height: 1;
+            transition: color 0.2s, background 0.2s;
         }
-        .info-panel .close:hover { color: #e6edf3; }
-        .info-panel .links { margin-top: 12px; }
+        .info-panel .close:hover {
+            color: var(--text);
+            background: var(--primary-light);
+        }
+        .info-panel .related-header {
+            color: var(--text-secondary);
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
         .info-panel .links a {
             display: block;
-            color: #58a6ff;
-            font-size: 12px;
+            color: var(--primary);
+            font-size: 0.85em;
             text-decoration: none;
-            padding: 4px 0;
-            border-bottom: 1px solid #21262d;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.2s;
         }
-        .info-panel .links a:hover { color: #79c0ff; }
-        
-        /* Legend */
+        .info-panel .links a:last-child {
+            border-bottom: none;
+        }
+        .info-panel .links a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .info-panel .links a .weight {
+            float: right;
+            font-size: 0.75em;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* ========== Legend ========== */
         .legend {
             position: fixed;
-            bottom: 24px;
+            bottom: 80px;
             right: 24px;
-            background: rgba(22,27,34,0.9);
+            background: var(--card-bg);
             padding: 12px 16px;
             border-radius: 10px;
-            border: 1px solid #30363d;
-            font-size: 12px;
+            border: 1px solid var(--border);
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
         }
         .legend .item {
             display: flex;
             align-items: center;
             gap: 8px;
             margin: 4px 0;
-            color: #8b949e;
+            font-size: 0.8em;
+            color: var(--text-secondary);
         }
         .legend .dot {
-            width: 10px; height: 10px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
         .legend .line {
-            width: 20px; height: 2px;
+            width: 20px;
+            height: 2px;
+            flex-shrink: 0;
+            border-radius: 1px;
         }
-        
-        /* Loading */
+
+        /* ========== Loading ========== */
         .loading {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            color: #58a6ff;
-            font-size: 14px;
+            color: var(--primary);
+            font-size: 0.95em;
             z-index: 200;
         }
         .loading.hidden { display: none; }
+
+        /* ========== Scrollbar ========== */
+        .info-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+        .info-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .info-panel::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        /* ========== Empty state ========== */
+        .empty-state {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .empty-state h2 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .empty-state p {
+            font-size: 0.9em;
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 640px) {
+            .graph-header { padding: 0 16px; }
+            .graph-header .brand .page-title { display: none; }
+            .graph-header .stats { font-size: 0.78em; }
+            .info-panel {
+                top: auto;
+                bottom: 80px;
+                right: 12px;
+                left: 12px;
+                width: auto;
+                max-height: 50vh;
+            }
+            .controls {
+                gap: 4px;
+                padding: 4px;
+            }
+            .controls button {
+                padding: 5px 10px;
+                font-size: 0.8em;
+            }
+            .legend {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Loading -->
     <div id="loading" class="loading">📊 加载图谱中...</div>
-    
-    <div class="header">
-        <h1>📊 文章关系图谱</h1>
-        <div class="stats"><span id="node-count">0</span> 篇文章 · <span id="edge-count">0</span> 条关联</div>
-    </div>
-    
+
+    <!-- Header — matches site nav bar -->
+    <header class="graph-header">
+        <div class="brand">
+            <a href="/" class="site-logo">Golook</a>
+            <span class="divider">/</span>
+            <span class="page-title">文章关系图谱</span>
+        </div>
+        <div class="nav-back">
+            <span class="stats">
+                <strong id="node-count">0</strong> 篇文章 ·
+                <strong id="edge-count">0</strong> 条关联
+            </span>
+            <a href="/" class="back-link">← 返回首页</a>
+        </div>
+    </header>
+
+    <!-- Network canvas -->
     <div id="network"></div>
-    
+
+    <!-- Filter controls -->
     <div class="controls">
         <button id="btn-all" class="active" onclick="filterCategory('all')">全部</button>
         <button id="btn-hermes" onclick="filterCategory('Hermes')">Hermes</button>
         <button id="btn-ai" onclick="filterCategory('AI')">AI</button>
         <button id="btn-dev" onclick="filterCategory('开发')">开发</button>
     </div>
-    
+
+    <!-- Info panel -->
     <div class="info-panel" id="info-panel">
-        <button class="close" onclick="closePanel()">×</button>
+        <button class="close" onclick="closePanel()">✕</button>
         <h3 id="info-title"></h3>
         <div class="meta" id="info-date"></div>
         <div class="tags" id="info-tags"></div>
+        <div class="related-header" id="related-header" style="display:none">相关文章</div>
         <div class="links" id="info-links"></div>
     </div>
-    
+
+    <!-- Legend -->
     <div class="legend">
-        <div class="item"><div class="dot" style="background:#58a6ff"></div> 节点大小 = 标签数量</div>
-        <div class="item"><div class="line" style="background:#30363d"></div> 边粗细 = 关联强度</div>
+        <div class="item"><div class="dot" style="background:var(--node-hermes)"></div> Hermes</div>
+        <div class="item"><div class="dot" style="background:var(--node-ai)"></div> AI</div>
+        <div class="item"><div class="dot" style="background:var(--node-dev)"></div> 开发</div>
+        <div class="item"><div class="line" style="background:var(--edge-color)"></div> 关联强度</div>
     </div>
 
     <script>
-        const BLOG_URL = window.location.origin;
-        let network = null;
-        let allNodes = [];
-        let allEdges = [];
-        let currentFilter = 'all';
+        // ===================================================================
+        // 1. Theme — matches main site (localStorage + system preference)
+        // ===================================================================
+        (function() {
+            var html = document.documentElement;
+            var STORAGE_KEY = 'theme';
 
-        // Load graph data
-        fetch('/graph/graph.json')
-            .then(r => r.json())
-            .then(data => {
-                allNodes = data.nodes;
-                allEdges = data.edges;
-                initNetwork();
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('node-count').textContent = data.meta.total_posts;
-                document.getElementById('edge-count').textContent = data.meta.total_edges;
-            })
-            .catch(err => {
-                document.getElementById('loading').textContent = '❌ 加载失败: ' + err.message;
+            function getInitialTheme() {
+                var stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) return stored;
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+                return 'light';
+            }
+
+            html.setAttribute('data-theme', getInitialTheme());
+
+            // Sync when user toggles on another page (cross-tab)
+            window.addEventListener('storage', function(e) {
+                if (e.key === STORAGE_KEY || e.key === null) {
+                    html.setAttribute('data-theme', getInitialTheme());
+                }
             });
+        })();
 
-        function getNodeColor(tags, categories) {
-            const cats = categories.map(c => c.toLowerCase());
-            if (cats.some(c => c.includes('hermes'))) return '#58a6ff';
-            if (cats.some(c => c.includes('ai'))) return '#3fb950';
-            if (cats.some(c => c.includes('开发') || c.includes('工具'))) return '#d29922';
-            return '#8b949e';
+        // ===================================================================
+        // 2. Graph
+        // ===================================================================
+        var BLOG_URL = window.location.origin;
+        var network = null;
+        var allNodes = [];
+        var allEdges = [];
+        var currentFilter = 'all';
+
+        function getNodeColor(node) {
+            var cats = (node.categories || []).map(function(c) { return c.toLowerCase(); });
+            if (cats.some(function(c) { return c.indexOf('hermes') !== -1; })) return 'hermes';
+            if (cats.some(function(c) { return c.indexOf('ai') !== -1; })) return 'ai';
+            if (cats.some(function(c) { return c.indexOf('开发') !== -1 || c.indexOf('工具') !== -1; })) return 'dev';
+            return 'other';
+        }
+
+        function cssVar(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         }
 
         function initNetwork() {
-            const nodes = new vis.DataSet(
-                allNodes.map(n => ({
-                    id: n.id,
-                    label: n.title.length > 15 ? n.title.substring(0, 15) + '...' : n.title,
-                    title: n.title,
-                    size: n.size,
-                    color: {
-                        background: getNodeColor(n.tags, n.categories),
-                        border: getNodeColor(n.tags, n.categories),
-                        highlight: { background: '#58a6ff', border: '#58a6ff' },
-                        hover: { background: '#58a6ff', border: '#58a6ff' }
-                    },
-                    font: { size: 12, color: '#e6edf3', face: '-apple-system, sans-serif' },
-                    shadow: { enabled: true, color: 'rgba(0,0,0,0.5)', size: 10, x: 0, y: 0 },
-                    borderWidth: 2,
-                    shape: 'dot'
-                }))
+            var nodes = new vis.DataSet(
+                allNodes.map(function(n) {
+                    var type = getNodeColor(n);
+                    var colorMap = { hermes: '--node-hermes', ai: '--node-ai', dev: '--node-dev', other: '--node-other' };
+                    var nodeColor = cssVar(colorMap[type]);
+                    return {
+                        id: n.id,
+                        label: n.title.length > 15 ? n.title.substring(0, 15) + '…' : n.title,
+                        title: n.title,
+                        size: n.size || 12,
+                        color: {
+                            background: nodeColor,
+                            border: nodeColor,
+                            highlight: { background: cssVar('--primary'), border: cssVar('--primary') },
+                            hover: { background: cssVar('--primary'), border: cssVar('--primary') }
+                        },
+                        font: { size: 12, color: cssVar('--text'), face: '-apple-system, sans-serif' },
+                        borderWidth: 2,
+                        borderWidthSelected: 3,
+                        shadow: { enabled: true, color: 'rgba(0,0,0,0.15)', size: 8, x: 0, y: 0 },
+                        shape: 'dot'
+                    };
+                })
             );
 
-            const edges = new vis.DataSet(
-                allEdges.map(e => ({
-                    from: e.from,
-                    to: e.to,
-                    width: Math.min(e.weight * 0.8, 5),
-                    color: { color: '#30363d', opacity: 0.6 },
-                    smooth: { type: 'curvedCW', roundness: 0.15 },
-                    hoverWidth: 1,
-                    arrows: { to: { enabled: false } }
-                }))
+            var edges = new vis.DataSet(
+                allEdges.map(function(e) {
+                    return {
+                        from: e.from,
+                        to: e.to,
+                        width: Math.max(e.weight * 0.6, 0.5),
+                        color: { color: cssVar('--edge-color'), hover: cssVar('--edge-color-hover'), opacity: 0.7 },
+                        smooth: { type: 'continuous' },
+                        hoverWidth: 1.5,
+                        selectionWidth: 2
+                    };
+                })
             );
 
-            const container = document.getElementById('network');
-            const options = {
+            var container = document.getElementById('network');
+            var options = {
                 physics: {
                     enabled: true,
                     solver: 'forceAtlas2Based',
                     forceAtlas2Based: {
-                        gravitationalConstant: -50,
-                        centralGravity: 0.01,
-                        springLength: 150,
-                        springConstant: 0.05,
+                        gravitationalConstant: -40,
+                        centralGravity: 0.008,
+                        springLength: 160,
+                        springConstant: 0.04,
                         damping: 0.4
                     },
-                    stabilization: { iterations: 100 }
+                    stabilization: { iterations: 150 }
                 },
                 interaction: {
                     hover: true,
-                    tooltipDelay: 100,
+                    tooltipDelay: 200,
                     zoomView: true,
                     dragView: true,
                     dragNodes: true,
                     zoomSpeed: 0.5
                 },
-                layout: {
-                    improvedLayout: true
+                layout: { improvedLayout: true },
+                edges: {
+                    smooth: { type: 'continuous' }
                 }
             };
 
-            network = new vis.Network(container, { nodes, edges }, options);
+            network = new vis.Network(container, { nodes: nodes, edges: edges }, options);
 
-            // Click handler
+            // Click — show info panel
             network.on('click', function(params) {
                 if (params.nodes.length > 0) {
-                    const nodeId = params.nodes[0];
-                    showInfo(nodeId);
+                    showInfo(params.nodes[0]);
                 } else {
                     closePanel();
                 }
             });
 
-            // Hover handler
-            network.on('hoverNode', function(params) {
+            // Hover cursor
+            network.on('hoverNode', function() {
                 network.body.container.style.cursor = 'pointer';
             });
             network.on('blurNode', function() {
                 network.body.container.style.cursor = 'default';
             });
+
+            // Re-color nodes when theme changes
+            var observer = new MutationObserver(function() {
+                nodes.forEach(function(n) {
+                    var nodeData = allNodes.find(function(x) { return x.id === n.id; });
+                    if (!nodeData) return;
+                    var type = getNodeColor(nodeData);
+                    var colorMap = { hermes: '--node-hermes', ai: '--node-ai', dev: '--node-dev', other: '--node-other' };
+                    var c = cssVar(colorMap[type]);
+                    nodes.update({ id: n.id, color: { background: c, border: c, highlight: { background: cssVar('--primary'), border: cssVar('--primary') }, hover: { background: cssVar('--primary'), border: cssVar('--primary') } } });
+                });
+                edges.forEach(function(e) {
+                    edges.update({ id: e.id, color: { color: cssVar('--edge-color'), hover: cssVar('--edge-color-hover'), opacity: 0.7 } });
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
         }
 
         function showInfo(nodeId) {
-            const node = allNodes.find(n => n.id === nodeId);
+            var node = allNodes.find(function(n) { return n.id === nodeId; });
             if (!node) return;
 
             document.getElementById('info-title').textContent = node.title;
-            document.getElementById('info-date').textContent = new Date(node.date).toLocaleDateString('zh-CN');
-            
-            const tagsEl = document.getElementById('info-tags');
+            document.getElementById('info-date').textContent = node.date
+                ? new Date(node.date).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
+                : '';
+
+            // Tags + categories
+            var tagsEl = document.getElementById('info-tags');
             tagsEl.innerHTML = '';
-            node.tags.forEach(t => {
-                const span = document.createElement('span');
+            (node.tags || []).forEach(function(t) {
+                var span = document.createElement('span');
                 span.className = 'tag';
                 span.textContent = t;
                 tagsEl.appendChild(span);
             });
-            node.categories.forEach(c => {
-                const span = document.createElement('span');
+            (node.categories || []).forEach(function(c) {
+                var span = document.createElement('span');
                 span.className = 'cat';
                 span.textContent = c;
                 tagsEl.appendChild(span);
             });
 
-            // Find related articles
-            const linksEl = document.getElementById('info-links');
+            // Related articles
+            var related = allEdges
+                .filter(function(e) { return e.from === nodeId || e.to === nodeId; })
+                .sort(function(a, b) { return b.weight - a.weight; })
+                .slice(0, 8);
+
+            var linksEl = document.getElementById('info-links');
+            var headerEl = document.getElementById('related-header');
             linksEl.innerHTML = '';
-            const related = allEdges
-                .filter(e => e.from === nodeId || e.to === nodeId)
-                .sort((a, b) => b.weight - a.weight)
-                .slice(0, 5);
-            
+
             if (related.length > 0) {
-                const header = document.createElement('div');
-                header.style.cssText = 'color:#8b949e;font-size:11px;margin-bottom:4px;';
-                header.textContent = '相关文章';
-                linksEl.appendChild(header);
+                headerEl.style.display = 'block';
+                related.forEach(function(e) {
+                    var targetId = e.from === nodeId ? e.to : e.from;
+                    var target = allNodes.find(function(n) { return n.id === targetId; });
+                    if (!target) return;
+                    var a = document.createElement('a');
+                    a.href = BLOG_URL + '/' + target.id + '/';
+                    a.innerHTML = target.title + ' <span class="weight">' + e.weight + '</span>';
+                    a.title = '关联度: ' + (e.shared_tags ? e.shared_tags.join(', ') : '');
+                    linksEl.appendChild(a);
+                });
+            } else {
+                headerEl.style.display = 'none';
             }
-            
-            related.forEach(e => {
-                const targetId = e.from === nodeId ? e.to : e.from;
-                const target = allNodes.find(n => n.id === targetId);
-                if (!target) return;
-                const a = document.createElement('a');
-                a.href = BLOG_URL + '/' + target.id + '/';
-                a.textContent = target.title;
-                a.title = `关联度: ${e.weight} | 共享: ${[...e.shared_tags, ...e.shared_categories].join(', ')}`;
-                linksEl.appendChild(a);
-            });
 
             document.getElementById('info-panel').classList.add('show');
         }
@@ -381,39 +651,66 @@ permalink: /graph/
 
         function filterCategory(cat) {
             currentFilter = cat;
-            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + (cat === 'all' ? 'all' : cat.toLowerCase())).classList.add('active');
+            document.querySelectorAll('.controls button').forEach(function(b) { b.classList.remove('active'); });
+            var btn = document.getElementById('btn-' + (cat === 'all' ? 'all' : cat.toLowerCase()));
+            if (btn) btn.classList.add('active');
 
             if (!network) return;
 
             if (cat === 'all') {
-                network.setOptions({ nodes: { hidden: false }, edges: { hidden: false } });
+                network.body.data.nodes.forEach(function(n) { network.body.data.nodes.update({ id: n.id, hidden: false }); });
+                network.body.data.edges.forEach(function(e) { network.body.data.edges.update({ id: e.id, hidden: false }); });
                 return;
             }
 
-            const filteredIds = new Set();
-            allNodes.forEach(n => {
-                const cats = n.categories.map(c => c.toLowerCase());
-                const tags = n.tags.map(t => t.toLowerCase());
-                const match = cats.some(c => c.includes(cat)) || tags.some(t => t.includes(cat));
+            var catLower = cat.toLowerCase();
+            var filteredIds = new Set();
+            allNodes.forEach(function(n) {
+                var cats = (n.categories || []).map(function(c) { return c.toLowerCase(); });
+                var tags = (n.tags || []).map(function(t) { return t.toLowerCase(); });
+                var match = cats.some(function(c) { return c.indexOf(catLower) !== -1; }) ||
+                            tags.some(function(t) { return t.indexOf(catLower) !== -1; });
                 if (match) filteredIds.add(n.id);
             });
 
-            const nodeUpdates = allNodes.map(n => ({
-                id: n.id,
-                hidden: !filteredIds.has(n.id)
-            }));
-            const edgeUpdates = allEdges.map(e => ({
-                id: e.from + '-' + e.to,
-                hidden: !filteredIds.has(e.from) || !filteredIds.has(e.to)
-            }));
-
-            network.body.data.nodes.update(nodeUpdates);
-            network.body.data.edges.update(edgeUpdates);
+            network.body.data.nodes.forEach(function(n) {
+                network.body.data.nodes.update({ id: n.id, hidden: !filteredIds.has(n.id) });
+            });
+            network.body.data.edges.forEach(function(e) {
+                network.body.data.edges.update({ id: e.id, hidden: !filteredIds.has(e.from) || !filteredIds.has(e.to) });
+            });
         }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
+        // Re-apply filter on theme switch to fix edge colors
+        var filterObserver = new MutationObserver(function() {
+            if (network && currentFilter !== 'all') {
+                filterCategory(currentFilter);
+            }
+        });
+        filterObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        // ===================================================================
+        // 3. Load data
+        // ===================================================================
+        fetch('/graph/graph.json')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                allNodes = data.nodes;
+                allEdges = data.edges;
+                initNetwork();
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('node-count').textContent = data.meta.total_posts;
+                document.getElementById('edge-count').textContent = data.meta.total_edges;
+            })
+            .catch(function(err) {
+                document.getElementById('loading').innerHTML =
+                    '<div class="empty-state"><h2>❌ 加载失败</h2><p>' + err.message + '</p></div>';
+            });
+
+        // ===================================================================
+        // 4. Keyboard shortcuts
+        // ===================================================================
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closePanel();
         });
     </script>
