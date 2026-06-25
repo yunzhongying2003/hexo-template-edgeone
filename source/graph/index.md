@@ -11,14 +11,6 @@ permalink: /graph/
     <div id="network"></div>
 </div>
 
-<!-- Filter controls -->
-<div class="graph-controls">
-    <button id="btn-all" class="active" onclick="filterCategory('all')">全部</button>
-    <button id="btn-hermes" onclick="filterCategory('Hermes')">Hermes</button>
-    <button id="btn-ai" onclick="filterCategory('AI')">AI</button>
-    <button id="btn-dev" onclick="filterCategory('开发')">开发</button>
-</div>
-
 <!-- Info panel -->
 <div class="graph-info-panel" id="info-panel">
     <button class="graph-close" onclick="closePanel()">✕</button>
@@ -27,14 +19,6 @@ permalink: /graph/
     <div class="graph-tags" id="info-tags"></div>
     <div class="graph-related-header" id="related-header" style="display:none">相关文章</div>
     <div class="graph-links" id="info-links"></div>
-</div>
-
-<!-- Legend -->
-<div class="graph-legend">
-    <div class="graph-legend-item"><div class="graph-dot" style="background:var(--node-hermes)"></div> Hermes</div>
-    <div class="graph-legend-item"><div class="graph-dot" style="background:var(--node-ai)"></div> AI</div>
-    <div class="graph-legend-item"><div class="graph-dot" style="background:var(--node-dev)"></div> 开发</div>
-    <div class="graph-legend-item"><div class="graph-line" style="background:var(--edge-color)"></div> 关联强度</div>
 </div>
 
 <style>
@@ -122,47 +106,6 @@ permalink: /graph/
     z-index: 200;
 }
 .graph-loading.hidden { display: none; }
-
-/* ============================================
-   Controls (top-left, after sidebar)
-   ============================================ */
-.graph-controls {
-    position: fixed;
-    top: 84px;
-    left: 262px;
-    display: flex;
-    gap: 6px;
-    z-index: 100;
-    background: var(--card-bg);
-    padding: 6px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-    transition: background 0.3s, border-color 0.3s;
-}
-.graph-controls button {
-    background: transparent;
-    border: 1px solid transparent;
-    color: var(--text-secondary);
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85em;
-    font-weight: 500;
-    transition: all 0.2s;
-    font-family: inherit;
-}
-.graph-controls button:hover {
-    color: var(--primary);
-    background: var(--primary-light);
-}
-.graph-controls button.active {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
-}
 
 /* ============================================
    Info Panel
@@ -273,44 +216,6 @@ permalink: /graph/
 .graph-info-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 /* ============================================
-   Legend
-   ============================================ */
-.graph-legend {
-    position: fixed;
-    bottom: 80px;
-    left: 262px;
-    background: var(--card-bg);
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    z-index: 100;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-    transition: background 0.3s, border-color 0.3s;
-}
-.graph-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 4px 0;
-    font-size: 0.8em;
-    color: var(--text-secondary);
-}
-.graph-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.graph-line {
-    width: 20px;
-    height: 2px;
-    flex-shrink: 0;
-    border-radius: 1px;
-}
-
-/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 640px) {
@@ -322,15 +227,6 @@ permalink: /graph/
         width: auto;
         max-height: 50vh;
     }
-    .graph-controls {
-        gap: 4px;
-        padding: 4px;
-    }
-    .graph-controls button {
-        padding: 5px 10px;
-        font-size: 0.8em;
-    }
-    .graph-legend { display: none; }
 }
 </style>
 
@@ -365,7 +261,6 @@ permalink: /graph/
     var network = null;
     var allNodes = [];
     var allEdges = [];
-    var currentFilter = 'all';
 
     function getNodeColor(node) {
         var cats = (node.categories || []).map(function(c) { return c.toLowerCase(); });
@@ -484,7 +379,7 @@ permalink: /graph/
         var node = allNodes.find(function(n) { return n.id === nodeId; });
         if (!node) return;
 
-        document.getElementById('info-title').textContent = node.title;
+        document.getElementById('info-title').innerHTML = '<a href="' + BLOG_URL + '/' + node.date.split(' ')[0].replace(/-/g, '/') + '/' + node.id + '/" target="_blank" style="color:inherit;text-decoration:none;">' + node.title + '</a>';
         document.getElementById('info-date').textContent = node.date
             ? new Date(node.date).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
             : '';
@@ -520,7 +415,8 @@ permalink: /graph/
                 var target = allNodes.find(function(n) { return n.id === targetId; });
                 if (!target) return;
                 var a = document.createElement('a');
-                a.href = BLOG_URL + '/' + target.id + '/';
+                var targetDate = target.date.split(' ')[0].replace(/-/g, '/');
+                a.href = BLOG_URL + '/' + targetDate + '/' + target.id + '/';
                 a.innerHTML = target.title + ' <span class="weight">' + e.weight + '</span>';
                 a.title = '关联度: ' + (e.shared_tags ? e.shared_tags.join(', ') : '');
                 linksEl.appendChild(a);
@@ -535,45 +431,6 @@ permalink: /graph/
     function closePanel() {
         document.getElementById('info-panel').classList.remove('show');
     }
-
-    function filterCategory(cat) {
-        currentFilter = cat;
-        document.querySelectorAll('.graph-controls button').forEach(function(b) { b.classList.remove('active'); });
-        var btn = document.getElementById('btn-' + (cat === 'all' ? 'all' : cat.toLowerCase()));
-        if (btn) btn.classList.add('active');
-
-        if (!network) return;
-
-        if (cat === 'all') {
-            network.body.data.nodes.forEach(function(n) { network.body.data.nodes.update({ id: n.id, hidden: false }); });
-            network.body.data.edges.forEach(function(e) { network.body.data.edges.update({ id: e.id, hidden: false }); });
-            return;
-        }
-
-        var catLower = cat.toLowerCase();
-        var filteredIds = new Set();
-        allNodes.forEach(function(n) {
-            var cats = (n.categories || []).map(function(c) { return c.toLowerCase(); });
-            var tags = (n.tags || []).map(function(t) { return t.toLowerCase(); });
-            var match = cats.some(function(c) { return c.indexOf(catLower) !== -1; }) ||
-                        tags.some(function(t) { return t.indexOf(catLower) !== -1; });
-            if (match) filteredIds.add(n.id);
-        });
-
-        network.body.data.nodes.forEach(function(n) {
-            network.body.data.nodes.update({ id: n.id, hidden: !filteredIds.has(n.id) });
-        });
-        network.body.data.edges.forEach(function(e) {
-            network.body.data.edges.update({ id: e.id, hidden: !filteredIds.has(e.from) || !filteredIds.has(e.to) });
-        });
-    }
-
-    var filterObserver = new MutationObserver(function() {
-        if (network && currentFilter !== 'all') {
-            filterCategory(currentFilter);
-        }
-    });
-    filterObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     // ===================================================================
     // 3. Load data
