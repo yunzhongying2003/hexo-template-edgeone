@@ -1,0 +1,421 @@
+---
+title: 文章关系图谱
+layout: false
+permalink: /graph/
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章关系图谱 - Golook</title>
+    <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.css"></script>
+    <script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            overflow: hidden;
+        }
+        #network { width: 100vw; height: 100vh; }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 16px 24px;
+            background: linear-gradient(180deg, rgba(13,17,23,0.95) 0%, rgba(13,17,23,0) 100%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .header > * { pointer-events: auto; }
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #58a6ff;
+            letter-spacing: 0.5px;
+        }
+        .header .stats {
+            font-size: 13px;
+            color: #8b949e;
+        }
+        .header .stats span { color: #58a6ff; font-weight: 600; }
+        
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+            background: rgba(22,27,34,0.9);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+        }
+        .controls button {
+            background: transparent;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .controls button:hover { background: #21262d; color: #e6edf3; }
+        .controls button.active { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+        
+        /* Info panel */
+        .info-panel {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            width: 320px;
+            background: rgba(22,27,34,0.95);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 100;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+        .info-panel.show { display: block; }
+        .info-panel h3 {
+            font-size: 15px;
+            color: #e6edf3;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .info-panel .meta {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 8px;
+        }
+        .info-panel .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 12px;
+        }
+        .info-panel .tag {
+            background: #1f6feb22;
+            color: #58a6ff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            border: 1px solid #1f6feb44;
+        }
+        .info-panel .cat {
+            background: #23863622;
+            color: #3fb950;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            border: 1px solid #23863644;
+        }
+        .info-panel .close {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: none;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .info-panel .close:hover { color: #e6edf3; }
+        .info-panel .links { margin-top: 12px; }
+        .info-panel .links a {
+            display: block;
+            color: #58a6ff;
+            font-size: 12px;
+            text-decoration: none;
+            padding: 4px 0;
+            border-bottom: 1px solid #21262d;
+        }
+        .info-panel .links a:hover { color: #79c0ff; }
+        
+        /* Legend */
+        .legend {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(22,27,34,0.9);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+            font-size: 12px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .legend .item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+            color: #8b949e;
+        }
+        .legend .dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .legend .line {
+            width: 20px; height: 2px;
+        }
+        
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: #58a6ff;
+            font-size: 14px;
+            z-index: 200;
+        }
+        .loading.hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">📊 加载图谱中...</div>
+    
+    <div class="header">
+        <h1>📊 文章关系图谱</h1>
+        <div class="stats"><span id="node-count">0</span> 篇文章 · <span id="edge-count">0</span> 条关联</div>
+    </div>
+    
+    <div id="network"></div>
+    
+    <div class="controls">
+        <button id="btn-all" class="active" onclick="filterCategory('all')">全部</button>
+        <button id="btn-hermes" onclick="filterCategory('Hermes')">Hermes</button>
+        <button id="btn-ai" onclick="filterCategory('AI')">AI</button>
+        <button id="btn-dev" onclick="filterCategory('开发')">开发</button>
+    </div>
+    
+    <div class="info-panel" id="info-panel">
+        <button class="close" onclick="closePanel()">×</button>
+        <h3 id="info-title"></h3>
+        <div class="meta" id="info-date"></div>
+        <div class="tags" id="info-tags"></div>
+        <div class="links" id="info-links"></div>
+    </div>
+    
+    <div class="legend">
+        <div class="item"><div class="dot" style="background:#58a6ff"></div> 节点大小 = 标签数量</div>
+        <div class="item"><div class="line" style="background:#30363d"></div> 边粗细 = 关联强度</div>
+    </div>
+
+    <script>
+        const BLOG_URL = window.location.origin;
+        let network = null;
+        let allNodes = [];
+        let allEdges = [];
+        let currentFilter = 'all';
+
+        // Load graph data
+        fetch('/graph/graph.json')
+            .then(r => r.json())
+            .then(data => {
+                allNodes = data.nodes;
+                allEdges = data.edges;
+                initNetwork();
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('node-count').textContent = data.meta.total_posts;
+                document.getElementById('edge-count').textContent = data.meta.total_edges;
+            })
+            .catch(err => {
+                document.getElementById('loading').textContent = '❌ 加载失败: ' + err.message;
+            });
+
+        function getNodeColor(tags, categories) {
+            const cats = categories.map(c => c.toLowerCase());
+            if (cats.some(c => c.includes('hermes'))) return '#58a6ff';
+            if (cats.some(c => c.includes('ai'))) return '#3fb950';
+            if (cats.some(c => c.includes('开发') || c.includes('工具'))) return '#d29922';
+            return '#8b949e';
+        }
+
+        function initNetwork() {
+            const nodes = new vis.DataSet(
+                allNodes.map(n => ({
+                    id: n.id,
+                    label: n.title.length > 15 ? n.title.substring(0, 15) + '...' : n.title,
+                    title: n.title,
+                    size: n.size,
+                    color: {
+                        background: getNodeColor(n.tags, n.categories),
+                        border: getNodeColor(n.tags, n.categories),
+                        highlight: { background: '#58a6ff', border: '#58a6ff' },
+                        hover: { background: '#58a6ff', border: '#58a6ff' }
+                    },
+                    font: { size: 12, color: '#e6edf3', face: '-apple-system, sans-serif' },
+                    shadow: { enabled: true, color: 'rgba(0,0,0,0.5)', size: 10, x: 0, y: 0 },
+                    borderWidth: 2,
+                    shape: 'dot'
+                }))
+            );
+
+            const edges = new vis.DataSet(
+                allEdges.map(e => ({
+                    from: e.from,
+                    to: e.to,
+                    width: Math.min(e.weight * 0.8, 5),
+                    color: { color: '#30363d', opacity: 0.6 },
+                    smooth: { type: 'curvedCW', roundness: 0.15 },
+                    hoverWidth: 1,
+                    arrows: { to: { enabled: false } }
+                }))
+            );
+
+            const container = document.getElementById('network');
+            const options = {
+                physics: {
+                    enabled: true,
+                    solver: 'forceAtlas2Based',
+                    forceAtlas2Based: {
+                        gravitationalConstant: -50,
+                        centralGravity: 0.01,
+                        springLength: 150,
+                        springConstant: 0.05,
+                        damping: 0.4
+                    },
+                    stabilization: { iterations: 100 }
+                },
+                interaction: {
+                    hover: true,
+                    tooltipDelay: 100,
+                    zoomView: true,
+                    dragView: true,
+                    dragNodes: true,
+                    zoomSpeed: 0.5
+                },
+                layout: {
+                    improvedLayout: true
+                }
+            };
+
+            network = new vis.Network(container, { nodes, edges }, options);
+
+            // Click handler
+            network.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    const nodeId = params.nodes[0];
+                    showInfo(nodeId);
+                } else {
+                    closePanel();
+                }
+            });
+
+            // Hover handler
+            network.on('hoverNode', function(params) {
+                network.body.container.style.cursor = 'pointer';
+            });
+            network.on('blurNode', function() {
+                network.body.container.style.cursor = 'default';
+            });
+        }
+
+        function showInfo(nodeId) {
+            const node = allNodes.find(n => n.id === nodeId);
+            if (!node) return;
+
+            document.getElementById('info-title').textContent = node.title;
+            document.getElementById('info-date').textContent = new Date(node.date).toLocaleDateString('zh-CN');
+            
+            const tagsEl = document.getElementById('info-tags');
+            tagsEl.innerHTML = '';
+            node.tags.forEach(t => {
+                const span = document.createElement('span');
+                span.className = 'tag';
+                span.textContent = t;
+                tagsEl.appendChild(span);
+            });
+            node.categories.forEach(c => {
+                const span = document.createElement('span');
+                span.className = 'cat';
+                span.textContent = c;
+                tagsEl.appendChild(span);
+            });
+
+            // Find related articles
+            const linksEl = document.getElementById('info-links');
+            linksEl.innerHTML = '';
+            const related = allEdges
+                .filter(e => e.from === nodeId || e.to === nodeId)
+                .sort((a, b) => b.weight - a.weight)
+                .slice(0, 5);
+            
+            if (related.length > 0) {
+                const header = document.createElement('div');
+                header.style.cssText = 'color:#8b949e;font-size:11px;margin-bottom:4px;';
+                header.textContent = '相关文章';
+                linksEl.appendChild(header);
+            }
+            
+            related.forEach(e => {
+                const targetId = e.from === nodeId ? e.to : e.from;
+                const target = allNodes.find(n => n.id === targetId);
+                if (!target) return;
+                const a = document.createElement('a');
+                a.href = BLOG_URL + '/' + target.id + '/';
+                a.textContent = target.title;
+                a.title = `关联度: ${e.weight} | 共享: ${[...e.shared_tags, ...e.shared_categories].join(', ')}`;
+                linksEl.appendChild(a);
+            });
+
+            document.getElementById('info-panel').classList.add('show');
+        }
+
+        function closePanel() {
+            document.getElementById('info-panel').classList.remove('show');
+        }
+
+        function filterCategory(cat) {
+            currentFilter = cat;
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + (cat === 'all' ? 'all' : cat.toLowerCase())).classList.add('active');
+
+            if (!network) return;
+
+            if (cat === 'all') {
+                network.setOptions({ nodes: { hidden: false }, edges: { hidden: false } });
+                return;
+            }
+
+            const filteredIds = new Set();
+            allNodes.forEach(n => {
+                const cats = n.categories.map(c => c.toLowerCase());
+                const tags = n.tags.map(t => t.toLowerCase());
+                const match = cats.some(c => c.includes(cat)) || tags.some(t => t.includes(cat));
+                if (match) filteredIds.add(n.id);
+            });
+
+            const nodeUpdates = allNodes.map(n => ({
+                id: n.id,
+                hidden: !filteredIds.has(n.id)
+            }));
+            const edgeUpdates = allEdges.map(e => ({
+                id: e.from + '-' + e.to,
+                hidden: !filteredIds.has(e.from) || !filteredIds.has(e.to)
+            }));
+
+            network.body.data.nodes.update(nodeUpdates);
+            network.body.data.edges.update(edgeUpdates);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePanel();
+        });
+    </script>
+</body>
+</html>
