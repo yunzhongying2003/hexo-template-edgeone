@@ -44,8 +44,20 @@ permalink: /graph/
     display: none !important;
 }
 
-/* Make main-inner fill viewport height */
+/* Remove article padding — graph fills the content area */
+.post-block {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+.post-body {
+    padding: 0 !important;
+    margin: 0 !important;
+}
 .main-inner {
+    padding: 0 !important;
     min-height: calc(100vh - 80px) !important;
 }
 
