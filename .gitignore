@@ -7,3 +7,6 @@ public/
 .deploy*/
 _multiconfig.ymlthemes/next/
 .aider*
+
+# agency-orchestrator local config
+.env

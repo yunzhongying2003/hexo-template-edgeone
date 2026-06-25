@@ -1,0 +1,55 @@
+{
+  "name": "公众号文章写作工作流",
+  "success": true,
+  "totalDuration": "147.4s",
+  "totalTokens": {
+    "input": 20599,
+    "output": 3334
+  },
+  "inputs": {
+    "topic": "AI自动写稿免去周五赶稿",
+    "audience": "公众号小编、独立博主、内容创作者",
+    "angle": "从赶稿痛苦到从容发布"
+  },
+  "steps": [
+    {
+      "id": "analyze",
+      "role": "product/product-manager",
+      "agentName": "产品经理",
+      "agentEmoji": "📦",
+      "status": "completed",
+      "output_var": "analysis",
+      "duration": "122.6s",
+      "tokens": {
+        "input": 9828,
+        "output": 109
+      }
+    },
+    {
+      "id": "draft",
+      "role": "marketing/marketing-wechat-official-account",
+      "agentName": "公众号运营专家",
+      "agentEmoji": "📱",
+      "status": "completed",
+      "output_var": "article",
+      "duration": "10.9s",
+      "tokens": {
+        "input": 3746,
+        "output": 1509
+      }
+    },
+    {
+      "id": "refine",
+      "role": "design/design-whimsy-injector",
+      "agentName": "趣味注入师",
+      "agentEmoji": "✨",
+      "status": "completed",
+      "output_var": "final",
+      "duration": "13.8s",
+      "tokens": {
+        "input": 7025,
+        "output": 1716
+      }
+    }
+  ]
+}

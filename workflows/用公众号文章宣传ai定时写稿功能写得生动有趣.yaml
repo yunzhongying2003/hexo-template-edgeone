@@ -1,0 +1,94 @@
+name: "AI定时写稿公众号宣传文案工作流"
+description: "生成一篇生动有趣的公众号文章，宣传AI定时写稿功能，吸引目标读者"
+
+agents_dir: "agency-agents-zh"
+
+llm:
+  provider: openai
+  model: deepseek-v4-flash
+  max_tokens: 4096
+  timeout: 300000
+  retry: 2
+
+concurrency: 2
+
+inputs:
+  - name: feature_name
+    description: "AI功能的名称，如「AI定时写稿」"
+    required: true
+  - name: target_audience
+    description: "文章的目标读者群体，如「公众号小编、内容创作者」"
+    required: true
+  - name: key_benefits
+    description: "功能的核心卖点，如「省时省力、定时发布、内容稳定」"
+    required: true
+
+steps:
+  - id: analyze_selling_points
+    role: "product/product-manager"
+    name: "产品经理"
+    emoji: "📦"
+    task: |
+      你是一名资深产品经理，需要为「AI定时写稿」功能撰写用户价值分析。
+
+      功能名称：{{feature_name}}
+      目标用户：{{target_audience}}
+      核心卖点：{{key_benefits}}
+
+      请输出一份简洁的分析报告（300字以内），包含：
+      - 用户痛点：目标用户在使用定时写稿功能前最大的三个痛点（用一句话描述每个痛点）
+      - 功能亮点：三个最打动用户的卖点（每个卖点用一句生动的话概括，可带比喻）
+      - 写作建议：建议文章采用什么风格（如故事引入、场景对比、数据说服等），并给出一个吸引人的标题建议
+
+      输出格式要求：
+      直接写内容，不要任何开场白。
+    output: selling_point_analysis
+
+  - id: write_draft
+    role: "marketing/marketing-wechat-official-account"
+    name: "公众号运营专家"
+    emoji: "📱"
+    task: |
+      你是一名公众号运营专家，要写一篇宣传「{{feature_name}}」功能的文章，目标读者是「{{target_audience}}」。
+
+      请根据以下分析撰写初稿：
+      {{selling_point_analysis}}
+
+      文章要求：
+      - 标题：使用分析中建议的标题（可微调）
+      - 字数：600-800字
+      - 风格：生动有趣，有代入感，可加入场景故事、幽默比喻、对比手法
+      - 结构建议：
+        1. 开头用一个真实的小故事或场景痛点引入（如小编熬夜赶稿）
+        2. 引出AI定时写稿功能
+        3. 详细介绍功能亮点（与核心卖点结合）
+        4. 使用场景举例（如每天早8点自动生成行业早报）
+        5. 结尾号召行动（如“点击开启你的AI定时写稿”）
+      - 语言：口语化、有感染力，适合公众号阅读
+
+      直接输出完整的文章正文（不含标题），不要任何开场白或说明。
+    output: draft_article
+    depends_on: [analyze_selling_points]
+
+  - id: add_whimsy_and_finalize
+    role: "design/design-whimsy-injector"
+    name: "趣味注入师"
+    emoji: "✨"
+    task: |
+      你是一名创意趣味专家，负责给公众号文章注入个性和惊喜。
+
+      原始文章初稿如下：
+      {{draft_article}}
+
+      请完成以下两项工作：
+      1. **优化标题**：根据文章内容，拟一个更吸睛的标题（20字以内，带emoji）
+      2. **润色正文**：在不改变主旨的前提下，增加趣味元素——比如替换一个更幽默的比喻、加入一个互动梗、或修改一句过渡为俏皮话。确保整体语气轻松、有趣、不刻意。总字数控制在800字以内。
+
+      最终输出格式必须为：
+      【标题】<你的标题>
+      【正文】
+      <润色后的完整文章正文>
+
+      ⚠️ 只输出最终成品本身：不要开场白、不要复盘或说明、不要向用户提问、不要建议任何命令或后续动作。
+    output: final_article
+    depends_on: [write_draft]

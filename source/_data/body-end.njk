@@ -18,5 +18,9 @@
   })();
 </script>
 
-<!-- AI Chat Assistant Widget -->
+<!-- AI Chat Assistant Widget (skip on graph page) -->
+{%- if page.path and page.path.indexOf('graph') >= 0 %}
+<!-- Skipped on graph page -->
+{%- else %}
 <script src="https://chat.golook.eu.org/embed.js" async></script>
+{%- endif %}

@@ -1,0 +1,49 @@
+{
+  "name": "AI定时写稿公众号宣传文案工作流",
+  "success": false,
+  "totalDuration": "0.4s",
+  "totalTokens": {
+    "input": 0,
+    "output": 0
+  },
+  "inputs": {
+    "feature_name": "AI定时写稿",
+    "target_audience": "公众号小编、内容创作者、博客博主",
+    "key_benefits": "省时省力、定时发布、内容稳定、无需蹲点"
+  },
+  "steps": [
+    {
+      "id": "analyze_selling_points",
+      "role": "product/product-manager",
+      "agentName": "产品经理",
+      "agentEmoji": "📦",
+      "status": "failed",
+      "output_var": "selling_point_analysis",
+      "duration": "0.4s",
+      "tokens": {
+        "input": 0,
+        "output": 0
+      }
+    },
+    {
+      "id": "write_draft",
+      "role": "marketing/marketing-wechat-official-account",
+      "status": "skipped",
+      "duration": "0.0s",
+      "tokens": {
+        "input": 0,
+        "output": 0
+      }
+    },
+    {
+      "id": "add_whimsy_and_finalize",
+      "role": "design/design-whimsy-injector",
+      "status": "skipped",
+      "duration": "0.0s",
+      "tokens": {
+        "input": 0,
+        "output": 0
+      }
+    }
+  ]
+}
