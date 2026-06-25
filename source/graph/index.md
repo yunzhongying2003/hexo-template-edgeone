@@ -1,6 +1,6 @@
 ---
 title: 文章关系图谱
-header: false
+layout: page-graph
 permalink: /graph/
 ---
 
@@ -44,17 +44,13 @@ permalink: /graph/
     display: none !important;
 }
 
-/* Remove article padding — graph fills the content area */
-.post-block {
+/* Use list-page style: .post-content instead of .post-body */
+.post-content {
     padding: 0 !important;
     margin: 0 !important;
     background: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;
-}
-.post-body {
-    padding: 0 !important;
-    margin: 0 !important;
 }
 .main-inner {
     padding: 0 !important;
