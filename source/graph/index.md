@@ -39,9 +39,8 @@ permalink: /graph/
 
 <style>
 /* ============================================
-   Hide site header, keep sidebar + footer
+   Keep full header visible (brand + nav menu)
    ============================================ */
-.header.header,
 .headband {
     display: none !important;
 }
