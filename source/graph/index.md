@@ -282,9 +282,9 @@ permalink: /graph/
                 var nodeColor = cssVar(colorMap[type]);
                 return {
                     id: n.id,
-                    label: n.title.length > 15 ? n.title.substring(0, 15) + '…' : n.title,
+                    label: '',
                     title: n.title,
-                    size: n.size || 12,
+                    size: (n.size || 12) + 4,
                     color: {
                         background: nodeColor,
                         border: nodeColor,
