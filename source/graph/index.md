@@ -21,6 +21,9 @@ permalink: /graph/
     <div class="graph-links" id="info-links"></div>
 </div>
 
+<!-- Custom tooltip -->
+<div id="graph-tooltip" class="graph-tooltip"></div>
+
 <style>
 /* ============================================
    Keep full header visible (brand + nav menu)
@@ -216,6 +219,30 @@ permalink: /graph/
 .graph-info-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 /* ============================================
+   Custom Tooltip
+   ============================================ */
+.graph-tooltip {
+    position: fixed;
+    display: none;
+    z-index: 9999;
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* ============================================
    Responsive
    ============================================ */
 @media (max-width: 640px) {
@@ -342,7 +369,7 @@ permalink: /graph/
 
         network = new vis.Network(container, { nodes: nodes, edges: edges }, options);
 
-        // Click — show info panel
+                // Click — show info panel
         network.on('click', function(params) {
             if (params.nodes.length > 0) {
                 showInfo(params.nodes[0]);
@@ -351,11 +378,42 @@ permalink: /graph/
             }
         });
 
-        network.on('hoverNode', function() {
+        // Hover — show custom tooltip
+        var tooltip = document.getElementById('graph-tooltip');
+
+        network.on('hoverNode', function(params) {
             network.body.container.style.cursor = 'pointer';
+            var nodeId = params.node;
+            var nodeData = allNodes.find(function(n) { return n.id === nodeId; });
+            if (!nodeData) return;
+            tooltip.textContent = nodeData.title;
+            tooltip.style.display = 'block';
+            // Position via mouse move
         });
         network.on('blurNode', function() {
             network.body.container.style.cursor = 'default';
+            tooltip.style.display = 'none';
+        });
+        network.on('hoverEdge', function(params) {
+            var edgeData = allEdges.find(function(e) {
+                return (e.from === params.edge.from && e.to === params.edge.to) ||
+                       (e.from === params.edge.to && e.to === params.edge.from);
+            });
+            if (edgeData && edgeData.shared_tags) {
+                tooltip.textContent = '关联度: ' + edgeData.weight + ' · ' + edgeData.shared_tags.join(', ');
+                tooltip.style.display = 'block';
+            }
+        });
+        network.on('blurEdge', function() {
+            tooltip.style.display = 'none';
+        });
+
+        // Track mouse for tooltip positioning
+        document.getElementById('network').addEventListener('mousemove', function(e) {
+            if (tooltip.style.display === 'block') {
+                tooltip.style.left = (e.clientX + 16) + 'px';
+                tooltip.style.top = (e.clientY - 10) + 'px';
+            }
         });
 
         // Re-color nodes when theme changes
