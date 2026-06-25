@@ -4,6 +4,8 @@ layout: page-graph
 permalink: /graph/
 ---
 
+<script src="https://unpkg.com/vis-network@9.1.9/dist/vis-network.min.js"></script>
+
 <div id="graph-canvas">
     <div id="loading" class="graph-loading">📊 加载图谱中...</div>
     <div id="network"></div>
