@@ -57,7 +57,7 @@ for sx, ex in [(3.8, 7.2), (8.8, 12.2)]:
                 arrowprops=dict(arrowstyle='->', color='#7eb8ff', lw=2.5))
 
 # 底部标签
-ax.text(8, 0.8, 'golook.cf  ·  AI 技术笔记 · 效率工具 · 深度分析',
+ax.text(8, 0.8, 'golook.eu.org  ·  AI 技术笔记 · 效率工具 · 深度分析',
         fontproperties=font_reg, fontsize=11, color='#5a7ab0', ha='center', va='center')
 
 plt.tight_layout(pad=0)

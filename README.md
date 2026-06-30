@@ -1,6 +1,6 @@
 # Golook — AI 技术笔记 · 效率工具 · 深度分析
 
-[![Website](https://img.shields.io/badge/🌐-golook.cf-blue)](https://golook.cf)
+[![Website](https://img.shields.io/badge/🌐-golook.eu.org-blue)](https://www.golook.eu.org)
 [![Hexo](https://img.shields.io/badge/Hexo-7.3.0-0e83cd)](https://hexo.io)
 [![Theme](https://img.shields.io/badge/Theme-NexT.Pisces-00adb5)](https://theme-next.js.org)
 [![Deploy](https://img.shields.io/badge/Deploy-EdgeOne%20Pages-07c160)](https://edgeone.ai/pages)
@@ -13,7 +13,7 @@ Golook 是一个专注于 **AI/LLM 技术**、**效率工具** 和 **深度分�
 
 | | |
 |---|---|
-| **网址** | [golook.cf](https://golook.cf) |
+| **网址** | [www.golook.eu.org](https://www.golook.eu.org) |
 | **主题** | NexT 8.27.0 (Pisces 双列布局) |
 | **语言** | 中文 (zh-CN) |
 | **写作** | Markdown + Hexo |
