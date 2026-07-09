@@ -30,7 +30,7 @@ code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
   - source/images/**
-  - product/**  # '**' 表示匹配该文件夹下的所有文件及子文件夹
+  - 'product/**'  # '**' 表示匹配该文件夹下的所有文件及子文件夹
 
 # Writing
 new_post_name: :title.md # File name of new posts
