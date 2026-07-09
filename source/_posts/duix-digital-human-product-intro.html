@@ -1,0 +1,489 @@
+---
+title: DUIX 数字人智能前台 — 产品介绍
+date: 2026-07-09 03:00:00
+tags: [数字人, AI, 政务, 产品]
+categories: 产品
+description: 一款面向政务大厅、医院、大型场馆的软硬件一体化数字人接待解决方案。3D 数字人 + AI 知识库 + 编号转人工，实现人机协作闭环。
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUIX 数字人智能前台 — 让每一个窗口都有一位永不疲倦的引导员</title>
+<style>
+/* ─── Reset & Base ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;color:#1a1a2e;background:#f0f2f5;line-height:1.6}
+
+/* ─── Hero ─── */
+.hero{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);color:#fff;padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(99,102,241,.15) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(139,92,246,.1) 0%,transparent 50%);pointer-events:none}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:16px;position:relative}
+.hero h1 span{background:linear-gradient(135deg,#818cf8,#a78bfa,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.7);max-width:640px;margin:0 auto 32px;position:relative}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;position:relative}
+.hero-badges span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 16px;font-size:.85rem;color:rgba(255,255,255,.8)}
+.hero-cta{display:inline-block;margin-top:32px;padding:14px 40px;border-radius:999px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:600;text-decoration:none;transition:transform .2s,box-shadow .2s;position:relative;font-size:1rem}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(99,102,241,.4)}
+
+/* ─── Container ─── */
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+
+/* ─── Section ─── */
+section{padding:60px 0}
+.section-title{font-size:1.8rem;font-weight:700;text-align:center;margin-bottom:8px}
+.section-sub{text-align:center;color:#6b7280;margin-bottom:40px;font-size:1.05rem}
+
+/* ─── 一句话定位 ─── */
+.tagline{background:#fff;border-radius:16px;padding:36px;margin:-40px 20px 0;position:relative;z-index:10;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center}
+.tagline p{font-size:1.1rem;color:#4b5563;max-width:800px;margin:0 auto}
+.tagline strong{color:#6366f1}
+
+/* ─── 核心差异 ─── */
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.diff-us{background:linear-gradient(135deg,#eef2ff,#e0e7ff);padding:28px}
+.diff-them{background:#f9fafb;padding:28px}
+.diff-h{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.diff-us .diff-h{color:#6366f1}
+.diff-them .diff-h{color:#6b7280}
+.diff-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:.92rem}
+.diff-item:last-child{border:none}
+.diff-check{color:#22c55e;font-weight:700;flex-shrink:0}
+.diff-cross{color:#ef4444;flex-shrink:0}
+
+/* ─── 功能卡片 ─── */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.feature-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s;border:1px solid rgba(0,0,0,.04)}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.feature-icon{font-size:2rem;margin-bottom:10px}
+.feature-card h3{font-size:1rem;font-weight:600;margin-bottom:6px}
+.feature-card p{font-size:.88rem;color:#6b7280;line-height:1.5}
+
+/* ─── 竞品对比 ─── */
+.table-wrap{overflow-x:auto;border-radius:14px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:.85rem}
+thead{background:#1a1a2e;color:#fff}
+th{padding:14px 12px;text-align:center;font-weight:600;white-space:nowrap}
+th:first-child{text-align:left;padding-left:20px}
+td{padding:12px;text-align:center;border-bottom:1px solid #f3f4f6;white-space:nowrap}
+td:first-child{text-align:left;font-weight:500;padding-left:20px;white-space:normal;min-width:120px}
+tr:hover td{background:#f8f9ff}
+td.highlight{background:#eef2ff;font-weight:600;color:#6366f1}
+td .yes{color:#22c55e;font-weight:700}
+td .no{color:#d1d5db}
+td .part{color:#f59e0b}
+
+/* ─── 架构 ─── */
+.arch{background:#1a1a2e;border-radius:16px;padding:32px;overflow-x:auto;margin-top:20px}
+.arch pre{color:#e2e8f0;font-family:'Fira Code','JetBrains Mono',monospace;font-size:.78rem;line-height:1.7}
+.arch .comment{color:#64748b}
+
+/* ─── 场景卡片 ─── */
+.scene-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.scene-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.05);border-top:4px solid #6366f1;transition:transform .2s}
+.scene-card:nth-child(2){border-top-color:#8b5cf6}
+.scene-card:nth-child(3){border-top-color:#a78bfa}
+.scene-card:nth-child(4){border-top-color:#c4b5fd}
+.scene-card:hover{transform:translateY(-3px)}
+.scene-card .icon{font-size:1.8rem;margin-bottom:8px}
+.scene-card h3{font-size:1rem;font-weight:600;margin-bottom:4px}
+.scene-card .pain{font-size:.82rem;color:#ef4444;margin-bottom:8px}
+.scene-card .effect{font-size:.88rem;color:#22c55e;font-weight:500}
+
+/* ─── 部署 ─── */
+.deploy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.deploy-card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.04)}
+.deploy-card h3{font-size:1rem;font-weight:600;margin-bottom:4px}
+.deploy-card .tag{display:inline-block;background:#eef2ff;color:#6366f1;font-size:.75rem;padding:2px 10px;border-radius:999px;margin-bottom:12px;font-weight:500}
+.deploy-card ul{list-style:none;padding:0}
+.deploy-card li{font-size:.85rem;color:#4b5563;padding:4px 0;padding-left:18px;position:relative}
+.deploy-card li::before{content:'▸';position:absolute;left:0;color:#6366f1}
+
+/* ─── ROI ─── */
+.roi-box{background:linear-gradient(135deg,#eef2ff,#fff);border-radius:16px;padding:32px;margin-top:20px}
+.roi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:16px}
+.roi-item{text-align:center;background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.roi-num{font-size:1.8rem;font-weight:800;color:#6366f1}
+.roi-label{font-size:.82rem;color:#6b7280;margin-top:4px}
+
+/* ─── FAQ ─── */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{border-bottom:1px solid #e5e7eb;padding:16px 0}
+.faq-q{font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
+.faq-q::after{content:'+';font-size:1.2rem;color:#6366f1;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{padding-top:10px;font-size:.88rem;color:#6b7280;display:none;line-height:1.6}
+.faq-item.open .faq-a{display:block}
+
+/* ─── CTA ─── */
+.cta-section{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);color:#fff;text-align:center;padding:60px 20px}
+.cta-section h2{font-size:1.8rem;font-weight:700;margin-bottom:12px}
+.cta-section p{color:rgba(255,255,255,.7);max-width:500px;margin:0 auto 28px;font-size:1.05rem}
+.cta-btn{display:inline-block;padding:14px 40px;border-radius:999px;background:#fff;color:#1a1a2e;font-weight:600;text-decoration:none;margin:0 8px 8px;font-size:.95rem;transition:transform .2s}
+.cta-btn:hover{transform:translateY(-2px)}
+.cta-btn.outline{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff}
+.cta-btn.outline:hover{border-color:#fff}
+
+/* ─── Footer ─── */
+footer{text-align:center;padding:32px 20px;font-size:.82rem;color:#9ca3af}
+footer a{color:#6366f1;text-decoration:none}
+
+/* ─── Media ─── */
+@media(max-width:640px){
+  .diff-grid{grid-template-columns:1fr}
+  .hero{padding:60px 16px 40px}
+  section{padding:40px 0}
+  .tagline{margin:-30px 12px 0;padding:24px 16px}
+  .feature-grid{grid-template-columns:1fr}
+  td,th{font-size:.78rem;padding:8px 6px}
+}
+
+/* ─── Animations ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate{opacity:0;animation:fadeUp .6s ease-out forwards}
+.animate-d1{animation-delay:.1s}
+.animate-d2{animation-delay:.2s}
+.animate-d3{animation-delay:.3s}
+</style>
+</head>
+<body>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <h1><span>DUIX</span> 数字人智能前台</h1>
+  <p>让每一个窗口都有一位永不疲倦的引导员。<br>3D 数字人 + AI 知识库 + 人工转接，一体化接待方案。</p>
+  <div class="hero-badges">
+    <span>🤖 3D 数字人驱动</span>
+    <span>📚 私有知识库</span>
+    <span>🔄 人机协作闭环</span>
+    <span>🔒 数据不出门</span>
+    <span>📱 Android 终端</span>
+  </div>
+  <a href="#deploy" class="hero-cta">了解部署方案 →</a>
+</section>
+
+<!-- ═══ 一句话定位 ═══ -->
+<div class="tagline animate">
+  <p><strong>DUIX 数字人智能前台</strong>是一套可在政务大厅、医院导诊、大型场馆等场景中<strong>立即可部署</strong>的 AI 数字人交互系统——访客通过 Android 终端与 3D 数字人对话，获得办事指引和材料清单；遇到复杂问题时自动生成编号引导至人工窗口，实现<strong>人机闭环</strong>。</p>
+</div>
+
+<!-- ═══ 核心差异化 ═══ -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">我们的做法有何不同？</h2>
+    <p class="section-sub animate animate-d1">不是替代人工，而是让人工做更有价值的事</p>
+    <div class="diff-grid animate animate-d2">
+      <div class="diff-us">
+        <div class="diff-h">✅ DUIX 智能前台</div>
+        <div class="diff-item"><span class="diff-check">●</span> 软硬一体，单机可运行，无需改造基础设施</div>
+        <div class="diff-item"><span class="diff-check">●</span> 上传文档即用，后台实时修正反馈闭环</div>
+        <div class="diff-item"><span class="diff-check">●</span> 知识库回答 + 编号引导窗口办理</div>
+        <div class="diff-item"><span class="diff-check">●</span> 数据私有化部署，客户持有全部数据</div>
+        <div class="diff-item"><span class="diff-check">●</span> 千元级 Android 设备即可运行</div>
+      </div>
+      <div class="diff-them">
+        <div class="diff-h">❌ 竞品普遍做法</div>
+        <div class="diff-item"><span class="diff-cross">●</span> 需上云、对接、定制开发，周期长</div>
+        <div class="diff-item"><span class="diff-cross">●</span> 需专业团队标注训练，维护成本高</div>
+        <div class="diff-item"><span class="diff-cross">●</span> 纯粹替代或纯粹人工，缺少过渡态</div>
+        <div class="diff-item"><span class="diff-cross">●</span> 依赖公有云平台，数据合规风险</div>
+        <div class="diff-item"><span class="diff-cross">●</span> 专用硬件或固定大屏，成本高</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 功能 ═══ -->
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title animate">功能一览</h2>
+    <p class="section-sub animate animate-d1">访客端 APP + 管理后台 + RAG 知识库，三位一体</p>
+
+    <h3 style="font-size:1.1rem;margin-bottom:12px;color:#6366f1">📱 访客端</h3>
+    <div class="feature-grid animate animate-d2">
+      <div class="feature-card"><div class="feature-icon">🎤</div><h3>语音输入</h3><p>Android 原生语音识别，支持实时语音转文字</p></div>
+      <div class="feature-card"><div class="feature-icon">👤</div><h3>3D 数字人</h3><p>DUIX SDK 实时渲染，口型同步、语音播报</p></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><h3>RAG 精准问答</h3><p>双通道检索，拒绝知识库外内容编造</p></div>
+      <div class="feature-card"><div class="feature-icon">📋</div><h3>办事流程指南</h3><p>结构化显示步骤、材料清单、窗口信息</p></div>
+      <div class="feature-card"><div class="feature-icon">🔴</div><h3>一键转人工</h3><p>点击「窗口办理」→ 生成编号 → 写入待办池</p></div>
+      <div class="feature-card"><div class="feature-icon">🔗</div><h3>短码编号</h3><p>6 位短码，访客凭编号到窗口直接办理</p></div>
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>建议问题</h3><p>AI 自动生成 3 个最可能追问的问题</p></div>
+      <div class="feature-card"><div class="feature-icon">🔄</div><h3>引导澄清</h3><p>置信度不足时反问缩小范围，不瞎答</p></div>
+      <div class="feature-card"><div class="feature-icon">✅</div><h3>结束会话</h3><p>LLM 检测对话完成 + 用户主动结束</p></div>
+    </div>
+
+    <h3 style="font-size:1.1rem;margin:28px 0 12px;color:#8b5cf6">🖥️ 管理后台</h3>
+    <div class="feature-grid animate animate-d3">
+      <div class="feature-card"><div class="feature-icon">📋</div><h3>待办池</h3><p>短码/认领/完成/搜索/会话详情查看</p></div>
+      <div class="feature-card"><div class="feature-icon">📚</div><h3>FAQ 管理</h3><p>拖拽排序、启停控制</p></div>
+      <div class="feature-card"><div class="feature-icon">🗣️</div><h3>播放列表</h3><p>数字人主动播报内容管理</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>RAG 知识库</h3><p>文档上传、向量检索、导入日志</p></div>
+      <div class="feature-card"><div class="feature-icon">📈</div><h3>交互日志</h3><p>筛选/导出/统计</p></div>
+      <div class="feature-card"><div class="feature-icon">🎯</div><h3>质量闭环</h3><p>标记修正 → 自动回写知识库</p></div>
+      <div class="feature-card"><div class="feature-icon">📉</div><h3>仪表盘</h3><p>服务监控 + 业务统计图表</p></div>
+      <div class="feature-card"><div class="feature-icon">🏆</div><h3>高频排行</h3><p>高频问题排行，指导知识库优化</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 竞品对比 ═══ -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">竞品对比</h2>
+    <p class="section-sub animate animate-d1">与主流数字人方案的核心差异一目了然</p>
+
+    <div class="table-wrap animate animate-d2">
+      <table>
+        <thead>
+          <tr><th>维度</th><th>DUIX 智能前台</th><th>商汤如影</th><th>百度曦灵</th><th>阿里小蜜</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>部署方式</td><td class="highlight">私有化，单机可运行</td><td>公有云/混合云</td><td>公有云</td><td>公有云</td></tr>
+          <tr><td>私有知识库</td><td class="highlight"><span class="yes">●</span> 上传文档即用</td><td><span class="no">●</span> 需定制</td><td><span class="part">●</span> 文心知识库</td><td><span class="part">●</span> 阿里云知识库</td></tr>
+          <tr><td>人机协作</td><td class="highlight"><span class="yes">●</span> 编号→待办池闭环</td><td><span class="no">●</span> 无</td><td><span class="no">●</span> 无</td><td><span class="no">●</span> 无</td></tr>
+          <tr><td>待办管理</td><td class="highlight"><span class="yes">●</span> 后台Tab+认领</td><td><span class="no">●</span> 无</td><td><span class="no">●</span> 无</td><td><span class="no">●</span> 无</td></tr>
+          <tr><td>数据所有权</td><td class="highlight">客户持有全部数据</td><td>平台持有</td><td>平台持有</td><td>平台持有</td></tr>
+          <tr><td>知识库修正</td><td class="highlight"><span class="yes">●</span> 标记→自动回写</td><td><span class="no">●</span> 无</td><td><span class="no">●</span> 无</td><td><span class="part">●</span> 有</td></tr>
+          <tr><td>部署周期</td><td class="highlight"><strong>1-3 天</strong></td><td>2-4 周</td><td>2-4 周</td><td>1-2 周</td></tr>
+          <tr><td>终端成本</td><td class="highlight">千元级 Android 设备</td><td>指定硬件</td><td>指定硬件</td><td>API 接入</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 架构 ═══ -->
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title animate">系统架构</h2>
+    <p class="section-sub animate animate-d1">三个组件协同工作，数据全程私有化</p>
+    <div class="arch animate animate-d2">
+<pre><span class="comment">┌─────────────────────────────────────────────────────┐</span>
+<span class="comment">│            Android APP（访客端）                       │</span>
+<span class="comment">│  语音输入 → 3D 数字人 → RAG 问答客户端                   │</span>
+<span class="comment">└────────────────────┬────────────────────────────────┘</span>
+<span class="comment">                     │ HTTP/JSON</span>
+<span class="comment">                     ▼</span>
+<span class="comment">┌─────────────────────────────────────────────────────┐</span>
+<span class="comment">│          RAG 中间件（FastAPI · 端口 9000）              │</span>
+<span class="comment">│  双通道检索（ChromaDB + TF-IDF）→ 置信度分级 → LLM     │</span>
+<span class="comment">│  → 回答/流程/材料/分类 + 短码生成/待办写入               │</span>
+<span class="comment">└──────────┬──────────────────┬───────────────────────┘</span>
+<span class="comment">           │                  │</span>
+<span class="comment">           ▼                  ▼</span>
+<span class="comment">   ┌──────────┐      ┌────────────┐</span>
+<span class="comment">   │  LLM API │      │ Cloudflare │</span>
+<span class="comment">   │ DeepSeek │      │ Embedding  │</span>
+<span class="comment">   └──────────┘      └────────────┘</span>
+
+<span class="comment">    管理后台（FastAPI · 端口 9001）</span>
+<span class="comment">    Tabler 前端 + REST API + 待办池/日志/仪表盘</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 场景 ═══ -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">适用场景</h2>
+    <p class="section-sub animate animate-d1">从政务大厅到企业内部，一处部署多处受益</p>
+    <div class="scene-grid animate animate-d2">
+      <div class="scene-card">
+        <div class="icon">🏛️</div>
+        <h3>政务服务中心</h3>
+        <div class="pain">😩 窗口人员被"营业执照在哪办"反复打断</div>
+        <div class="effect">↓ 减少 60% 窗口简单咨询</div>
+      </div>
+      <div class="scene-card">
+        <div class="icon">🏥</div>
+        <h3>医院导诊</h3>
+        <div class="pain">😩 导诊台排队问科室/挂号/医保</div>
+        <div class="effect">↓ 导诊排队缩短 70%</div>
+      </div>
+      <div class="scene-card">
+        <div class="icon">🎪</div>
+        <h3>大型场馆/会展</h3>
+        <div class="pain">😩 参观者反复问路线/活动/展商位置</div>
+        <div class="effect">↓ 减少问询处拥堵</div>
+      </div>
+      <div class="scene-card">
+        <div class="icon">🏢</div>
+        <h3>企业内部服务</h3>
+        <div class="pain">😩 HR/IT 被年假/打印机/报销反复问</div>
+        <div class="effect">↓ 自助查询覆盖 70% 常见问题</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 部署 ═══ -->
+<section style="background:#fff" id="deploy">
+  <div class="container">
+    <h2 class="section-title animate">部署模式</h2>
+    <p class="section-sub animate animate-d1">三种模式，适配不同客户需求</p>
+    <div class="deploy-grid animate animate-d2">
+      <div class="deploy-card">
+        <span class="tag">推荐 · 零运维</span>
+        <h3>VIP 全托管</h3>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">适用于政务大厅、医院——无须 IT 维护能力</p>
+        <ul>
+          <li>我方提供硬件 + 服务器</li>
+          <li>协助整理导入知识库</li>
+          <li>每月系统巡检维护</li>
+          <li>窗口人员 30 分钟操作培训</li>
+        </ul>
+      </div>
+      <div class="deploy-card">
+        <span class="tag">灵活 · 低成本</span>
+        <h3>客户自托管</h3>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">适用于有 IT 团队的企业</p>
+        <ul>
+          <li>客户自备 Android 设备</li>
+          <li>提供 Docker 镜像部署</li>
+          <li>后台自行管理知识库</li>
+          <li>自行配置 LLM API</li>
+        </ul>
+      </div>
+      <div class="deploy-card">
+        <span class="tag">集成 · 品牌定制</span>
+        <h3>OEM / 集成</h3>
+        <p style="font-size:.85rem;color:#6b7280;margin-bottom:12px">适用于系统集成商、智慧城市方案商</p>
+        <ul>
+          <li>APP 品牌名称定制</li>
+          <li>数字人形象更换</li>
+          <li>HTTP API 对接现有系统</li>
+          <li>提供联合投标技术支持</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ROI ═══ -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">成本收益分析</h2>
+    <p class="section-sub animate animate-d1">以每日 500 访客的政务大厅为例</p>
+    <div class="roi-box animate animate-d2">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+        <div style="background:#fff;border-radius:12px;padding:20px;">
+          <div style="font-size:2.4rem;font-weight:800;color:#6366f1">~70%</div>
+          <div style="font-size:.85rem;color:#6b7280">简单咨询可由数字人自动处理</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:20px;">
+          <div style="font-size:2.4rem;font-weight:800;color:#22c55e">~35 小时</div>
+          <div style="font-size:.85rem;color:#6b7280">每日节省人工时间</div>
+        </div>
+      </div>
+      <div class="roi-grid">
+        <div class="roi-item"><div class="roi-num">1-2 月</div><div class="roi-label">VIP 托管回本周期</div></div>
+        <div class="roi-item"><div class="roi-num">¥15K-20K</div><div class="roi-label">月均节省人力成本</div></div>
+        <div class="roi-item"><div class="roi-num">3-4 人</div><div class="roi-label">相当于释放的窗口人员</div></div>
+        <div class="roi-item"><div class="roi-num">1 天</div><div class="roi-label">知识库导入到上线</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 交互示例 ═══ -->
+<section style="background:#fff">
+  <div class="container">
+    <h2 class="section-title animate">访客体验预览</h2>
+    <p class="section-sub animate animate-d1">从对话到窗口，一气呵成</p>
+    <div style="max-width:600px;margin:0 auto;background:#f8f9ff;border-radius:16px;padding:28px;font-size:.92rem;line-height:1.7;border:1px solid #e0e7ff" class="animate animate-d2">
+      <div><span style="color:#6366f1;font-weight:600">👤 访客：</span>营业执照需要什么材料？</div>
+      <div style="margin:12px 0;padding:12px 16px;background:#eef2ff;border-radius:10px">
+        <span style="color:#8b5cf6;font-weight:600">🤖 数字人：</span>
+        <div style="margin-top:4px">办理营业执照一般需要：① 身份证明 ② 经营场所证明 ③ 公司章程（企业类）④ 名称核准通知书</div>
+        <div style="margin-top:6px;color:#6b7280;font-size:.85rem">💡 建议：办理时间约 3-5 个工作日</div>
+      </div>
+      <div style="text-align:center;margin:16px 0">
+        <span style="display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border-radius:999px;font-size:.85rem;font-weight:500">🔴 需要到窗口办理</span>
+      </div>
+      <div style="margin-top:8px"><span style="color:#6366f1;font-weight:600">👤 访客：</span>好的，帮我转窗口</div>
+      <div style="margin:12px 0;padding:12px 16px;background:#eef2ff;border-radius:10px">
+        <span style="color:#8b5cf6;font-weight:600">🤖 数字人：</span>
+        <div style="margin-top:4px;font-size:1.2rem">已为您生成编号：<strong style="color:#22c55e;font-family:monospace;font-size:1.4rem">A1B2C3</strong></div>
+        <div style="margin-top:4px;color:#6b7280">请到行政大厅 3 号窗口出示该编号，窗口人员可直接查看到您的对话记录。</div>
+      </div>
+      <div style="text-align:center;margin-top:12px">
+        <span style="display:inline-block;padding:8px 24px;background:#22c55e;color:#fff;border-radius:999px;font-size:.85rem;font-weight:500">✅ 结束会话</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section>
+  <div class="container">
+    <h2 class="section-title animate">常见问题</h2>
+    <div class="faq-list animate animate-d1">
+      <div class="faq-item open">
+        <div class="faq-q">没有网络能用吗？</div>
+        <div class="faq-a">核心知识库问答运行在本地，不依赖外部网络。仅 LLM 调用需要 API 访问（可配置内网模型）。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">数字人形象可以定制吗？</div>
+        <div class="faq-a">可以。DUIX SDK 支持更换数字人模型，可根据客户品牌定制。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">访客需要安装 APP 吗？</div>
+        <div class="faq-a">访客在 Android 终端（平板/一体机）上使用即可。也可提供 APK 让访客自行安装到手机。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">与现有业务系统能对接吗？</div>
+        <div class="faq-a">提供 HTTP API 接口，支持对接叫号系统、业务系统等第三方系统。标准化集成约 1-3 天。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">数据安全怎么保障？</div>
+        <div class="faq-a">全部数据存储在客户私有服务器，不上传任何第三方平台。可签署数据保密协议。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">回答错误怎么办？</div>
+        <div class="faq-a">管理员在后台点「修正」→ 修改内容 → 自动重写知识库，下次同类问题用正确回答。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <h2>让每一个窗口都有一位永不疲倦的引导员</h2>
+  <p>1 天导入知识库，3 天完成部署。<br>把你的办事指南交给我们，剩下的交给数字人。</p>
+  <div>
+    <a href="mailto:yunzhongying2003@163.com" class="cta-btn">📧 联系销售</a>
+    <a href="https://github.com/yunzhongying2003/duix-chat" class="cta-btn outline" target="_blank">💻 查看项目源码</a>
+  </div>
+</section>
+
+<footer>
+  <p>DUIX 数字人智能前台 · 基于 DUIX SDK + RAG + DeepSeek LLM</p>
+</footer>
+
+<script>
+// FAQ toggle
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    q.parentElement.classList.toggle('open');
+  });
+});
+
+// Intersection Observer for animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.style.opacity = '1'; });
+}, { threshold: .1 });
+document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
