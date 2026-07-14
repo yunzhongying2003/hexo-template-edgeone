@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>泸西旅游小程序 — 产品方案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#333;line-height:1.8}
+.cover{background:linear-gradient(135deg,#1a5276,#1a7a3a);color:#fff;padding:80px 20px 60px;text-align:center;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:40px 40px}
+.cover h1{font-size:42px;font-weight:700;margin-bottom:12px;position:relative}
+.cover .subtitle{font-size:20px;opacity:.9;margin-bottom:8px;position:relative}
+.cover .meta{font-size:14px;opacity:.7;position:relative}
+.cover .badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 16px;font-size:13px;margin:6px 4px}
+.container{max-width:900px;margin:0 auto;padding:0 20px}
+.section{background:#fff;border-radius:12px;padding:36px 40px;margin:24px auto;max-width:900px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.section h2{font-size:24px;color:#1a7a3a;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #e8f5e9;display:flex;align-items:center;gap:10px}
+.section h2 .icon{font-size:26px}
+.section h3{font-size:18px;color:#1a5276;margin:20px 0 10px}
+.section p{font-size:15px;color:#555;margin-bottom:12px}
+.section ul{padding-left:20px;margin-bottom:12px}
+.section li{font-size:15px;color:#555;margin-bottom:6px;position:relative}
+.section li::marker{color:#1a7a3a}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.card{background:#f8faf8;border-radius:10px;padding:20px;border-left:4px solid #1a7a3a}
+.card h4{font-size:16px;color:#1a5276;margin-bottom:6px}
+.card p{font-size:14px;color:#666;margin:0}
+.tag{display:inline-block;background:#e8f5e9;color:#1a7a3a;border-radius:12px;padding:2px 12px;font-size:13px;margin:2px}
+.tag.blue{background:#e3f2fd;color:#1565c0}
+.tag.orange{background:#fff3e0;color:#e65100}
+.tag.purple{background:#f3e5f5;color:#7b1fa2}
+.table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.table th{background:#1a7a3a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+.table td{padding:10px 14px;border-bottom:1px solid #e8f5e9;color:#555}
+.table tr:nth-child(even){background:#f8faf8}
+.timeline{position:relative;padding-left:30px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#c8e6c9}
+.timeline-item{position:relative;margin-bottom:24px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;background:#1a7a3a;border:2px solid #fff;box-shadow:0 0 0 2px #1a7a3a}
+.timeline-item .tl-title{font-size:16px;font-weight:600;color:#1a5276}
+.timeline-item .tl-desc{font-size:14px;color:#666;margin-top:4px}
+.timeline-item .tl-status{font-size:13px;margin-top:4px}
+.footer{text-align:center;padding:40px 20px;color:#999;font-size:13px;max-width:900px;margin:0 auto}
+.arch{background:#1a1a2e;border-radius:12px;padding:24px;margin:16px 0;color:#e0e0e0;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;overflow-x:auto}
+.arch .hl{color:#4caf50}
+.arch .hl2{color:#64b5f6}
+.arch .hl3{color:#ffb74d}
+.arch .com{color:#666}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.cover h1{font-size:28px}.section{padding:24px 20px}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>🏔️ 泸西旅游小程序</h1>
+  <div class="subtitle">泸西县全域旅游官方导览平台</div>
+  <div>
+    <span class="badge">版本 1.0</span>
+    <span class="badge">2026年7月</span>
+    <span class="badge">泸西县文化和旅游局</span>
+  </div>
+  <div class="meta" style="margin-top:16px">让每一位游客都能轻松发现泸西之美</div>
+</div>
+
+<!-- 一、项目概述 -->
+<div class="section">
+  <h2><span class="icon">📋</span> 一、项目概述</h2>
+  <p>泸西旅游小程序是由泸西县文化和旅游局联合技术团队推出的<strong>全域旅游官方导览平台</strong>，面向到访泸西的游客提供「种草 → 攻略 → 导航 → 导览」一站式体验。</p>
+  <p>小程序以宣传泸西县丰富的旅游资源为核心目标，展示泸西独特的喀斯特地貌景观、彝族历史文化、特色温泉康养、国家湿地生态等核心景点，以及泸西苦荞、羊汤锅、灯盏花茶等地理标志美食特产，</p>
+  <p style="font-weight:600;color:#1a5276;margin-top:16px">让游客「一部手机游泸西」，从了解到出发再到游览，全程无忧。</p>
+</div>
+
+<!-- 二、核心价值 -->
+<div class="section">
+  <h2><span class="icon">💎</span> 二、核心价值</h2>
+  <div class="grid">
+    <div class="card">
+      <h4>🎯 精准引流</h4>
+      <p>通过微信社交裂变，将泸西旅游资源精准触达潜在游客</p>
+    </div>
+    <div class="card">
+      <h4>🤖 AI 智能导览</h4>
+      <p>AI 导游实时解答游客问题，自动生成个性化游览方案</p>
+    </div>
+    <div class="card">
+      <h4>📊 数据驱动</h4>
+      <p>管理后台分析游客行为，发现知识缺口，持续优化运营</p>
+    </div>
+    <div class="card">
+      <h4>🔄 持续迭代</h4>
+      <p>三期规划覆盖宣传、运营、生态全链路，长期运营有保障</p>
+    </div>
+  </div>
+</div>
+
+<!-- 三、泸西县简介 -->
+<div class="section">
+  <h2><span class="icon">📍</span> 三、泸西县简介</h2>
+  <div class="grid">
+    <div>
+      <p><strong>位置</strong>：云南省红河哈尼族彝族自治州北部</p>
+      <p><strong>人口</strong>：约 37 万人</p>
+      <p><strong>民族</strong>：汉、彝、回、傣、壮、苗 6 个民族世居</p>
+      <p><strong>交通</strong>：距昆明 166km（约2小时车程），毗邻石林风景区</p>
+      <p><strong>荣誉</strong>：国家级休闲农业与乡村旅游示范县、国家卫生县城</p>
+    </div>
+    <div>
+      <p><strong>主打景点</strong>：</p>
+      <p><span class="tag">阿庐古洞</span> <span class="tag">城子古村</span> <span class="tag">五者温泉</span></p>
+      <p><span class="tag blue">黄草洲湿地</span> <span class="tag blue">泸西文庙</span></p>
+      <p><strong>地理标志</strong>：</p>
+      <p><span class="tag orange">泸西苦荞</span> <span class="tag orange">泸西除虫菊</span> <span class="tag orange">红河灯盏花</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- 四、已上线功能 -->
+<div class="section">
+  <h2><span class="icon">✅</span> 四、已上线功能</h2>
+  
+  <h3>📱 门户（宣传）模式</h3>
+  <table class="table">
+    <tr><th>功能模块</th><th>说明</th></tr>
+    <tr><td><strong>首页轮播</strong></td><td>自动轮播泸西核心景点图片，点击跳转详情</td></tr>
+    <tr><td><strong>宣传视频</strong></td><td>首页嵌入泸西宣传片，游客打开即见</td></tr>
+    <tr><td><strong>分类导航</strong></td><td>景点 / 路线 / 美食 / 特产 / 交通 五大入口</td></tr>
+    <tr><td><strong>景点展示</strong></td><td>图文详情（支持图片轮播 + 视频播放）</td></tr>
+    <tr><td><strong>路线推荐</strong></td><td>预制游览方案（经典一日游、文化深度游、康养休闲游）</td></tr>
+    <tr><td><strong>美食推荐</strong></td><td>泸西特色美食图文展示</td></tr>
+    <tr><td><strong>特产展示</strong></td><td>国家地理标志产品介绍</td></tr>
+    <tr><td><strong>交通指南</strong></td><td>昆明、弥勒、红河州至泸西交通方案 + 当地出行建议</td></tr>
+    <tr><td><strong>全站搜索</strong></td><td>关键词搜索景点、美食、特产</td></tr>
+    <tr><td><strong>社交分享</strong></td><td>所有页面支持分享到微信好友/群</td></tr>
+  </table>
+
+  <h3>🤖 AI 导游功能</h3>
+  <table class="table">
+    <tr><th>功能</th><th>说明</th></tr>
+    <tr><td><strong>AI 问答</strong></td><td>游客自由提问，AI 基于知识库回答泸西旅游相关问题</td></tr>
+    <tr><td><strong>攻略生成</strong></td><td>AI 根据游客需求自动生成个性化游览方案</td></tr>
+    <tr><td><strong>语音输入</strong></td><td>微信风格"按住说话"录音，自动转文字</td></tr>
+    <tr><td><strong>语音播报</strong></td><td>AI 回答自动朗读，景点介绍页支持语音讲解</td></tr>
+    <tr><td><strong>快捷问题</strong></td><td>预设问题一键提问（必看景点、路线推荐、美食等）</td></tr>
+  </table>
+
+  <h3>⚙️ 管理后台</h3>
+  <table class="table">
+    <tr><th>功能</th><th>说明</th></tr>
+    <tr><td><strong>内容管理</strong></td><td>景点 / 路线 / 美食 / 特产 增删改</td></tr>
+    <tr><td><strong>排序控制</strong></td><td>拖拽式排序 + 启用/禁用</td></tr>
+    <tr><td><strong>首页推荐</strong></td><td>标记景点是否显示在首页轮播</td></tr>
+    <tr><td><strong>知识库管理</strong></td><td>文本导入 / 文件上传（TXT/MD/PDF）→ 自动入库</td></tr>
+    <tr><td><strong>语义搜索</strong></td><td>关键词搜索知识库，显示相似度分数</td></tr>
+    <tr><td><strong>询问记录</strong></td><td>按会话分组查看游客对话，支持关键词筛选</td></tr>
+    <tr><td><strong>高频问题 TOP 10</strong></td><td>近7天热门问题排行</td></tr>
+    <tr><td><strong>知识缺口分析</strong></td><td>低置信度高频问题列表，预示需补充的知识盲区</td></tr>
+  </table>
+</div>
+
+<!-- 五、技术架构 -->
+<div class="section">
+  <h2><span class="icon">🔧</span> 五、技术架构</h2>
+  <p style="margin-bottom:16px">系统采用前后端分离架构，小程序端负责展示交互，服务端提供 API 和数据支持。</p>
+  
+  <div style="text-align:center;margin:20px 0">
+    <!-- 前端层 -->
+    <div style="display:inline-block;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);border:2px solid #4caf50;border-radius:12px;padding:16px 40px;margin-bottom:8px;min-width:400px">
+      <div style="font-size:16px;font-weight:700;color:#2e7d32">📱 微信小程序（前端）</div>
+      <div style="font-size:13px;color:#555;margin-top:4px">WXML + WXSS + JavaScript</div>
+    </div>
+    <!-- 连接线 -->
+    <div style="width:2px;height:24px;background:#4caf50;margin:0 auto"></div>
+    <!-- 网关层 -->
+    <div style="display:inline-block;background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:2px solid #1976d2;border-radius:12px;padding:14px 30px;margin-bottom:8px;min-width:400px">
+      <div style="font-size:15px;font-weight:700;color:#1565c0">🌐 API 网关</div>
+      <div style="font-size:13px;color:#555;margin-top:2px">https://api.golook.dpdns.org</div>
+    </div>
+    <!-- 连接线 -->
+    <div style="width:2px;height:24px;background:#1976d2;margin:0 auto"></div>
+    <!-- 后端层 - 三个服务并排 -->
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:8px">
+      <div style="background:linear-gradient(135deg,#fff3e0,#ffe0b2);border:2px solid #f57c00;border-radius:12px;padding:14px 20px;width:200px">
+        <div style="font-size:14px;font-weight:700;color:#e65100">⚙️ 后端服务</div>
+        <div style="font-size:12px;color:#555;margin-top:4px">FastAPI</div>
+        <div style="font-size:11px;color:#999">端口 9002</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#f3e5f5,#e1bee7);border:2px solid #7b1fa2;border-radius:12px;padding:14px 20px;width:200px">
+        <div style="font-size:14px;font-weight:700;color:#7b1fa2">📚 知识库 API</div>
+        <div style="font-size:12px;color:#555;margin-top:4px">ChromaDB</div>
+        <div style="font-size:11px;color:#999">端口 8000</div>
+      </div>
+      <div style="background:linear-gradient(135deg,#e0f7fa,#b2ebf2);border:2px solid #00838f;border-radius:12px;padding:14px 20px;width:200px">
+        <div style="font-size:14px;font-weight:700;color:#006064">🤖 AI 服务</div>
+        <div style="font-size:12px;color:#555;margin-top:4px">DashScope</div>
+        <div style="font-size:11px;color:#999">qwen3 系列模型</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card">
+      <h4>后端框架</h4>
+      <p>Python FastAPI + systemd 自启动</p>
+    </div>
+    <div class="card">
+      <h4>向量知识库</h4>
+      <p>ChromaDB + Cloudflare Embedding（1024维）</p>
+    </div>
+    <div class="card">
+      <h4>AI 模型</h4>
+      <p>DashScope qwen-turbo（问答）+ qwen3-asr-flash（语音识别）</p>
+    </div>
+    <div class="card">
+      <h4>语音合成</h4>
+      <p>edge-tts（Microsoft Xiaoxiao 中文语音）</p>
+    </div>
+  </div>
+</div>
+
+<!-- 六、升级路线 -->
+<div class="section">
+  <h2><span class="icon">🚀</span> 六、升级路线</h2>
+  
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-title">第一期 · 基础完善（已完成）</div>
+      <div class="tl-desc">基础框架搭建、景点/路线/美食/特产展示、AI 导游基础对话、管理后台、交通指南、分享功能</div>
+      <div class="tl-status"><span class="tag">已完成</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-title">第二期 · 深度运营（进行中）</div>
+      <div class="tl-desc">住宿推荐模块、节庆活动日历、AI 导游深度绑定景点（扫码启动专属导游）、知识库完整入库、分享裂变优化</div>
+      <div class="tl-status"><span class="tag blue">进行中</span></div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-title">第三期 · 生态构建（规划中）</div>
+      <div class="tl-desc">UGC 打卡系统（游客图文评价）、游览足迹（个人打卡地图）、实时信息（拥挤度/停车位/天气）、离线模式、电商入口、多语言/彝语语音讲解</div>
+      <div class="tl-status"><span class="tag purple">规划中</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 七、运营建议 -->
+<div class="section">
+  <h2><span class="icon">💡</span> 七、运营建议</h2>
+  <ul>
+    <li><strong>内容持续更新</strong> — 景点介绍、门票价格、开放时间等需随季节调整，保持信息鲜活</li>
+    <li><strong>知识库喂养</strong> — 定期将新的 FAQ、宣传资料导入知识库，提升 AI 回答准确率</li>
+    <li><strong>数据分析</strong> — 关注管理后台的"高频问题"和"知识缺口"，针对性补充内容</li>
+    <li><strong>宣传推广</strong> — 利用分享功能，引导游客分享到微信群/朋友圈，形成裂变传播</li>
+    <li><strong>线下联动</strong> — 景区入口、酒店、餐馆放置小程序二维码，引导游客扫码使用</li>
+    <li><strong>节庆热点</strong> — 火把节、梨花节等节点前后更新内容，借势推广</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p>泸西旅游小程序 — 泸西县文化和旅游局 × 技术团队</p>
+  <p style="margin-top:4px">本文档仅供内部工作参考</p>
+</div>
+
+</body>
+</html>
