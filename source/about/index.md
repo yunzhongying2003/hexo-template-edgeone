@@ -1,10 +1,10 @@
 ---
-title: 关于 Golook
+title: 关于
 date: 2026-05-28 23:00:00
 layout: page
 ---
 
-# Golook
+# Deptrip Blog
 
 > AI 技术笔记 · 效率工具 · 深度分析
 >
@@ -12,7 +12,7 @@ layout: page
 
 ## 关于本站
 
-Golook 是一个个人技术博客，专注于 AI/LLM 技术拆解、效率工具测评和深度技术分析。内容力求做到**有深度，但不晦涩；有实操，但不堆砌**。
+Deptrip Blog 是 **Golook** 的个人技术博客，专注于 AI/LLM 技术拆解、效率工具测评和深度技术分析。内容力求做到**有深度，但不晦涩；有实操，但不堆砌**。
 
 ## 内容方向
 
@@ -22,7 +22,7 @@ Golook 是一个个人技术博客，专注于 AI/LLM 技术拆解、效率工�
 
 ## 技术栈
 
-- **框架**: Hexo + Golook 主题
+- **框架**: Hexo + NexT 主题
 - **写作**: Markdown
 - **配图**: SenseNova 图像生成
 - **托管**: GitHub → EdgeOne Pages 自动构建部署
