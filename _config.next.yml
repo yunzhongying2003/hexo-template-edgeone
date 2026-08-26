@@ -135,7 +135,7 @@ local_search:
 # Busuanzi (Visitor Counter)
 # ---------------------------------------------------------------
 busuanzi_count:
-  enable: false
+  enable: true
   post_views_icon: far fa-eye
 
 # ---------------------------------------------------------------
