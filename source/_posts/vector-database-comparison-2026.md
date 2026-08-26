@@ -1,6 +1,7 @@
 ---
 title: 2026 向量数据库全景对比：从 pgvector 到 Milvus，RAG 基础设施如何选型
 date: 2026-07-14 22:00:00
+summary: "Vector database comparison for RAG infrastructure: pgvector, Milvus, Chroma, Qdrant, Weaviate with indexing strategies and recall vs latency tradeoffs."
 tags: [向量数据库, RAG, AI 基础设施, 数据库对比, pgvector, Qdrant, Milvus, Weaviate, Pinecone]
 categories: AI 基础设施
 description: 2026 年主流向量数据库全面对比评测，覆盖性能基准、价格、部署方式与选型决策框架，帮你为 RAG 项目选对底层数据库。
@@ -198,3 +199,25 @@ Vecstore（一家专注语义搜索的创业公司）的经验值得参考：他
 - Encore - [Best Vector Databases in 2026](https://encore.dev/articles/best-vector-databases)
 - Milvus 官方 - [Milvus 突破 40,000 GitHub Stars](https://milvus.io/blog/milvus-exceeds-40k-github-stars.md)
 - Neon - [Vecstore 迁移案例研究](https://neon.com/blog/vecstore-replacing-pinecone-and-rds-with-neon)
+
+
+### 🔗 相关文章
+
+- [AI Agent 记忆系统深度剖析](/2026/08/04/2026-ai-agent-memory-system-deep-dive/)
+- [LLM 推理服务引擎对比](/2026/08/21/2026-llm-inference-engines-deep-comparison/)
+
+
+### ❓ 常见问题（FAQ）
+
+**Q: pgvector 够用吗？**
+
+如果你的场景是简单的 RAG、数据量在百万级以下、且已经在用 PostgreSQL，pgvector 完全够用且集成成本最低。不需要引入独立的向量数据库。
+
+**Q: 什么时候需要专门的向量数据库？**
+
+数据量超过千万级、需要高并发查询（>100 QPS）、需要多索引类型切换、或需要与 Milvus/Qdrant 等专业方案的高级特性（如稀疏向量、混合检索）对接时，才需要考虑独立向量数据库。
+
+**Q: Milvus 和 Qdrant 怎么选？**
+
+Milvus 功能最全面（分布式、多索引类型、混合检索），适合中大规模生产；Qdrant 基于 Rust 开发，性能优秀且配置简单，适合中小规模或需要快速上手的场景。
+

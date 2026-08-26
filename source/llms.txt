@@ -1,0 +1,59 @@
+# Golook — AI 技术笔记 · 效率工具 · 深度分析
+
+本站是个人技术博客，聚焦 AI 工程实践：LLM 推理引擎对比、Agent 系统架构、AI 代码助手评测、向量数据库选型、Hermes Agent 实战等。所有内容基于一手资料和深度分析。
+
+- 语言：中文正文，英文摘要
+- 最近更新：2026-08-21
+- RSS：https://blog.deptrip.com/atom.xml
+- 站点地图：https://blog.deptrip.com/sitemap.xml
+
+## 🧠 LLM 推理与服务化
+
+- [2026 LLM 推理服务引擎深度对比：vLLM · SGLang · TGI · TensorRT-LLM](/2026/08/21/2026-llm-inference-engines-deep-comparison/) — Four-engine comparison: vLLM, SGLang, TGI, TensorRT-LLM. Covers kernel architecture, performance benchmarks, deployment pitfalls. Pick the right inference engine for production.
+- [Prompt Caching 实战全解：Anthropic vs OpenAI vs Gemini 缓存机制深度对比（2026）](/2026/08/14/2026-prompt-caching-deep-comparison/) — Practical guide to prompt caching across three major providers. Cache hit rates, API patterns, cost optimization strategies for high-throughput LLM applications.
+- [AI 上下文窗口全指南——预算管理与 Prompt Caching 成本优化实战](/2026/08/07/2026-ai-context-window-budget-guide/) — Complete guide to context window budgeting. Understand token economics, sliding window limits, and how to design prompts that fit within cost constraints.
+
+## 🤖 AI Agent 与编排
+
+- [AI Agent 故障诊断实战：7 大故障模式与排查指南（2026）](/2026/07/17/2026-ai-agent-failure-debugging-guide/) — Seven failure modes of AI agents with diagnostic patterns and fix strategies: silent failures, tool loops, hallucinated tool use, and more.
+- [AI Agent 记忆系统深度剖析：从短期上下文到长期知识库的演进路线](/2026/08/04/2026-ai-agent-memory-system-deep-dive/) — Deep dive into agent memory architectures: short-term context, long-term storage, session search, and knowledge base ingestion patterns.
+- [多 Agent 编排实战：Codex 写代码、Claude Code 审查、Hermes Agent 验证](/2026/06/04/agent-orchestration-goal-cheatsheet/) — Hands-on multi-agent orchestration using Codex, Claude Code, and Hermes Agent in a code review pipeline.
+- [LLM Agent 用 Web Search 的 5 大陷阱与护栏实践](/2026/08/09/web-search-guardrails-agent-2026/) — Five pitfalls when LLM agents use web search and practical guardrails: query quality, result freshness, source verification, and output sanitization.
+
+## 🛠️ AI 代码助手与工具
+
+- [AI 代码助手全面对比：2026 年该选哪一个？](/2026/07/28/2026-ai-coding-tools-deep-comparison/) — Comprehensive comparison of AI coding assistants in 2026: Claude Code, Codex, Cursor, Hermes, and more. Features, pricing, and best-use scenarios.
+- [2026 AI 编程工具选型指南：6款主流代码助手深度对比](/2026/06/05/ai-coding-tools-guide-2026/) — Selection guide for six mainstream coding tools with capability matrix, pricing breakdown, and recommendation by team size and use case.
+- [Claude Computer Use 深度解析：AI 如何真正操控你的电脑](/2026/07/24/claude-computer-use-deep-dive/) — Deep analysis of Claude's computer use capability: vision-to-action pipeline, screenshot interpretation, and desktop automation patterns.
+
+## 🗄️ 基础设施：向量数据库与可观测性
+
+- [2026 向量数据库全景对比：从 pgvector 到 Milvus，RAG 基础设施如何选型](/2026/07/14/vector-database-comparison-2026/) — Vector database comparison for RAG systems: pgvector, Milvus, Chroma, Qdrant, Weaviate. Indexing strategies, recall vs latency tradeoffs.
+- [LLM 可观测性平台全面对比：2026 年该选哪一个？](/2026/07/31/2026-llm-observability-platforms-comparison/) — LLM observability platforms compared: tracing, logging, cost tracking, and quality monitoring for production LLM applications.
+
+## 📡 协议与集成
+
+- [MCP 协议实战：从零构建 AI 的"USB-C"接口](/2026/06/30/mcp-protocol-guide-2026/) — MCP (Model Context Protocol) hands-on guide: build tools, expose data sources, and connect LLMs to external systems. The "USB-C" for AI integrations.
+- [AI 语音转文字（STT）工具深度对比（2026年版）](/2026/06/26/stt-tools-comparison-2026/) — Speech-to-text tools comparison: Whisper, DashScope, SenseNova, and others. Accuracy, latency, language support.
+- [2026 年 TTS 工具全景对比：商业 API vs 开源方案深度评测](/2026/07/03/tts-tools-comparison-2026/) — Text-to-speech tools compared: commercial APIs vs open-source solutions. Voice quality, latency, multilingual support.
+
+## 📝 Hermes Agent 实战系列
+
+- [Hermes Agent Skill 机制解密：可发现、可执行、可自我改进的工作流系统](/2026/06/04/hermes-agent-skills-deep-dive/) — How Hermes Agent skills work: discovery, execution, and self-improvement patterns. Build reusable AI workflows.
+- [Hermes Agent 上下文压缩插件开发全记录](/2026/06/08/context-compressor-plugin-devlog/) — Dev log: building a context compression plugin for Hermes Agent. Token budgeting and prompt summarization in practice.
+- [Hermes Agent Cron Job 实战：零运维自动化博客运营指南](/2026/06/19/hermes-cron-job-guide-2026/) — Automated blog publishing with Hermes Agent cron jobs: scheduling, prompt design, and zero-maintenance content pipeline.
+- [Hermes Agent 学习资源宝藏库：社区整理的 15 个必备 GitHub 仓库](/2026/06/05/hermes-agent-15-github-repos/) — Curated list of 15 essential GitHub repos for learning and extending Hermes Agent.
+- [Hermes Desktop 官方发布：从 Jensen GTC 主题演讲到公开预览](/2026/06/05/hermes-desktop-public-preview/) — Hermes Desktop public preview announcement with GTC keynote context and setup guide.
+
+## 📚 其他精选
+
+- [AI 模型选择指南：2026 年主流大模型对比](/2026/05/28/ai-model-selection-guide/) — Model selection guide for 2026: major LLMs compared on capabilities, pricing, and use cases.
+- [2026 三大旗舰推理模型全维度对比：Claude Fable 5 vs GPT-5.2 vs Gemini 3.5 Pro](/2026/07/10/2026-flagship-reasoning-models-comparison/) — Full-dimension comparison of three flagship reasoning models.
+- [Prompt 工程实战：从入门到精通](/2026/05/28/prompt-engineering-guide/) — Practical prompt engineering guide from basics to advanced patterns.
+- [长对话上下文工程与记忆管理实战指南](/2026/07/07/context-engineering-memory-guide-2026/) — Context engineering and memory management for long conversations.
+- [用 AI 搭建个人知识管理工作流：从语音笔记到结构化知识库](/2026/05/29/ai-knowledge-workflow/) — Build a personal knowledge management workflow with AI: from voice notes to structured knowledge base.
+- [Hermes Skill 手把手实战：从零编写可复用的 AI Agent 工作流](/2026/06/12/hermes-skill-hands-on-guide/) — Hands-on guide to writing reusable AI agent workflows as Hermes skills.
+- [agentic-stack：一个 .agent/ 文件夹打通 8 种编程 Agent](/2026/06/04/agentic-stack-portable-brain/) — agentic-stack: one `.agent/` folder to connect 8 programming agents.
+- [Hermes Agent 社区精选：从 X/Twitter 挖到的 9 条高质量内容](/2026/06/05/hermes-agent-x-community-curation/) — Curated high-quality content about Hermes Agent from X/Twitter community.
+- [Hermes 音频处理逻辑与语音聊天方案分析](/2026/05/28/hermes-audio-processing-analysis/) — Analysis of Hermes audio processing and voice chat implementation.
+

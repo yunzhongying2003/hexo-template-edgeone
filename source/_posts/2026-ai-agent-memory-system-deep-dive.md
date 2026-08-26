@@ -1,6 +1,7 @@
 ---
 title: AI Agent 记忆系统深度剖析：从短期上下文到长期知识库的演进路线
 date: 2026-08-04 11:15:00
+summary: "Comprehensive analysis of AI agent memory architectures: short-term context management, long-term storage with RAG, session persistence, and knowledge base integration."
 tags: [AI Agent, 记忆系统, RAG, 知识图谱, 长期记忆, 技术架构]
 categories: AI 技术
 ---
@@ -112,3 +113,26 @@ Agent 记忆不是一个单一模块，而是一个**分层系统**：短期上�
 对于大多数 AI Agent 项目，从 L1（滚动摘要）开始，在有跨会话需求时升级到 L2（向量库），是当前最务实的路线。
 
 over
+
+
+### 🔗 相关文章
+
+- [AI Agent 故障诊断实战](/2026/07/17/2026-ai-agent-failure-debugging-guide/)
+- [长对话上下文工程与记忆管理](/2026/07/07/context-engineering-memory-guide-2026/)
+- [Hermes Agent Skill 机制解密](/2026/06/04/hermes-agent-skills-deep-dive/)
+
+
+### ❓ 常见问题（FAQ）
+
+**Q: 短期记忆和长期记忆有什么区别？**
+
+短期记忆是当前会话的上下文窗口，由模型直接读取；长期记忆存储在外部数据库（如 ChromaDB、SQLite），需要 RAG 检索后才能使用。短期用于即时连贯性，长期用于跨会话持久化。
+
+**Q: 为什么不只靠模型上下文窗口？**
+
+上下文窗口有 token 上限（当前最大 200K），而且全部塞进去会增加 token 成本。RAG 检索只把相关内容加载进来，成本更低、精度更高。
+
+**Q: 记忆什么时候会过期？**
+
+取决于 TTL 配置。常见策略是 7 天过期或按会话数淘汰。关键事实应该同步到永久存储（如 wiki 或 ChromaDB），不依赖 TTL。
+

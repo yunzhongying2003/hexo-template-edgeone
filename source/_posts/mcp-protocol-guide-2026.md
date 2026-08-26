@@ -1,6 +1,7 @@
 ---
 title: MCP 协议实战：从零构建 AI 的"USB-C"接口
 date: 2026-06-30 11:00:00
+summary: "Hands-on guide to Model Context Protocol (MCP): building tools, exposing data sources, and connecting LLMs to external systems. The open standard for AI integrations."
 tags: [MCP, Model Context Protocol, AI开发, 工具链, 协议解析]
 categories: AI技术深度分析
 ---
@@ -323,3 +324,26 @@ MCP 不是终点，而是 AI 应用从"聊天机器人"走向"操作系统"的�
 - [Anthropic 发布博客](https://www.anthropic.com/news/model-context-protocol)
 - [MCP 中文入门指南](https://github.com/liaokongVFX/MCP-Chinese-Getting-Started-Guide)
 - [MCP Inspector 调试工具](https://github.com/modelcontextprotocol/inspector)
+
+
+### 🔗 相关文章
+
+- [AI 代码助手全面对比](/2026/07/28/2026-ai-coding-tools-deep-comparison/)
+- [Hermes Agent Skill 机制解密](/2026/06/04/hermes-agent-skills-deep-dive/)
+- [agentic-stack](/2026/06/04/agentic-stack-portable-brain/)
+
+
+### ❓ 常见问题（FAQ）
+
+**Q: MCP 和传统的 API 调用有什么区别？**
+
+MCP 定义了一套标准协议，让 LLM 能自动发现和调用工具，无需为每个服务手写集成代码。传统 API 需要开发者硬编码调用逻辑，MCP 则让模型自己决定何时、如何调用。
+
+**Q: MCP 适合什么样的工具？**
+
+适合有明确输入输出、无状态的工具：文件读写、数据库查询、API 调用、系统命令等。不适合需要复杂状态管理或用户交互的工作流。
+
+**Q: MCP 和 OpenAI Function Calling 有什么区别？**
+
+Function Calling 是 OpenAI 平台的专有实现，MCP 是跨平台的开放协议。使用 MCP 的工具可以同时被 Claude、GPT、Gemini 等多种模型调用。
+

@@ -1,6 +1,7 @@
 ---
 title: 2026 LLM 推理服务引擎深度对比：vLLM · SGLang · TGI · TensorRT-LLM
 date: 2026-08-21 11:00:00
+summary: "In-depth comparison of four LLM inference engines (vLLM, SGLang, TGI, TensorRT-LLM) covering kernel architecture, performance benchmarks, and production deployment patterns."
 tags: [LLM 推理, vLLM, SGLang, TGI, TensorRT-LLM, 部署, 性能, 选型]
 categories: AI 工具对比
 ---
@@ -220,3 +221,26 @@ KV Cache 预留 ≈ (max_model_len × hidden_size × num_layers × 2) / 1024^3 G
 - Spheron · vLLM vs TensorRT-LLM vs SGLang Benchmarks (2026-03)
 - Deploybase · Best LLM Inference Engines 2026
 - NVIDIA/TensorRT-LLM · Q3 2026 Roadmap · Issue #15044
+
+
+### 🔗 相关文章
+
+- [Prompt Caching 实战全解](/2026/08/14/2026-prompt-caching-deep-comparison/)
+- [LLM 可观测性平台对比](/2026/07/31/2026-llm-observability-platforms-comparison/)
+- [AI 上下文窗口全指南](/2026/08/07/2026-ai-context-window-budget-guide/)
+
+
+### ❓ 常见问题（FAQ）
+
+**Q: vLLM 和 SGLang 应该选哪个？**
+
+vLLM 生态更成熟、社区更大、与主流框架兼容性最好，适合大多数场景；SGLang 在长上下文和连续批处理场景有性能优势，且更轻量。如果你的 workload 以长 prompt + 多轮对话为主，可以优先考虑 SGLang。
+
+**Q: 单机消费级 GPU 能跑推理服务吗？**
+
+可以。vLLM 和 SGLang 都支持 CPU fallback 和低显存模式。8GB 显存可跑 7B 模型，16GB 可跑 13B 模型。注意使用 --max-model-len 限制上下文窗口以控制显存。
+
+**Q: 量化（Quantization）对推理质量影响大吗？**
+
+INT4 量化通常只损失 1-3% 的生成质量，但推理速度提升 2-4 倍、显存降低 4 倍。对于分类、摘要、代码生成等工程场景，INT4 通常是性价比最高的选择。
+
