@@ -14,9 +14,10 @@ permalink: /graph/
 <!-- 控制条 -->
 <div id="graph-controls">
     <div class="gc-head">
-        <span class="gc-title"><span class="gc-ico">🕸</span> 关系图谱</span>
+        <span class="gc-title"><span class="gc-ico">🕸</span> <span id="g-title">关系图谱</span></span>
         <button id="btn-focus" class="gc-btn-icon" title="聚焦中心文章 (1 度子图)">◎</button>
     </div>
+    <div id="g-sub" class="gc-subtitle">点击节点聚焦 · ↑↓ 切换搜索结果 · Esc 重置</div>
     <div class="gc-row">
         <div class="gc-search">
             <span class="gc-search-ico">🔍</span>
@@ -40,16 +41,9 @@ permalink: /graph/
         <div class="gc-legend-title">分类（点击筛选）</div>
         <div id="legend"></div>
     </div>
+    <div class="gc-sep"></div>
+    <div id="graph-footer" class="gc-footer"></div>
 </div>
-
-<!-- 图头信息 -->
-<div id="graph-header">
-    <div id="g-title">文章关系图谱</div>
-    <div id="g-sub">点击节点聚焦 · ↑↓ 切换搜索结果 · Esc 重置</div>
-</div>
-
-<!-- 底部统计 -->
-<div id="graph-footer"></div>
 
 <!-- Info panel -->
 <div class="graph-info-panel" id="info-panel">
@@ -166,7 +160,7 @@ permalink: /graph/
 #graph-controls {
     position: absolute;
     top: 16px;
-    left: 16px;
+    right: 16px;
     width: 268px;
     max-height: calc(100% - 32px);
     overflow-y: auto;
@@ -371,61 +365,47 @@ permalink: /graph/
 #legend .ct { color: var(--text-secondary); font-size: 0.88em; }
 
 /* ============================================
-   Header info (top-right)
+   Controls title (inside panel)
    ============================================ */
-#graph-header {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    text-align: right;
-    z-index: 90;
-    pointer-events: none;
+#graph-controls .gc-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
 }
-#g-title {
-    font-size: 0.92em;
+#graph-controls #g-title {
+    font-size: 0.88em;
     font-weight: 700;
     color: var(--text);
-    background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 7px 13px;
-    box-shadow: var(--shadow-sm);
-    display: inline-block;
-    max-width: 440px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    min-width: 0;
 }
-#g-sub {
+.gc-subtitle {
     font-size: 0.7em;
     color: var(--text-secondary);
-    margin-top: 5px;
-    background: var(--card-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 4px 10px;
-    display: inline-block;
+    margin-bottom: 10px;
+    line-height: 1.35;
 }
 
 /* ============================================
    Info Panel
    ============================================ */
 .graph-info-panel {
-    position: fixed;
-    top: 80px;
-    right: 24px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
     width: 330px;
-    max-height: calc(100vh - 140px);
+    max-height: calc(100% - 32px);
     overflow-y: auto;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 14px;
     padding: 20px;
-    z-index: 100;
+    z-index: 110;
     display: none;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -552,37 +532,28 @@ permalink: /graph/
 }
 
 /* ============================================
-   Footer
+   Footer (inside controls panel)
    ============================================ */
-#graph-footer {
-    position: absolute;
-    bottom: 12px;
-    right: 16px;
+.gc-footer {
     font-size: 0.7em;
     color: var(--text-secondary);
-    z-index: 80;
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 5px 11px;
+    line-height: 1.4;
+    padding-top: 2px;
 }
-#graph-footer b {
+.gc-footer b {
     color: var(--text);
     font-weight: 700;
     font-size: 1.06em;
 }
-#graph-footer .fk { color: var(--node-hermes); font-weight: 600; }
-#graph-footer .fm { color: var(--node-dev); font-weight: 600; }
-#graph-footer .fw { color: var(--text-secondary); }
+.gc-footer .fk { color: var(--node-hermes); font-weight: 600; }
+.gc-footer .fm { color: var(--node-dev); font-weight: 600; }
+.gc-footer .fw { color: var(--text-secondary); }
 
 /* ============================================
    Responsive
    ============================================ */
 @media (max-width: 900px) {
     #graph-controls { width: 226px; padding: 11px 12px; }
-    #graph-header { display: none; }
 }
 @media (max-width: 640px) {
     #graph-controls {
@@ -594,12 +565,12 @@ permalink: /graph/
         max-height: 46vh;
     }
     .graph-info-panel {
-        top: auto;
-        bottom: 50vh;
+        top: 12px;
+        bottom: 46vh;
         right: 12px;
         left: 12px;
         width: auto;
-        max-height: 42vh;
+        max-height: none;
     }
 }
 </style>
