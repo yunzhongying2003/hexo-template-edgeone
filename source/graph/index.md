@@ -105,10 +105,11 @@ permalink: /graph/
     --shadow: 0 10px 34px rgba(15, 23, 42, 0.12);
     --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.09);
     --node-hermes: #2563eb;
-    --node-ai: #16a34a;
+    --node-ai: #059669;
     --node-dev: #d97706;
     --node-other: #64748b;
     --edge-color: rgba(100, 116, 139, 0.32);
+    --edge-strong: rgba(37, 99, 235, 0.5);
     --edge-color-hover: rgba(37, 99, 235, 0.65);
     --canvas-bg-1: #ffffff;
     --canvas-bg-2: #eef1f7;
@@ -127,10 +128,11 @@ permalink: /graph/
     --shadow: 0 10px 34px rgba(0, 0, 0, 0.5);
     --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.4);
     --node-hermes: #60a5fa;
-    --node-ai: #4ade80;
+    --node-ai: #34d399;
     --node-dev: #fbbf24;
     --node-other: #94a3b8;
     --edge-color: rgba(148, 163, 184, 0.28);
+    --edge-strong: rgba(96, 165, 250, 0.5);
     --edge-color-hover: rgba(96, 165, 250, 0.6);
     --canvas-bg-1: #101a2e;
     --canvas-bg-2: #0a101f;
@@ -743,29 +745,36 @@ permalink: /graph/
     }
 
     function applyLabels() {
-        // 全图只标高连接度枢纽节点（degree>=25）；聚焦后显示聚焦节点 + 其邻居
+        // 全图标高连接度枢纽节点（degree>=18）；聚焦后显示聚焦节点 + 其邻居
         dsNodes.forEach(function(n) {
             var deg = degree[n.id] || 0;
             var focus = (FOCUS_NODE === n.id);
             var show;
             if (FOCUS_NODE === 'all') {
-                show = deg >= 25;
+                show = deg >= 18;
             } else if (FOCUS_NODE) {
                 show = focus || deg >= 5;
             } else {
                 show = false;
             }
             n.label = show ? n.title : '';
-            n.font = { size: focus ? 13 : 11.5, color: cssVar('--text'),
+            n.font = { size: focus ? 15 : 13, color: cssVar('--text'),
                        face: '-apple-system, sans-serif',
-                       strokeWidth: 3, strokeColor: cssVar('--card-bg') };
+                       strokeWidth: 5, strokeColor: cssVar('--card-bg') };
             n.borderWidth = focus ? 4 : 2;
         });
     }
 
     function applyEdgeStyle() {
         dsEdges.forEach(function(e) {
-            e.color = { color: cssVar('--edge-color'), hover: cssVar('--edge-color-hover'), opacity: 0.6 };
+            var w = e.weight || 0;
+            var strong = w >= 4;
+            e.color = {
+                color: strong ? cssVar('--edge-strong') : cssVar('--edge-color'),
+                hover: cssVar('--edge-color-hover'),
+                opacity: strong ? 0.85 : 0.45
+            };
+            e.width = Math.min(Math.max(w * 0.5, 0.5), 3.0);
         });
     }
 
